@@ -1,0 +1,19 @@
+#!/bin/bash
+# href: https://docs.docker.com/docker-cloud/builds/advanced/x
+
+echo "### Listing remote branches:"
+git for-each-ref --format "%(refname:strip=3)" refs/remotes/origin/
+
+# TODO: Keep the grep below up-to-date if more branches are created
+latest=$(git for-each-ref --format "%(refname:strip=3)" refs/remotes/origin/ \
+  | grep -v -e '^HEAD$' -e '^master$' -e '^dev$' | sort -V | tail -n1)
+
+echo "### Latest stable branch is: $latest"
+
+if [ "$SOURCE_BRANCH" = "$latest" ]; then
+    echo "### Do additional docker push ($DOCKER_REPO:latest)"
+    docker tag $IMAGE_NAME $DOCKER_REPO:latest
+    docker push $DOCKER_REPO:latest
+else
+    echo "### no additional docker push"
+fi
