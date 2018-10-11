@@ -1,5 +1,5 @@
 #!/bin/bash
-# href: https://docs.docker.com/docker-cloud/builds/advanced/x
+# href: https://docs.docker.com/docker-cloud/builds/advanced/
 
 echo "### Listing remote branches:"
 git for-each-ref --format "%(refname:strip=3)" refs/remotes/origin/
