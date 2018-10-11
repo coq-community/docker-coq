@@ -1,5 +1,5 @@
 # coq
 
-This repo defines Docker images of the Coq proof assistant.
+This repository provides [Docker](https://www.docker.com/) images of the [Coq](https://github.com/coq/coq) proof assistant.
 
-These images are currently based on Debian 9.
+These images are based on [Debian 9](https://hub.docker.com/_/debian/).
