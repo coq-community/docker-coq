@@ -1,4 +1,4 @@
-FROM erikmd/base:latest
+FROM coqorg/base:latest
 LABEL maintainer="erik@martin-dorel.org"
 
 ENV COQ_VERSION="dev"
