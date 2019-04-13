@@ -5,7 +5,8 @@
 [![dev commit](https://images.microbadger.com/badges/commit/coqorg/coq:dev.svg)](https://github.com/coq/coq/commits "Commit hash of the dev image")
 [![layers](https://images.microbadger.com/badges/image/coqorg/coq:dev.svg)](https://microbadger.com/images/coqorg/coq:dev "View image on microbadger.com")
 [![pulls](https://img.shields.io/docker/pulls/coqorg/coq.svg)](https://hub.docker.com/r/coqorg/coq "Number of pulls from Docker Hub")
-[![stars](https://img.shields.io/docker/stars/coqorg/coq.svg)](https://hub.docker.com/r/coqorg/coq "Star the image on Docker Hub")
+[![stars](https://img.shields.io/docker/stars/coqorg/coq.svg)](https://hub.docker.com/r/coqorg/coq "Star the image on Docker Hub")  
+[![dockerfile](https://img.shields.io/badge/dockerfile%20on-github-blue.svg)](https://github.com/coq-community/docker-coq "Dockerfile source repository")
 
 This repository provides [Docker](https://www.docker.com/) images of the [Coq](https://github.com/coq/coq) proof assistant.
 
