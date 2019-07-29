@@ -7,6 +7,7 @@
 [![pulls](https://img.shields.io/docker/pulls/coqorg/coq.svg)](https://hub.docker.com/r/coqorg/coq "Number of pulls from Docker Hub")
 [![stars](https://img.shields.io/docker/stars/coqorg/coq.svg)](https://hub.docker.com/r/coqorg/coq "Star the image on Docker Hub")  
 [![dockerfile](https://img.shields.io/badge/dockerfile%20on-github-blue.svg)](https://github.com/coq-community/docker-coq "Dockerfile source repository")
+[![base](https://img.shields.io/badge/depends%20on-coqorg%2Fbase-blue.svg)](https://hub.docker.com/r/coqorg/base "Docker base image for Coq")
 
 This repository provides [Docker](https://www.docker.com/) images of the [Coq](https://github.com/coq/coq) proof assistant.
 
