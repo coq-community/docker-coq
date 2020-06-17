@@ -1,10 +1,11 @@
-FROM coqorg/base:latest
-LABEL maintainer="erik@martin-dorel.org"
+ARG BASE_IMAGE="coqorg/base:latest"
+FROM ${BASE_IMAGE}
 
-ENV COQ_VERSION="dev"
-ENV COQ_EXTRA_OPAM="coq-bignums"
+ARG COQ_EXTRA_OPAM="coq-bignums"
+ENV COQ_EXTRA_OPAM="${COQ_EXTRA_OPAM}"
 
-# Build coq with both min-version and edge+flambda opam switches
+ARG COQ_VERSION="dev"
+ENV COQ_VERSION=${COQ_VERSION}
 
 RUN ["/bin/bash", "--login", "-c", "set -x \
   && eval $(opam env --switch=${COMPILER_EDGE} --set-switch) \
@@ -21,3 +22,5 @@ RUN ["/bin/bash", "--login", "-c", "set -x \
   && opam install -y -v -j ${NJOBS} coq ${COQ_EXTRA_OPAM} \
   && opam clean -a -c -s --logs \
   && opam config list && opam list"]
+
+LABEL maintainer="erik@martin-dorel.org"
