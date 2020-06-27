@@ -1,0 +1,23 @@
+# Author: Erik Martin-Dorel, 2020
+
+stages:
+  - lint
+  - test
+
+.python:
+  image: python:3
+  before_script:
+    - python --version
+    - pip install --no-cache-dir -r requirements.txt
+
+lint-python:
+  stage: lint
+  extends: .python
+  script:
+    - flake8 *.py
+
+test-python:
+  stage: test
+  extends: .python
+  script:
+    - pytest *.py
