@@ -7,6 +7,8 @@ ENV COQ_EXTRA_OPAM="${COQ_EXTRA_OPAM}"
 ARG COQ_VERSION="dev"
 ENV COQ_VERSION=${COQ_VERSION}
 
+# TODO: migrate to single-switch image
+
 RUN ["/bin/bash", "--login", "-c", "set -x \
   && eval $(opam env --switch=${COMPILER_EDGE} --set-switch) \
   && opam repository add --all-switches --set-default coq-extra-dev https://coq.inria.fr/opam/extra-dev \
