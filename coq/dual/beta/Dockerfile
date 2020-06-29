@@ -1,5 +1,5 @@
-ARG BASE_IMAGE="coqorg/base:latest"
-FROM ${BASE_IMAGE}
+ARG BASE_TAG="latest"
+FROM coqorg/base:${BASE_TAG}
 
 ARG COQ_EXTRA_OPAM="coq-bignums"
 ENV COQ_EXTRA_OPAM="${COQ_EXTRA_OPAM}"
@@ -7,23 +7,27 @@ ENV COQ_EXTRA_OPAM="${COQ_EXTRA_OPAM}"
 ARG COQ_VERSION="dev"
 ENV COQ_VERSION=${COQ_VERSION}
 
-RUN ["/bin/bash", "--login", "-c", "set -x \
-  && eval $(opam env --switch=${COMPILER_EDGE} --set-switch) \
+SHELL ["/bin/bash", "--login", "-o", "pipefail", "-c"]
+
+# hadolint ignore=SC2046
+RUN set -x \
+  && eval $(opam env "--switch=${COMPILER_EDGE}" --set-switch) \
   && opam repository add --all-switches --set-default coq-extra-dev https://coq.inria.fr/opam/extra-dev \
   && opam repository add --all-switches --set-default coq-core-dev https://coq.inria.fr/opam/core-dev \
   && opam update -y -u \
   && opam pin add -n -k version coq ${COQ_VERSION} \
-  && opam install -y -v -j ${NJOBS} coq ${COQ_EXTRA_OPAM} \
+  && opam install -y -v -j "${NJOBS}" coq ${COQ_EXTRA_OPAM} \
   && opam clean -a -c -s --logs \
-  && opam config list && opam list"]
+  && opam config list && opam list
 
-RUN ["/bin/bash", "--login", "-c", "set -x \
-  && eval $(opam env --switch=${COMPILER} --set-switch) \
+# hadolint ignore=SC2046
+RUN set -x \
+  && eval $(opam env "--switch=${COMPILER}" --set-switch) \
   && opam update -y -u \
   && opam pin add -n -k version coq ${COQ_VERSION} \
-  && opam install -y -v -j ${NJOBS} coq ${COQ_EXTRA_OPAM} \
+  && opam install -y -v -j "${NJOBS}" coq ${COQ_EXTRA_OPAM} \
   && opam clean -a -c -s --logs \
-  && opam config list && opam list"]
+  && opam config list && opam list
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -37,3 +41,7 @@ LABEL org.label-schema.build-date=${BUILD_DATE} \
   org.label-schema.version=${COQ_VERSION} \
   org.label-schema.schema-version="1.0" \
   maintainer="erik@martin-dorel.org"
+
+# Restore default shell to fully preserve backward compatibility
+SHELL ["/bin/sh", "-c"]
+# Still, we may remove this line later on.
