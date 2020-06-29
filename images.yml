@@ -28,8 +28,7 @@ images:
           if: '{matrix[base]} == "latest"'
           # TODO: remove all occurrences of 'coqorg/base:latest'
   - matrix:
-      # TODO: replace with 4.09.1-flambda later on
-      base: ['4.09.0-flambda']
+      base: ['4.09.1-flambda']
       coq: ['dev']
     build:
       nightly: true
@@ -52,7 +51,7 @@ images:
           if: '{matrix[base]} != "latest"'
   # FIXME: Update later on
   # - matrix:
-  #     base: ['latest', '4.09.0-flambda']
+  #     base: ['latest', '4.09.1-flambda']
   #     coq: ['8.13-alpha']
   #   build:
   #     nightly: true
@@ -93,8 +92,7 @@ images:
         - tag: '{matrix[coq][%-*]}'
           if: '{matrix[base]} == "latest"'
   - matrix:
-      # TODO: replace with 4.09.1-flambda later on
-      base: ['4.09.0-flambda']
+      base: ['4.09.1-flambda']
       coq: ['8.12-beta1']
     build:
       context: './coq'
@@ -132,8 +130,7 @@ images:
         - tag: '{matrix[coq][%.*]}'
           if: '{matrix[base]} == "latest"'
   - matrix:
-      # TODO: replace with 4.09.1-flambda later on
-      base: ['4.09.0-flambda']
+      base: ['4.09.1-flambda']
       coq: ['8.11.2', '8.10.2', '8.9.1', '8.8.2']
     build:
       context: './coq'
