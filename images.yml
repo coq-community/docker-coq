@@ -1,0 +1,192 @@
+---
+base_url: 'https://gitlab.com/coq-community/docker-coq'
+active: true
+docker_repo: 'coqorg/coq'
+args:
+  BUILD_DATE: '{defaults[build_date]}'
+images:
+  - matrix:
+      # TODO: replace latest with 2 images (single-switch), merge tags
+      base: ['latest']
+      coq: ['dev']
+    build:
+      nightly: true
+      context: './coq'
+      dockerfile: './dual/dev/Dockerfile'
+      commit_api:
+        fetcher: 'github'
+        repo: 'coq/coq'
+        branch: 'master'
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq]}'
+        COQ_COMMIT: '{defaults[commit]}'
+        VCS_REF: '{defaults[commit][0:7]}'
+        COQ_EXTRA_OPAM: 'coq-bignums'
+      tags:
+        - tag: '{matrix[coq]}'
+          if: '{matrix[base]} == "latest"'
+          # TODO: remove all occurrences of 'coqorg/base:latest'
+  - matrix:
+      # TODO: replace with 4.09.1-flambda later on
+      base: ['4.09.0-flambda']
+      coq: ['dev']
+    build:
+      nightly: true
+      context: './coq'
+      dockerfile: './dev/Dockerfile'
+      commit_api:
+        fetcher: 'github'
+        repo: 'coq/coq'
+        branch: 'master'
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq]}'
+        COQ_COMMIT: '{defaults[commit]}'
+        VCS_REF: '{defaults[commit][0:7]}'
+        COQ_EXTRA_OPAM: 'coq-bignums'
+      tags:
+        - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
+          if: '{matrix[base]} != "latest"'
+        - tag: '{matrix[coq]}-ocaml-{matrix[base][%.*-*]}-flambda'
+          if: '{matrix[base]} != "latest"'
+  # FIXME: Update later on
+  # - matrix:
+  #     base: ['latest', '4.09.0-flambda']
+  #     coq: ['8.13-alpha']
+  #   build:
+  #     nightly: true
+  #     context: './coq'
+  #     dockerfile: './dev/Dockerfile'
+  #     commit_api:
+  #       fetcher: 'github'
+  #       repo: 'coq/coq'
+  #       branch: '8.13'
+  #     args:
+  #       BASE_TAG: '{matrix[base]}'
+  #       COQ_VERSION: '{matrix[coq][//-/+]}'
+  #       COQ_COMMIT: '{defaults[commit]}'
+  #       VCS_REF: '{defaults[commit][0:7]}'
+  #       COQ_EXTRA_OPAM: 'coq-bignums'
+  #     tags:
+  #       - tag: '{matrix[coq]}'
+  #         if: '{matrix[base]} == "latest"'
+  #       - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
+  #         if: '{matrix[base]} != "latest"'
+  #       - tag: '{matrix[coq][%-*]}-ocaml-{matrix[base][%.*-*]}-flambda'
+  #         if: '{matrix[base]} != "latest"'
+  - matrix:
+      # TODO: replace latest with 2 images (single-switch), merge tags
+      base: ['latest']
+      coq: ['8.12-beta1']
+    build:
+      context: './coq'
+      dockerfile: './dual/beta/Dockerfile'
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq][//-/+]}'
+        VCS_REF: 'V{matrix[coq][//-/+]}'
+        COQ_EXTRA_OPAM: 'coq-bignums'
+      tags:
+        - tag: '{matrix[coq]}'
+          if: '{matrix[base]} == "latest"'
+        - tag: '{matrix[coq][%-*]}'
+          if: '{matrix[base]} == "latest"'
+  - matrix:
+      # TODO: replace with 4.09.1-flambda later on
+      base: ['4.09.0-flambda']
+      coq: ['8.12-beta1']
+    build:
+      context: './coq'
+      dockerfile: './beta/Dockerfile'
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq][//-/+]}'
+        VCS_REF: 'V{matrix[coq][//-/+]}'
+        COQ_EXTRA_OPAM: 'coq-bignums'
+      tags:
+        - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
+          if: '{matrix[base]} != "latest"'
+        - tag: '{matrix[coq][%-*]}-ocaml-{matrix[base][%.*-*]}-flambda'
+          if: '{matrix[base]} != "latest"'
+  - matrix:
+      # TODO: replace latest with 2 images (single-switch), merge tags
+      base: ['latest']
+      coq: ['8.11.2', '8.10.2', '8.9.1', '8.8.2']
+    build:
+      context: './coq'
+      dockerfile: './dual/stable/Dockerfile'
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq]}'
+        VCS_REF: 'V{matrix[coq]}'
+        COQ_EXTRA_OPAM: 'coq-bignums'
+      tags:
+        - tag: 'latest'
+          if:
+            # TODO: Bump this version too:
+            - '{matrix[coq]} == "8.11.2"'
+            - '{matrix[base]} == "latest"'
+        - tag: '{matrix[coq]}'
+          if: '{matrix[base]} == "latest"'
+        - tag: '{matrix[coq][%.*]}'
+          if: '{matrix[base]} == "latest"'
+  - matrix:
+      # TODO: replace with 4.09.1-flambda later on
+      base: ['4.09.0-flambda']
+      coq: ['8.11.2', '8.10.2', '8.9.1', '8.8.2']
+    build:
+      context: './coq'
+      dockerfile: './stable/Dockerfile'
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq]}'
+        VCS_REF: 'V{matrix[coq]}'
+        COQ_EXTRA_OPAM: 'coq-bignums'
+      tags:
+        - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
+          if: '{matrix[base]} != "latest"'
+        - tag: '{matrix[coq][%.*]}-ocaml-{matrix[base][%.*-*]}-flambda'
+          if: '{matrix[base]} != "latest"'
+  - matrix:
+      base: ['latest']
+      coq: ['8.7.2']
+    build:
+      context: './coq'
+      dockerfile: './dual/stable/Dockerfile'
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq]}'
+        VCS_REF: 'V{matrix[coq]}'
+        COQ_EXTRA_OPAM: 'coq-bignums'
+      tags:
+        - tag: '{matrix[coq]}'
+        - tag: '{matrix[coq][%.*]}'
+  - matrix:
+      base: ['4.02.3']
+      coq: ['8.6.1']
+    build:
+      context: './coq'
+      dockerfile: './stable/Dockerfile'
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq]}'
+        VCS_REF: 'V{matrix[coq]}'
+        COQ_EXTRA_OPAM: 'coq-bignums'
+      tags:
+        - tag: '{matrix[coq]}'
+        - tag: '{matrix[coq][%.*]}'
+  - matrix:
+      base: ['4.02.3']
+      coq: ['8.5.3', '8.4.6']
+    build:
+      context: './coq'
+      dockerfile: './stable/Dockerfile'
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq]}'
+        VCS_REF: 'V{matrix[coq]}'
+        COQ_EXTRA_OPAM: ''
+      tags:
+        - tag: '{matrix[coq]}'
+        - tag: '{matrix[coq][%.*]}'
