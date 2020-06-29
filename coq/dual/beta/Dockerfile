@@ -1,3 +1,4 @@
+# TODO later: Use coqorg/base:4.05.0
 ARG BASE_TAG="latest"
 FROM coqorg/base:${BASE_TAG}
 
