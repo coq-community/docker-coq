@@ -5,19 +5,37 @@ stages:
   - test
 
 .python:
-  image: python:3
+  image: python:3-alpine
   before_script:
     - python --version
-    - pip install --no-cache-dir -r requirements.txt
 
 lint-python:
   stage: lint
   extends: .python
   script:
+    - pip install --no-cache-dir -r requirements_lint.txt
     - flake8 *.py
+
+lint-script:
+  stage: lint
+  image:
+    name: koalaman/shellcheck-alpine:stable
+    entrypoint: ["/bin/ash", "-c"]
+  script:
+    - shellcheck --color=always *.sh
+
+lint-template:
+  stage: lint
+  image:
+    name: cytopia/yamllint
+    entrypoint: ["/bin/ash", "-c"]
+  script:
+    - yamllint -f colored gitlab-ci-template.yml
 
 test-python:
   stage: test
   extends: .python
   script:
+    - pip install --no-cache-dir -r requirements.txt
+    - ./keeper.py --version
     - pytest *.py
