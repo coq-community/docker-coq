@@ -1,0 +1,5 @@
+include: 'external/docker-keeper/gitlab-ci-template.yml'
+
+# Uncomment if ever you chose a different subtree prefix
+# variables:
+#   KEEPER_SUBTREE: external/docker-keeper
