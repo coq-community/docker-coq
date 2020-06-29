@@ -175,15 +175,15 @@ images:
         - tag: '{matrix[coq][%.*]}'
   - matrix:
       base: ['4.02.3']
-      coq: ['8.5.3', '8.4.6']
+      coq: ['8.5pl3', '8.4pl6']
     build:
       context: './coq'
       dockerfile: './stable/Dockerfile'
       args:
         BASE_TAG: '{matrix[base]}'
-        COQ_VERSION: '{matrix[coq]}'
+        COQ_VERSION: '{matrix[coq][//pl/.]}'
         VCS_REF: 'V{matrix[coq]}'
         COQ_EXTRA_OPAM: ''
       tags:
-        - tag: '{matrix[coq]}'
-        - tag: '{matrix[coq][%.*]}'
+        - tag: '{matrix[coq][//pl/.]}'
+        - tag: '{matrix[coq][//pl/.][%.*]}'
