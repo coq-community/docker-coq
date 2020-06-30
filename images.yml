@@ -141,6 +141,11 @@ images:
         VCS_REF: 'V{matrix[coq]}'
         COQ_EXTRA_OPAM: 'coq-bignums'
       tags:
+        - tag: 'latest-ocaml-{matrix[base][%.*-*]}-flambda'
+          if:
+            # TODO: Bump this version too:
+            - '{matrix[coq]} == "8.11.2"'
+            - '{matrix[base]} != "latest"'
         - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
           if: '{matrix[base]} != "latest"'
         - tag: '{matrix[coq][%.*]}-ocaml-{matrix[base][%.*-*]}-flambda'
