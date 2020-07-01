@@ -503,7 +503,6 @@ def get_nightly_only(spec):
         return 'nightly' in item['build'] and item['build']['nightly']
 
     images2 = list(filter(nightly, images))
-    print(images2)
     spec2['images'] = images2
     return get_list_dict_dockerfile_matrix_tags_args(spec2)
 
