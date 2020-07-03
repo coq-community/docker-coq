@@ -6,30 +6,8 @@ args:
   BUILD_DATE: '{defaults[build_date]}'
 images:
   - matrix:
-      # TODO: replace latest with 2 images (single-switch), merge tags
-      base: ['latest']
-      coq: ['dev']
-    build:
-      keywords:
-        - 'dev'
-      context: './coq'
-      dockerfile: './dual/dev/Dockerfile'
-      commit_api:
-        fetcher: 'github'
-        repo: 'coq/coq'
-        branch: 'master'
-      args:
-        BASE_TAG: '{matrix[base]}'
-        COQ_VERSION: '{matrix[coq]}'
-        COQ_COMMIT: '{defaults[commit]}'
-        VCS_REF: '{defaults[commit][0:7]}'
-        COQ_EXTRA_OPAM: 'coq-bignums'
-      tags:
-        - tag: '{matrix[coq]}'
-          if: '{matrix[base]} == "latest"'
-          # TODO: remove all occurrences of 'coqorg/base:latest'
-  - matrix:
-      base: ['4.09.1-flambda']
+      minimal: ['4.05.0']
+      base: ['4.05.0', '4.07.1-flambda', '4.09.1-flambda']
       coq: ['dev']
     build:
       keywords:
@@ -47,109 +25,82 @@ images:
         VCS_REF: '{defaults[commit][0:7]}'
         COQ_EXTRA_OPAM: 'coq-bignums'
       tags:
+        - tag: '{matrix[coq]}'
+          if: '{matrix[base]} == {matrix[minimal]}'
         - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
-          if: '{matrix[base]} != "latest"'
+          if: '{matrix[base]} != {matrix[minimal]}'
         - tag: '{matrix[coq]}-ocaml-{matrix[base][%.*-*]}-flambda'
-          if: '{matrix[base]} != "latest"'
-  # TODO/FIXME: Update later on
+          if: '{matrix[base]} != {matrix[minimal]}'
+  # TODO: Uncomment when the v8.14 branch is created
   # - matrix:
-  #     base: ['latest', '4.09.1-flambda']
+  #     minimal: ['4.05.0']
+  #     base: ['4.05.0', '4.07.1-flambda', '4.09.1-flambda']
+  #     # TODO: Update when appropriate
   #     coq: ['8.14-alpha']
   #   build:
-  #     keywords:
-  #       - '{matrix[coq][%-*]}'
-  #     context: './coq'
-  #     dockerfile: './dev/Dockerfile'
+  #     # TODO: Remove this commit_api section when the beta is released
   #     commit_api:
   #       fetcher: 'github'
   #       repo: 'coq/coq'
   #       branch: 'v8.14'
+  #     context: './coq'
+  #     # TODO: Replace with "beta/Dockerfile" when the beta is released
+  #     dockerfile: './dev/Dockerfile'
+  #     keywords:
+  #       - '{matrix[coq][%-*]}'
   #     args:
   #       BASE_TAG: '{matrix[base]}'
+  #       # TODO: Replace with '{matrix[coq]}' when the beta is released
   #       COQ_VERSION: '{matrix[coq][%-*]}.dev'
   #       COQ_COMMIT: '{defaults[commit]}'
+  #       # TODO: Replace with 'V{matrix[coq][//-/+]}' when the beta is released
   #       VCS_REF: '{defaults[commit][0:7]}'
   #       COQ_EXTRA_OPAM: 'coq-bignums'
   #     tags:
   #       - tag: '{matrix[coq]}'
-  #         if: '{matrix[base]} == "latest"'
-  #       - tag: '{matrix[coq][%-*]}'
-  #         if: '{matrix[base]} == "latest"'
+  #         if: '{matrix[base]} == {matrix[minimal]}'
   #       - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
-  #         if: '{matrix[base]} != "latest"'
+  #         if: '{matrix[base]} != {matrix[minimal]}'
   #       - tag: '{matrix[coq][%-*]}-ocaml-{matrix[base][%.*-*]}-flambda'
-  #         if: '{matrix[base]} != "latest"'
+  #         if: '{matrix[base]} != {matrix[minimal]}'
   - matrix:
-      base: ['latest']
+      minimal: ['4.05.0']
+      base: ['4.05.0', '4.07.1-flambda', '4.09.1-flambda']
+      # TODO: Update when appropriate
       coq: ['8.13-alpha']
     build:
-      keywords:
-        - '8.13'
-      context: './coq'
-      dockerfile: './dual/dev/Dockerfile'
+      # TODO: Remove this commit_api section when the beta is released
       commit_api:
         fetcher: 'github'
         repo: 'coq/coq'
         branch: 'v8.13'
-      args:
-        BASE_TAG: '{matrix[base]}'
-        COQ_VERSION: '{matrix[coq][%-*]}.dev'
-        COQ_COMMIT: '{defaults[commit]}'
-        VCS_REF: '{defaults[commit][0:7]}'
-        COQ_EXTRA_OPAM: 'coq-bignums'
-      tags:
-        - tag: '{matrix[coq]}'
-          if: '{matrix[base]} == "latest"'
-        - tag: '{matrix[coq][%-*]}'
-          if: '{matrix[base]} == "latest"'
-  - matrix:
-      base: ['4.09.1-flambda']
-      coq: ['8.13-alpha']
-    build:
-      keywords:
-        - '8.13'
       context: './coq'
+      # TODO: Replace with "beta/Dockerfile" when the beta is released
       dockerfile: './dev/Dockerfile'
-      commit_api:
-        fetcher: 'github'
-        repo: 'coq/coq'
-        branch: 'v8.13'
+      keywords:
+        - '8.13'
       args:
         BASE_TAG: '{matrix[base]}'
+        # TODO: Replace with '{matrix[coq]}' when the beta is released
         COQ_VERSION: '{matrix[coq][%-*]}.dev'
         COQ_COMMIT: '{defaults[commit]}'
+        # TODO: Replace with 'V{matrix[coq][//-/+]}' when the beta is released
         VCS_REF: '{defaults[commit][0:7]}'
         COQ_EXTRA_OPAM: 'coq-bignums'
       tags:
-        - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
-          if: '{matrix[base]} != "latest"'
-        - tag: '{matrix[coq][%-*]}-ocaml-{matrix[base][%.*-*]}-flambda'
-          if: '{matrix[base]} != "latest"'
-  - matrix:
-      # TODO: replace latest with 2 images (single-switch), merge tags
-      base: ['latest']
-      coq: ['8.12.1', '8.11.2', '8.10.2', '8.9.1', '8.8.2']
-    build:
-      context: './coq'
-      dockerfile: './dual/stable/Dockerfile'
-      args:
-        BASE_TAG: '{matrix[base]}'
-        COQ_VERSION: '{matrix[coq]}'
-        VCS_REF: 'V{matrix[coq]}'
-        COQ_EXTRA_OPAM: 'coq-bignums'
-      tags:
-        - tag: 'latest'
-          if:
-            # TODO: Bump this version too:
-            - '{matrix[coq]} == "8.12.1"'
-            - '{matrix[base]} == "latest"'
         - tag: '{matrix[coq]}'
-          if: '{matrix[base]} == "latest"'
-        - tag: '{matrix[coq][%.*]}'
-          if: '{matrix[base]} == "latest"'
+          if: '{matrix[base]} == {matrix[minimal]}'
+        - tag: '{matrix[coq][%-*]}'
+          if: '{matrix[base]} == {matrix[minimal]}'
+        - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
+          if: '{matrix[base]} != {matrix[minimal]}'
+        - tag: '{matrix[coq][%-*]}-ocaml-{matrix[base][%.*-*]}-flambda'
+          if: '{matrix[base]} != {matrix[minimal]}'
   - matrix:
-      base: ['4.09.1-flambda']
+      minimal: ['4.05.0']
+      base: ['4.05.0', '4.07.1-flambda', '4.09.1-flambda']
       coq: ['8.12.1', '8.11.2', '8.10.2', '8.9.1', '8.8.2']
+      coq_latest: ['8.12.1']
     build:
       context: './coq'
       dockerfile: './stable/Dockerfile'
@@ -159,21 +110,29 @@ images:
         VCS_REF: 'V{matrix[coq]}'
         COQ_EXTRA_OPAM: 'coq-bignums'
       tags:
+        - tag: 'latest'
+          if:
+            - '{matrix[coq]} == {matrix[coq_latest]}'
+            - '{matrix[base]} == {matrix[minimal]}'
+        - tag: '{matrix[coq]}'
+          if: '{matrix[base]} == {matrix[minimal]}'
+        - tag: '{matrix[coq][%.*]}'
+          if: '{matrix[base]} == {matrix[minimal]}'
         - tag: 'latest-ocaml-{matrix[base][%.*-*]}-flambda'
           if:
-            # TODO: Bump this version too:
-            - '{matrix[coq]} == "8.12.1"'
-            - '{matrix[base]} != "latest"'
+            - '{matrix[coq]} == {matrix[coq_latest]}'
+            - '{matrix[base]} != {matrix[minimal]}'
         - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
-          if: '{matrix[base]} != "latest"'
+          if: '{matrix[base]} != {matrix[minimal]}'
         - tag: '{matrix[coq][%.*]}-ocaml-{matrix[base][%.*-*]}-flambda'
-          if: '{matrix[base]} != "latest"'
+          if: '{matrix[base]} != {matrix[minimal]}'
   - matrix:
-      base: ['latest']
+      minimal: ['4.05.0']
+      base: ['4.05.0', '4.07.1-flambda']
       coq: ['8.7.2']
     build:
       context: './coq'
-      dockerfile: './dual/stable/Dockerfile'
+      dockerfile: './stable/Dockerfile'
       args:
         BASE_TAG: '{matrix[base]}'
         COQ_VERSION: '{matrix[coq]}'
@@ -181,7 +140,13 @@ images:
         COQ_EXTRA_OPAM: 'coq-bignums'
       tags:
         - tag: '{matrix[coq]}'
+          if: '{matrix[base]} == {matrix[minimal]}'
         - tag: '{matrix[coq][%.*]}'
+          if: '{matrix[base]} == {matrix[minimal]}'
+        - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
+          if: '{matrix[base]} != {matrix[minimal]}'
+        - tag: '{matrix[coq][%.*]}-ocaml-{matrix[base][%.*-*]}-flambda'
+          if: '{matrix[base]} != {matrix[minimal]}'
   - matrix:
       base: ['4.02.3']
       coq: ['8.6.1']
