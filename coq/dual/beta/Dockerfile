@@ -8,6 +8,7 @@ ENV COQ_EXTRA_OPAM="${COQ_EXTRA_OPAM}"
 ARG COQ_VERSION="dev"
 ENV COQ_VERSION=${COQ_VERSION}
 
+# This line is actually unneeded (was already enabled in coqorg/base)
 SHELL ["/bin/bash", "--login", "-o", "pipefail", "-c"]
 
 # hadolint ignore=SC2046
@@ -42,7 +43,3 @@ LABEL org.label-schema.build-date=${BUILD_DATE} \
   org.label-schema.version=${COQ_VERSION} \
   org.label-schema.schema-version="1.0" \
   maintainer="erik@martin-dorel.org"
-
-# Restore default shell to fully preserve backward compatibility
-SHELL ["/bin/sh", "-c"]
-# Still, we may remove this line later on.
