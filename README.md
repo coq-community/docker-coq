@@ -1,7 +1,7 @@
 # coqorg/coq
 
 [![tags](https://img.shields.io/badge/tags%20on-docker%20hub-blue.svg)](https://hub.docker.com/r/coqorg/coq#supported-tags "Supported tags on Docker Hub")
-[![pipeline status](https://gitlab.com/coq-community/docker-coq/badges/master/pipeline.svg)](https://gitlab.com/coq-community/docker-coq/-/commits/master)
+[![pipeline status](https://gitlab.com/coq-community/docker-coq/badges/master/pipeline.svg)](https://gitlab.com/coq-community/docker-coq/-/pipelines)
 [![dev commit](https://images.microbadger.com/badges/commit/coqorg/coq:dev.svg)](https://github.com/coq/coq/commits "Commit hash of the dev image")
 [![layers](https://images.microbadger.com/badges/image/coqorg/coq:dev.svg)](https://microbadger.com/images/coqorg/coq:dev "View image on microbadger.com")
 [![pulls](https://img.shields.io/docker/pulls/coqorg/coq.svg)](https://hub.docker.com/r/coqorg/coq "Number of pulls from Docker Hub")
