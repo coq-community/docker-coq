@@ -141,7 +141,7 @@ check-updates:
     cat <<EOF
     You need to update docker-keeper : $version -> $upstream, by doing:
       cd \$(git rev-parse --show-toplevel)
-      subtree pull --squash -P $KEEPER_SUBTREE $upstream_repo master
+      git subtree pull --squash -P $KEEPER_SUBTREE $upstream_repo master
     EOF
         false
       else
