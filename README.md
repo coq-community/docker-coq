@@ -15,4 +15,6 @@ These images are based on [this parent image](https://hub.docker.com/r/coqorg/ba
 
 See also the [docker-coq wiki](https://github.com/coq-community/docker-coq/wiki) for details about how to use these images.
 
+This repository is [mirrored on Gitlab](https://gitlab.com/coq-community/docker-coq), but [https://github.com/coq-community/docker-coq/issues] and [pull requests](https://github.com/coq-community/docker-coq/pulls) are tracked on GitHub.
+
 <!-- tags -->
