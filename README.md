@@ -2,8 +2,7 @@
 
 [![tags](https://img.shields.io/badge/tags%20on-docker%20hub-blue.svg)](https://hub.docker.com/r/coqorg/coq#supported-tags "Supported tags on Docker Hub")
 [![pipeline status](https://gitlab.com/coq-community/docker-coq/badges/master/pipeline.svg)](https://gitlab.com/coq-community/docker-coq/-/pipelines)
-[![dev commit](https://images.microbadger.com/badges/commit/coqorg/coq:dev.svg)](https://github.com/coq/coq/commits "Commit hash of the dev image")
-[![layers](https://images.microbadger.com/badges/image/coqorg/coq:dev.svg)](https://microbadger.com/images/coqorg/coq:dev "View image on microbadger.com")
+[![dev image](https://img.shields.io/badge/coqorg%2Fcoq-dev-blue.svg)](https://hub.docker.com/r/coqorg/coq/tags?page=1&name=dev "See dev image on Docker Hub")
 [![pulls](https://img.shields.io/docker/pulls/coqorg/coq.svg)](https://hub.docker.com/r/coqorg/coq "Number of pulls from Docker Hub")
 [![stars](https://img.shields.io/docker/stars/coqorg/coq.svg)](https://hub.docker.com/r/coqorg/coq "Star the image on Docker Hub")  
 [![dockerfile](https://img.shields.io/badge/dockerfile%20on-github-blue.svg)](https://github.com/coq-community/docker-coq "Dockerfile source repository")
