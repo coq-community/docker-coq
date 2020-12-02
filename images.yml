@@ -63,7 +63,7 @@ images:
   #       branch: 'v8.14'
   #     args:
   #       BASE_TAG: '{matrix[base]}'
-  #       COQ_VERSION: '{matrix[coq][//-/+]}'
+  #       COQ_VERSION: '{matrix[coq][%-*]}.dev'
   #       COQ_COMMIT: '{defaults[commit]}'
   #       VCS_REF: '{defaults[commit][0:7]}'
   #       COQ_EXTRA_OPAM: 'coq-bignums'
@@ -89,7 +89,7 @@ images:
         branch: 'v8.13'
       args:
         BASE_TAG: '{matrix[base]}'
-        COQ_VERSION: '{matrix[coq][//-/+]}'
+        COQ_VERSION: '{matrix[coq][%-*]}.dev'
         COQ_COMMIT: '{defaults[commit]}'
         VCS_REF: '{defaults[commit][0:7]}'
         COQ_EXTRA_OPAM: 'coq-bignums'
@@ -111,7 +111,7 @@ images:
         branch: 'v8.13'
       args:
         BASE_TAG: '{matrix[base]}'
-        COQ_VERSION: '{matrix[coq][//-/+]}'
+        COQ_VERSION: '{matrix[coq][%-*]}.dev'
         COQ_COMMIT: '{defaults[commit]}'
         VCS_REF: '{defaults[commit][0:7]}'
         COQ_EXTRA_OPAM: 'coq-bignums'
