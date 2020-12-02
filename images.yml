@@ -52,7 +52,7 @@ images:
   # TODO/FIXME: Update later on
   # - matrix:
   #     base: ['latest', '4.09.1-flambda']
-  #     coq: ['8.13-alpha']
+  #     coq: ['8.14-alpha']
   #   build:
   #     nightly: true
   #     context: './coq'
@@ -60,7 +60,7 @@ images:
   #     commit_api:
   #       fetcher: 'github'
   #       repo: 'coq/coq'
-  #       branch: '8.13'
+  #       branch: 'v8.14'
   #     args:
   #       BASE_TAG: '{matrix[base]}'
   #       COQ_VERSION: '{matrix[coq][//-/+]}'
@@ -70,10 +70,56 @@ images:
   #     tags:
   #       - tag: '{matrix[coq]}'
   #         if: '{matrix[base]} == "latest"'
+  #       - tag: '{matrix[coq][%-*]}'
+  #         if: '{matrix[base]} == "latest"'
   #       - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
   #         if: '{matrix[base]} != "latest"'
   #       - tag: '{matrix[coq][%-*]}-ocaml-{matrix[base][%.*-*]}-flambda'
   #         if: '{matrix[base]} != "latest"'
+  - matrix:
+      base: ['latest']
+      coq: ['8.13-alpha']
+    build:
+    # TODO # nightly: true
+      context: './coq'
+      dockerfile: './dual/dev/Dockerfile'
+      commit_api:
+        fetcher: 'github'
+        repo: 'coq/coq'
+        branch: 'v8.13'
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq][//-/+]}'
+        COQ_COMMIT: '{defaults[commit]}'
+        VCS_REF: '{defaults[commit][0:7]}'
+        COQ_EXTRA_OPAM: 'coq-bignums'
+      tags:
+        - tag: '{matrix[coq]}'
+          if: '{matrix[base]} == "latest"'
+        - tag: '{matrix[coq][%-*]}'
+          if: '{matrix[base]} == "latest"'
+  - matrix:
+      base: ['4.09.1-flambda']
+      coq: ['8.13-alpha']
+    build:
+    # TODO # nightly: true
+      context: './coq'
+      dockerfile: './dev/Dockerfile'
+      commit_api:
+        fetcher: 'github'
+        repo: 'coq/coq'
+        branch: 'v8.13'
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq][//-/+]}'
+        COQ_COMMIT: '{defaults[commit]}'
+        VCS_REF: '{defaults[commit][0:7]}'
+        COQ_EXTRA_OPAM: 'coq-bignums'
+      tags:
+        - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
+          if: '{matrix[base]} != "latest"'
+        - tag: '{matrix[coq][%-*]}-ocaml-{matrix[base][%.*-*]}-flambda'
+          if: '{matrix[base]} != "latest"'
   - matrix:
       # TODO: replace latest with 2 images (single-switch), merge tags
       base: ['latest']
