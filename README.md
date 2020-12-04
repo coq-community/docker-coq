@@ -19,6 +19,8 @@ keeper.py write-artifacts [OPTION]
         --rebuild-all (rebuild all images)
         --rebuild-files FILE (rebuild images with Dockerfile mentioned in FILE)
         --rebuild-tags FILE (rebuild images with tag mentioned in FILE)
+        --rebuild-keywords FILE (rebuild images with keyword mentioned in FILE)
+        --rebuild-keyword KEYWORD (rebuild images with specified keyword)
 
 keeper.py generate-config
     Print a GitLab CI YAML config to standard output.
@@ -40,4 +42,4 @@ keeper.py --help
 
 * Fork <https://gitlab.com/erikmd/docker-keeper-template>.
 
-* Follow the instructions of the README.md in your fork.
+* Follow the instructions from the [docker-keeper wiki](https://gitlab.com/erikmd/docker-keeper/-/wikis/home#initial-setup).
