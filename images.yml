@@ -10,7 +10,8 @@ images:
       base: ['latest']
       coq: ['dev']
     build:
-      nightly: true
+      keywords:
+        - 'dev'
       context: './coq'
       dockerfile: './dual/dev/Dockerfile'
       commit_api:
@@ -31,7 +32,8 @@ images:
       base: ['4.09.1-flambda']
       coq: ['dev']
     build:
-      nightly: true
+      keywords:
+        - 'dev'
       context: './coq'
       dockerfile: './dev/Dockerfile'
       commit_api:
@@ -54,7 +56,8 @@ images:
   #     base: ['latest', '4.09.1-flambda']
   #     coq: ['8.14-alpha']
   #   build:
-  #     nightly: true
+  #     keywords:
+  #       - '{matrix[coq][%-*]}'
   #     context: './coq'
   #     dockerfile: './dev/Dockerfile'
   #     commit_api:
@@ -80,7 +83,8 @@ images:
       base: ['latest']
       coq: ['8.13-alpha']
     build:
-    # TODO # nightly: true
+      keywords:
+        - '8.13'
       context: './coq'
       dockerfile: './dual/dev/Dockerfile'
       commit_api:
@@ -102,7 +106,8 @@ images:
       base: ['4.09.1-flambda']
       coq: ['8.13-alpha']
     build:
-    # TODO # nightly: true
+      keywords:
+        - '8.13'
       context: './coq'
       dockerfile: './dev/Dockerfile'
       commit_api:
