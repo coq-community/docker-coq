@@ -114,7 +114,7 @@ prepare-artifacts:
           run cat "$ITEMS"
         fi
         run "$KEEPER_SUBTREE/keeper.py" write-artifacts --rebuild-tags "$ITEMS"
-      elif [ "$CRON_MODE" = "rebuild-keywords ]; then
+      elif [ "$CRON_MODE" = "rebuild-keywords" ]; then
         if [ -z "$ITEMS" ]; then
           echo "Error: file variable ITEMS is missing (CRON_MODE='$CRON_MODE')."
           false
