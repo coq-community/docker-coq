@@ -252,6 +252,7 @@ def get_list_dict_dockerfile_matrix_tags_args(json):
        - "matrix": […]
        - "tags": […]
        - "args": […]
+       - "keywords": […]
     """
     # TODO later-on: fix (dockerfile / path) semantics
     res = []
@@ -268,6 +269,10 @@ def get_list_dict_dockerfile_matrix_tags_args(json):
         args1 = json['args'] if 'args' in json else {}
         args2 = item['build']['args'] if 'args' in item['build'] else {}
         raw_args = merge_dict(args1, args2)
+        if 'keywords' in item['build']:
+            raw_keywords = item['build']['keywords']
+        else:
+            raw_keywords = []
         for matrix in list_matrix:
             tags = []
             for tag_item in raw_tags:
@@ -285,9 +290,12 @@ def get_list_dict_dockerfile_matrix_tags_args(json):
             for arg_key in raw_args:
                 arg_template = raw_args[arg_key]
                 args[arg_key] = eval_bashlike(arg_template, matrix, defaults)
+            keywords = list(map(lambda k: eval_bashlike(k, matrix, defaults),
+                                raw_keywords))
             newitem = {"context": context, "dockerfile": dfile,
                        "path": path,
-                       "matrix": matrix, "tags": tags, "args": args}
+                       "matrix": matrix, "tags": tags, "args": args,
+                       "keywords": keywords}
             res.append(newitem)
     if debug:
         dump(res)
@@ -536,6 +544,27 @@ def get_tags_only(build_data_all, items_filename):
     return list(filter(matching, build_data_all))
 
 
+def get_keywords_only(build_data_all, items_filename):
+    with open(items_filename, 'r') as fh:
+        tags = [item.strip() for item in fh.readlines()]
+
+    print_list('Specified keywords:', tags)
+
+    def matching(item):
+        return meet_list(item['keywords'], tags)
+
+    return list(filter(matching, build_data_all))
+
+
+def get_keyword_only(build_data_all, keyword):
+    print('Specified keyword: %s' % keyword)
+
+    def matching(item):
+        return keyword in item['keywords']
+
+    return list(filter(matching, build_data_all))
+
+
 def get_version():
     with open(os.path.join(get_script_directory(), 'VERSION'), 'r') as f:
         version = f.read().strip()
@@ -669,6 +698,8 @@ keeper.py write-artifacts [OPTION]
         --rebuild-all (rebuild all images)
         --rebuild-files FILE (rebuild images with Dockerfile mentioned in FILE)
         --rebuild-tags FILE (rebuild images with tag mentioned in FILE)
+        --rebuild-keywords FILE (rebuild images with keyword mentioned in FILE)
+        --rebuild-keyword KEYWORD (rebuild images with specified keyword)
 
 keeper.py generate-config
     Print a GitLab CI YAML config to standard output.
@@ -739,6 +770,26 @@ def main(args):
                 exit(1)
             rebuild_tags_only = get_tags_only(build_data_all, args[2])
             build_data_tags = merge_data(build_data_min, rebuild_tags_only)
+            write_build_data_chosen(build_data_tags)
+        elif args[1] == '--rebuild-keywords':
+            if len(args) != 3:
+                print_stderr("Error: "
+                             "--rebuild-keywords expects one argument exactly."
+                             "\nWas: %s" % args)
+                usage()
+                exit(1)
+            rebuild_keywords_only = get_keywords_only(build_data_all, args[2])
+            build_data_tags = merge_data(build_data_min, rebuild_keywords_only)
+            write_build_data_chosen(build_data_tags)
+        elif args[1] == '--rebuild-keyword':
+            if len(args) != 3:
+                print_stderr("Error: "
+                             "--rebuild-keyword expects one argument exactly."
+                             "\nWas: %s" % args)
+                usage()
+                exit(1)
+            rebuild_keywords_only = get_keyword_only(build_data_all, args[2])
+            build_data_tags = merge_data(build_data_min, rebuild_keywords_only)
             write_build_data_chosen(build_data_tags)
         else:
             print_stderr("Error: wrong arguments.\nWas: %s" % args)

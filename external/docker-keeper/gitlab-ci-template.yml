@@ -32,14 +32,13 @@
 #   - Run verification that the docker-make subtree is up-to-date (once a day)
 # - On manual pipelines:
 #   - Run relevant jobs for master (taking account --rebuild or so flags)
-#   - [TODO] Document the procedure to rebuild images
+#   - Document the procedure to rebuild images
 #
-# - [TODO] documentation to update docker-keeper using git-subtree
+# - documentation to update docker-keeper using git-subtree
 # - [TODO] documentation suggesting Dockerfile sources
 #
 # - [TODO] docker-base & docker-coq: CONTRIBUTE.md → GitHub PRs
-# - [TODO] docker-keeper-demo: MWE
-# - [TODO] docker-keeper-template: 'active: false', READMEs, link to MWE
+# - docker-keeper-template: 'active: false', link to wiki
 
 variables:
   # default relative path (subtree prefix)
@@ -87,24 +86,52 @@ prepare-artifacts:
     - echo "$CI_JOB_URL" > generated/CI_JOB_URL.txt
     - |
       # Launch keeper.py with proper options
+      run() {
+        echo -n 'RUN '
+        for arg; do printf "'%s' " "${arg//\'/\'\\\'\'}"; done
+        echo
+        "$@"
+      }
       if [ -z "$CRON_MODE" ]; then
-        "$KEEPER_SUBTREE/keeper.py" write-artifacts --minimal
+        run "$KEEPER_SUBTREE/keeper.py" write-artifacts --minimal
       elif [ "$CRON_MODE" = "nightly" ]; then
-        "$KEEPER_SUBTREE/keeper.py" write-artifacts --nightly
+        run "$KEEPER_SUBTREE/keeper.py" write-artifacts --nightly
       elif [ "$CRON_MODE" = "rebuild-all" ]; then
-        "$KEEPER_SUBTREE/keeper.py" write-artifacts --rebuild-all
+        run "$KEEPER_SUBTREE/keeper.py" write-artifacts --rebuild-all
       elif [ "$CRON_MODE" = "rebuild-files" ]; then
         if [ -z "$ITEMS" ]; then
-          echo "Error: file variable ITEMS is missing."
+          echo "Error: file variable ITEMS is missing (CRON_MODE='$CRON_MODE')."
           false
+        else
+          run cat "$ITEMS"
         fi
-        "$KEEPER_SUBTREE/keeper.py" write-artifacts --rebuild-files "$ITEMS"
+        run "$KEEPER_SUBTREE/keeper.py" write-artifacts --rebuild-files "$ITEMS"
       elif [ "$CRON_MODE" = "rebuild-tags" ]; then
         if [ -z "$ITEMS" ]; then
-          echo "Error: file variable ITEMS is missing."
+          echo "Error: file variable ITEMS is missing (CRON_MODE='$CRON_MODE')."
           false
+        else
+          run cat "$ITEMS"
         fi
-        "$KEEPER_SUBTREE/keeper.py" write-artifacts --rebuild-tags "$ITEMS"
+        run "$KEEPER_SUBTREE/keeper.py" write-artifacts --rebuild-tags "$ITEMS"
+      elif [ "$CRON_MODE" = "rebuild-keywords ]; then
+        if [ -z "$ITEMS" ]; then
+          echo "Error: file variable ITEMS is missing (CRON_MODE='$CRON_MODE')."
+          false
+        else
+          run cat "$ITEMS"
+        fi
+        run "$KEEPER_SUBTREE/keeper.py" \
+          write-artifacts --rebuild-keywords "$ITEMS"
+      elif [ "$CRON_MODE" = "rebuild-keyword" ]; then
+        if [ -z "$ITEM" ]; then
+          echo "Error: variable ITEM is missing (CRON_MODE='$CRON_MODE')."
+          false
+        else
+          run echo "$ITEM"
+        fi
+        run "$KEEPER_SUBTREE/keeper.py" \
+          write-artifacts --rebuild-keyword "$ITEM"
       else
         echo "Error: unexpected value CRON_MODE='$CRON_MODE'."
         false
@@ -221,11 +248,13 @@ debrief:
     End of the pipeline.
     Please perform the following tasks:
     1.
-       Browse https://hub.docker.com/repository/docker/${v_docker_repo}/tags
+       Browse:
+       https://hub.docker.com/repository/docker/${v_docker_repo}/tags
        and remove manually the extraneous tags mentioned in:
        ${v_CI_JOB_URL}/artifacts/file/generated/remote_tags_to_rm.json
     2.
-       Browse https://hub.docker.com/repository/docker/${v_docker_repo}/general
+       Browse:
+       https://hub.docker.com/repository/docker/${v_docker_repo}/general
        and update manually the README from:
        ${v_CI_JOB_URL}/artifacts/raw/generated/README.md?inline=false
     (*
