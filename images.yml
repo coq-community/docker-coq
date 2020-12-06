@@ -7,7 +7,7 @@ args:
 images:
   - matrix:
       minimal: ['4.05.0']
-      base: ['4.05.0', '4.07.1-flambda', '4.09.1-flambda']
+      base: ['4.05.0', '4.07.1-flambda', '4.10.1-flambda', '4.11.1-flambda']
       coq: ['dev']
     build:
       keywords:
@@ -65,7 +65,7 @@ images:
   #         if: '{matrix[base]} != {matrix[minimal]}'
   - matrix:
       minimal: ['4.05.0']
-      base: ['4.05.0', '4.07.1-flambda', '4.09.1-flambda']
+      base: ['4.05.0', '4.07.1-flambda', '4.10.1-flambda', '4.11.1-flambda']
       # TODO: Update when appropriate
       coq: ['8.13-alpha']
     build:
@@ -98,8 +98,8 @@ images:
           if: '{matrix[base]} != {matrix[minimal]}'
   - matrix:
       minimal: ['4.05.0']
-      base: ['4.05.0', '4.07.1-flambda', '4.09.1-flambda']
-      coq: ['8.12.1', '8.11.2', '8.10.2', '8.9.1', '8.8.2']
+      base: ['4.05.0', '4.07.1-flambda', '4.10.1-flambda', '4.11.1-flambda']
+      coq: ['8.12.1', '8.11.2']
       coq_latest: ['8.12.1']
     build:
       context: './coq'
@@ -128,8 +128,8 @@ images:
           if: '{matrix[base]} != {matrix[minimal]}'
   - matrix:
       minimal: ['4.05.0']
-      base: ['4.05.0', '4.07.1-flambda']
-      coq: ['8.7.2']
+      base: ['4.05.0', '4.07.1-flambda', '4.08.1-flambda', '4.09.1-flambda']
+      coq: ['8.10.2', '8.9.1', '8.8.2', '8.7.2']
     build:
       context: './coq'
       dockerfile: './stable/Dockerfile'
