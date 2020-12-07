@@ -23,6 +23,7 @@ list_ocaml_for_coqs() {
 	printf "* Coq $v: "
 	if [ "$v" = "8.4.6" ] || [ "$v" = "8.5.3" ] || [ "$v" = "8.6.1" ]; then
 	    minimal="4.02.3"
+	    default="4.02.3"
 	    several='false'
 	else
 	    versions=$(opam search ocaml-base-compiler --no-switch --columns=version -V --coinstallable-with="coq.$v" | grep -v -e '#')
@@ -31,9 +32,18 @@ list_ocaml_for_coqs() {
 	    else
 		minimal=$(head -n 1 <<<"$versions")
 	    fi
+	    if [[ "$versions" =~ "4.07.1" ]]; then
+		default="4.07.1-flambda"
+	    else
+		default="$minimal"
+	    fi
 	fi
-	[ "$render" = 'true' ] && printf "\n${indent}minimal: ['"
-	printf "$minimal"
+	[ "$render" = 'true' ] && printf "\n${indent}default: ['"
+	if [ "$render" = 'true' ]; then
+	    printf "$default"
+	else
+	    printf "$minimal"
+	fi
 	[ "$render" = 'true' ] && printf "']\n"
 	[ "$render" = 'true' ] && printf "${indent}base: ['$minimal'"
 	if [ "$several" = 'true' ]; then
