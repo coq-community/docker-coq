@@ -131,6 +131,12 @@ images:
           if:
             - '{matrix[coq]} == {matrix[coq_latest]}'
             - '{matrix[base]} == {matrix[default]}'
+        # default tag (8.12.1)
+        - tag: '{matrix[coq]}'
+          if: '{matrix[base]} == {matrix[default]}'
+        # abbreviated tag (8.12)
+        - tag: '{matrix[coq][%.*]}'
+          if: '{matrix[base]} == {matrix[default]}'
         # latest-abbreviated tag (*-ocaml-4.05)
         - tag: 'latest-ocaml-{matrix[base][%.*]}'
           if:
@@ -141,12 +147,6 @@ images:
           if:
             - '{matrix[coq]} == {matrix[coq_latest]}'
             - '{matrix[base]} != 4.05.0'
-        # default tag (8.12.1)
-        - tag: '{matrix[coq]}'
-          if: '{matrix[base]} == {matrix[default]}'
-        # abbreviated tag (8.12)
-        - tag: '{matrix[coq][%.*]}'
-          if: '{matrix[base]} == {matrix[default]}'
         # full tag
         - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
         # abbreviated tag (*-ocaml-4.05)
