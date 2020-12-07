@@ -196,6 +196,8 @@ images:
       tags:
         - tag: '{matrix[coq]}'
         - tag: '{matrix[coq][%.*]}'
+        - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
+        - tag: '{matrix[coq][%.*]}-ocaml-{matrix[base][%.*]}'
   - matrix:
       base: ['4.02.3']
       coq: ['8.5pl3', '8.4pl6']
@@ -210,3 +212,5 @@ images:
       tags:
         - tag: '{matrix[coq][//pl/.]}'
         - tag: '{matrix[coq][//pl/.][%.*]}'
+        - tag: '{matrix[coq][//pl/.]}-ocaml-{matrix[base]}'
+        - tag: '{matrix[coq][//pl/.][%.*]}-ocaml-{matrix[base][%.*]}'
