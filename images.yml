@@ -23,7 +23,7 @@ images:
         COQ_VERSION: '{matrix[coq]}'
         COQ_COMMIT: '{defaults[commit]}'
         VCS_REF: '{defaults[commit][0:7]}'
-        COQ_EXTRA_OPAM: 'coq-bignums'
+        COQ_EXTRA_OPAM: 'coq-native coq-bignums'
       tags:
         # default tag (dev)
         - tag: '{matrix[coq]}'
@@ -60,7 +60,7 @@ images:
   #       COQ_COMMIT: '{defaults[commit]}'
   #       # TODO: Replace with 'V{matrix[coq][//-/+]}' when the beta is released
   #       VCS_REF: '{defaults[commit][0:7]}'
-  #       COQ_EXTRA_OPAM: 'coq-bignums'
+  #       COQ_EXTRA_OPAM: 'coq-native coq-bignums'
   #     tags:
   #       # default tag (dev)
   #       - tag: '{matrix[coq]}'
@@ -96,7 +96,7 @@ images:
         COQ_COMMIT: '{defaults[commit]}'
         # TODO: Replace with 'V{matrix[coq][//-/+]}' when the beta is released
         VCS_REF: '{defaults[commit][0:7]}'
-        COQ_EXTRA_OPAM: 'coq-bignums'
+        COQ_EXTRA_OPAM: 'coq-native coq-bignums'
       tags:
         # default tag (8.13-alpha)
         - tag: '{matrix[coq]}'
@@ -124,7 +124,7 @@ images:
         BASE_TAG: '{matrix[base]}'
         COQ_VERSION: '{matrix[coq]}'
         VCS_REF: 'V{matrix[coq]}'
-        COQ_EXTRA_OPAM: 'coq-bignums'
+        COQ_EXTRA_OPAM: 'coq-native coq-bignums'
       tags:
         # latest tag
         - tag: 'latest'
@@ -166,7 +166,7 @@ images:
         BASE_TAG: '{matrix[base]}'
         COQ_VERSION: '{matrix[coq]}'
         VCS_REF: 'V{matrix[coq]}'
-        COQ_EXTRA_OPAM: 'coq-bignums'
+        COQ_EXTRA_OPAM: 'coq-native coq-bignums'
       tags:
         # default tag (8.10.2)
         - tag: '{matrix[coq]}'
@@ -192,7 +192,7 @@ images:
         BASE_TAG: '{matrix[base]}'
         COQ_VERSION: '{matrix[coq]}'
         VCS_REF: 'V{matrix[coq]}'
-        COQ_EXTRA_OPAM: 'coq-bignums'
+        COQ_EXTRA_OPAM: 'coq-native coq-bignums'
       tags:
         - tag: '{matrix[coq]}'
         - tag: '{matrix[coq][%.*]}'
@@ -200,7 +200,21 @@ images:
         - tag: '{matrix[coq][%.*]}-ocaml-{matrix[base][%.*]}'
   - matrix:
       base: ['4.02.3']
-      coq: ['8.5pl3', '8.4pl6']
+      coq: ['8.5pl3']
+    build:
+      context: './coq'
+      dockerfile: './stable/Dockerfile'
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq][//pl/.]}'
+        VCS_REF: 'V{matrix[coq]}'
+        COQ_EXTRA_OPAM: 'coq-native'
+      tags:
+        - tag: '{matrix[coq][//pl/.]}'
+        - tag: '{matrix[coq][//pl/.][%.*]}'
+  - matrix:
+      base: ['4.02.3']
+      coq: ['8.4pl6']
     build:
       context: './coq'
       dockerfile: './stable/Dockerfile'
