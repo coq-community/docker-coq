@@ -29,8 +29,8 @@ lint-template:
   image:
     name: cytopia/yamllint
     entrypoint: ["/bin/ash", "-c"]
-  script:
-    - yamllint -f colored gitlab-ci-template.yml
+  script: |
+    yamllint -f colored -d '{extends: default, rules: {line-length: {level: warning}}}' gitlab-ci-template.yml
 
 test-python:
   stage: test
