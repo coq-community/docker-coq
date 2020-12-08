@@ -354,6 +354,8 @@ images:
       tags:
         - tag: '{matrix[coq][//pl/.]}'
         - tag: '{matrix[coq][//pl/.][%.*]}'
+        - tag: '{matrix[coq][//pl/.]}-ocaml-{matrix[base]}'
+        - tag: '{matrix[coq][//pl/.][%.*]}-ocaml-{matrix[base][%.*]}'
   - matrix:
       base: ['4.02.3']
       coq: ['8.4pl6']
