@@ -14,6 +14,7 @@ images:
       keywords:
         - 'dev'
       after_deploy:
+        - 'test -n "$DMC_ID" || { echo "Error: DMC_ID is void."; false; }'
         - 'curl -X POST -F token="$DMC_TOKEN" -F ref=master -F "variables[CRON_MODE]=rebuild-keyword" -F "variables[ITEM]=dev" https://gitlab.com/api/v4/projects/$DMC_ID/trigger/pipeline'
         # no 'if:' as the matrix is flat
       context: './coq'
@@ -51,8 +52,8 @@ images:
         - 'dev'
       # TODO: Uncomment when 'coqorg/base:latest' is removed
       # after_deploy:
-      #   - script: 'curl -X POST -F token="$DMC_TOKEN" -F ref=master -F "variables[CRON_MODE]=rebuild-keyword" -F "variables[ITEM]=dev" https://gitlab.com/api/v4/projects/$DMC_ID/trigger/pipeline'
-      #     if: '{matrix[base]} == 4.07.1-flambda'  #
+      #   - script: 'test -n "$DMC_ID" || { echo "Error: DMC_ID is void."; false; }; curl -X POST -F token="$DMC_TOKEN" -F ref=master -F "variables[CRON_MODE]=rebuild-keyword" -F "variables[ITEM]=dev" https://gitlab.com/api/v4/projects/$DMC_ID/trigger/pipeline'
+      #     if: '{matrix[base]} == {matrix[default]}'  # matrix[default] will be 4.07...
       context: './coq'
       dockerfile: './dev/Dockerfile'
       commit_api:
