@@ -59,9 +59,10 @@ stages:
   image:
     name: cytopia/yamllint
     entrypoint: ["/bin/ash", "-c"]
-  script:
-    - echo "$FILENAME"
-    - yamllint -f colored "$FILENAME"
+  # cf. https://yamllint.readthedocs.io/en/stable/configuration.html
+  script: |
+    echo "$FILENAME"
+    yamllint -f colored -d '{extends: default, rules: {line-length: {level: warning}}}' "$FILENAME"
 
 .python:
   dependencies: []  # optional
