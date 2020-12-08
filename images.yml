@@ -91,17 +91,21 @@ images:
   #       repo: 'coq/coq'
   #       branch: 'v8.14'
   #     context: './coq'
-  #     # TODO: Replace with "beta/Dockerfile" when the beta is released
+  #     # TODO: Replace when the beta is released
   #     dockerfile: './dev/Dockerfile'
+  #     # dockerfile: './beta/Dockerfile'
   #     keywords:
   #       - '{matrix[coq][%-*]}'
   #     args:
   #       BASE_TAG: '{matrix[base]}'
-  #       # TODO: Replace with '{matrix[coq]}' when the beta is released
+  #       # TODO: Replace when the beta is released
   #       COQ_VERSION: '{matrix[coq][%-*]}.dev'
+  #       # COQ_VERSION: '{matrix[coq][//-/+]}'
+  #       # TODO: Remove COQ_COMMIT when the beta is released
   #       COQ_COMMIT: '{defaults[commit]}'
-  #       # TODO: Replace with 'V{matrix[coq][//-/+]}' when the beta is released
+  #       # TODO: Replace when the beta is released
   #       VCS_REF: '{defaults[commit][0:7]}'
+  #       # VCS_REF: 'V{matrix[coq][//-/+]}'
   #       COQ_EXTRA_OPAM: 'coq-native coq-bignums'
   #     tags:
   #       # default tag (dev)
@@ -120,28 +124,17 @@ images:
       default: ['latest']
       base: ['latest']
       # TODO: Update when appropriate
-      coq: ['8.13-alpha']
+      coq: ['8.13-beta1']
     build:
-      # TODO: Remove this commit_api section when the beta is released
-      commit_api:
-        fetcher: 'github'
-        repo: 'coq/coq'
-        branch: 'v8.13'
       context: './coq'
-      # TODO: Replace with "beta/Dockerfile" when the beta is released
-      dockerfile: './dual/dev/Dockerfile'
-      keywords:
-        - '8.13'
+      dockerfile: './dual/beta/Dockerfile'
       args:
         BASE_TAG: '{matrix[base]}'
-        # TODO: Replace with '{matrix[coq]}' when the beta is released
-        COQ_VERSION: '{matrix[coq][%-*]}.dev'
-        COQ_COMMIT: '{defaults[commit]}'
-        # TODO: Replace with 'V{matrix[coq][//-/+]}' when the beta is released
-        VCS_REF: '{defaults[commit][0:7]}'
+        COQ_VERSION: '{matrix[coq][//-/+]}'
+        VCS_REF: 'V{matrix[coq][//-/+]}'
         COQ_EXTRA_OPAM: 'coq-native coq-bignums'
       tags:
-        # default tag (8.13-alpha)
+        # default tag (8.13-beta1)
         - tag: '{matrix[coq]}'
           if: '{matrix[base]} == {matrix[default]}'
         # abbreviated tag (8.13)
@@ -161,28 +154,17 @@ images:
     # default: ['4.07.1-flambda']
       base: ['4.05.0', '4.07.1-flambda', '4.10.1-flambda', '4.11.1-flambda']
       # TODO: Update when appropriate
-      coq: ['8.13-alpha']
+      coq: ['8.13-beta1']
     build:
-      # TODO: Remove this commit_api section when the beta is released
-      commit_api:
-        fetcher: 'github'
-        repo: 'coq/coq'
-        branch: 'v8.13'
       context: './coq'
-      # TODO: Replace with "beta/Dockerfile" when the beta is released
-      dockerfile: './dev/Dockerfile'
-      keywords:
-        - '8.13'
+      dockerfile: './beta/Dockerfile'
       args:
         BASE_TAG: '{matrix[base]}'
-        # TODO: Replace with '{matrix[coq]}' when the beta is released
-        COQ_VERSION: '{matrix[coq][%-*]}.dev'
-        COQ_COMMIT: '{defaults[commit]}'
-        # TODO: Replace with 'V{matrix[coq][//-/+]}' when the beta is released
-        VCS_REF: '{defaults[commit][0:7]}'
+        COQ_VERSION: '{matrix[coq][//-/+]}'
+        VCS_REF: 'V{matrix[coq][//-/+]}'
         COQ_EXTRA_OPAM: 'coq-native coq-bignums'
       tags:
-        # default tag (8.13-alpha)
+        # default tag (8.13-beta1)
         - tag: '{matrix[coq]}'
           if: '{matrix[base]} == {matrix[default]}'
         # abbreviated tag (8.13)
