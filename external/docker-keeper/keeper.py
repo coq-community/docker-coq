@@ -283,7 +283,7 @@ def get_list_dict_dockerfile_matrix_tags_args(json):
             #     - 'code'
             # as well as
             #   after_deploy:
-            #     - script: 'code'
+            #     - run: 'code'
             #       if: '{matrix[base]} == 4.07.1-flambda'
             if isinstance(raw_after_deploy, str):
                 raw_after_deploy = [raw_after_deploy]
@@ -314,7 +314,7 @@ def get_list_dict_dockerfile_matrix_tags_args(json):
                     after_deploy_script.append(ad_item)  # no { } interpolation
                     # otherwise sth like ${BASH_VARIABLE} would raise an error
                 else:
-                    script_item = ad_item['script']
+                    script_item = ad_item['run']
                     script_cond = ad_item['if'] if 'if' in ad_item else None
                     if eval_if(script_cond, matrix):
                         # otherwise skip the script item
