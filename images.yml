@@ -28,7 +28,7 @@ images:
         COQ_VERSION: '{matrix[coq]}'
         COQ_COMMIT: '{defaults[commit]}'
         VCS_REF: '{defaults[commit][0:7]}'
-        COQ_EXTRA_OPAM: 'coq-native coq-bignums'
+        COQ_EXTRA_OPAM: 'coq-bignums'
       tags:
         # default tag (dev)
         - tag: '{matrix[coq]}'
@@ -39,7 +39,7 @@ images:
     # default: ['4.07.1-flambda']
       base: ['4.05.0', '4.07.1-flambda', '4.10.1-flambda', '4.11.1-flambda']
       coq: ['dev']
-    build:
+    build: &build_coq_dev
       keywords:
         - 'dev'
       # TODO: Uncomment when 'coqorg/base:latest' is removed
@@ -57,7 +57,7 @@ images:
         COQ_VERSION: '{matrix[coq]}'
         COQ_COMMIT: '{defaults[commit]}'
         VCS_REF: '{defaults[commit][0:7]}'
-        COQ_EXTRA_OPAM: 'coq-native coq-bignums'
+        COQ_EXTRA_OPAM: 'coq-bignums'
       tags:
         # default tag (dev)
         - tag: '{matrix[coq]}'
@@ -69,6 +69,25 @@ images:
           if: '{matrix[base]} == 4.05.0'
         # abbreviated tag (*-ocaml-4.07-flambda)
         - tag: '{matrix[coq]}-ocaml-{matrix[base][%.*-*]}-flambda'
+          if: '{matrix[base]} != 4.05.0'
+  - matrix:
+      default: ['latest']
+    # default: ['4.07.1-flambda']
+      base: ['4.07.1-flambda']
+      coq: ['dev']
+    build:
+      <<: *build_coq_dev
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq]}'
+        COQ_COMMIT: '{defaults[commit]}'
+        VCS_REF: '{defaults[commit][0:7]}'
+        COQ_EXTRA_OPAM: 'coq-native coq-bignums'
+      tags:
+        # full tag
+        - tag: '{matrix[coq]}-native-ocaml-{matrix[base]}'
+        # abbreviated tag (*-ocaml-4.07-flambda)
+        - tag: '{matrix[coq]}-native-ocaml-{matrix[base][%.*-*]}-flambda'
           if: '{matrix[base]} != 4.05.0'
   # TODO: Uncomment when the v8.14 branch is created
   # - matrix:
@@ -124,7 +143,7 @@ images:
         BASE_TAG: '{matrix[base]}'
         COQ_VERSION: '{matrix[coq][//-/+]}'
         VCS_REF: 'V{matrix[coq][//-/+]}'
-        COQ_EXTRA_OPAM: 'coq-native coq-bignums'
+        COQ_EXTRA_OPAM: 'coq-bignums'
       tags:
         # default tag (8.13-beta1)
         - tag: '{matrix[coq]}'
@@ -139,14 +158,14 @@ images:
       base: ['4.05.0', '4.07.1-flambda', '4.10.1-flambda', '4.11.1-flambda']
       # TODO: Update when appropriate
       coq: ['8.13-beta1']
-    build:
+    build: &build_coq_813
       context: './coq'
       dockerfile: './beta/Dockerfile'
       args:
         BASE_TAG: '{matrix[base]}'
         COQ_VERSION: '{matrix[coq][//-/+]}'
         VCS_REF: 'V{matrix[coq][//-/+]}'
-        COQ_EXTRA_OPAM: 'coq-native coq-bignums'
+        COQ_EXTRA_OPAM: 'coq-bignums'
       tags:
         # default tag (8.13-beta1)
         - tag: '{matrix[coq]}'
@@ -161,6 +180,24 @@ images:
           if: '{matrix[base]} == 4.05.0'
         # abbreviated tag (*-ocaml-4.07-flambda)
         - tag: '{matrix[coq][%-*]}-ocaml-{matrix[base][%.*-*]}-flambda'
+          if: '{matrix[base]} != 4.05.0'
+  - matrix:
+      default: ['latest']
+    # default: ['4.07.1-flambda']
+      base: ['4.07.1-flambda']
+      coq: ['8.13-beta1']
+    build:
+      <<: *build_coq_813
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq][//-/+]}'
+        VCS_REF: 'V{matrix[coq][//-/+]}'
+        COQ_EXTRA_OPAM: 'coq-native coq-bignums'
+      tags:
+        # full tag
+        - tag: '{matrix[coq]}-native-ocaml-{matrix[base]}'
+        # abbreviated tag (*-ocaml-4.07-flambda)
+        - tag: '{matrix[coq][%-*]}-native-ocaml-{matrix[base][%.*-*]}-flambda'
           if: '{matrix[base]} != 4.05.0'
   # BEGIN TODO REMOVE
   - matrix:
