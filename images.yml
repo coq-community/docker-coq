@@ -137,6 +137,8 @@ images:
       # TODO: Update when appropriate
       coq: ['8.13-beta1']
     build:
+      keywords:
+        - '8.13'
       context: './coq'
       dockerfile: './dual/beta/Dockerfile'
       args:
@@ -159,6 +161,8 @@ images:
       # TODO: Update when appropriate
       coq: ['8.13-beta1']
     build: &build_coq_813
+      keywords:
+        - '8.13'
       context: './coq'
       dockerfile: './beta/Dockerfile'
       args:
