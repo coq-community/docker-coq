@@ -33,14 +33,6 @@ images:
         # default tag (dev)
         - tag: '{matrix[coq]}'
           if: '{matrix[base]} == {matrix[default]}'
-        # full tag
-        - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
-        # abbreviated tag (*-ocaml-4.05)
-        - tag: '{matrix[coq]}-ocaml-{matrix[base][%.*]}'
-          if: '{matrix[base]} == 4.05.0'
-        # abbreviated tag (*-ocaml-4.07-flambda)
-        - tag: '{matrix[coq]}-ocaml-{matrix[base][%.*-*]}-flambda'
-          if: '{matrix[base]} != 4.05.0'
   # END TODO REMOVE
   - matrix:
       default: ['latest']
@@ -140,14 +132,6 @@ images:
         # abbreviated tag (8.13)
         - tag: '{matrix[coq][%-*]}'
           if: '{matrix[base]} == {matrix[default]}'
-        # full tag
-        - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
-        # abbreviated tag (*-ocaml-4.05)
-        - tag: '{matrix[coq][%-*]}-ocaml-{matrix[base][%.*]}'
-          if: '{matrix[base]} == 4.05.0'
-        # abbreviated tag (*-ocaml-4.07-flambda)
-        - tag: '{matrix[coq][%-*]}-ocaml-{matrix[base][%.*-*]}-flambda'
-          if: '{matrix[base]} != 4.05.0'
   # END TODO REMOVE
   - matrix:
       default: ['latest']
