@@ -76,8 +76,8 @@ images:
           if: '{matrix[base]} != 4.05.0'
   - matrix:
       default: ['latest']
-    # default: ['4.07.1-flambda']
-      base: ['4.07.1-flambda']
+    # default: ['4.07.1']
+      base: ['4.07.1']
       coq: ['dev']
     build:
       <<: *build_coq_dev
@@ -91,7 +91,7 @@ images:
         # full tag
         - tag: '{matrix[coq]}-native-ocaml-{matrix[base]}'
         # abbreviated tag (*-ocaml-4.07-flambda)
-        - tag: '{matrix[coq]}-native-ocaml-{matrix[base][%.*-*]}-flambda'
+        - tag: '{matrix[coq]}-native-ocaml-{matrix[base][%.*]}'
           if: '{matrix[base]} != 4.05.0'
   # TODO: Uncomment when the v8.14 branch is created
   # - matrix:
@@ -191,8 +191,8 @@ images:
           if: '{matrix[base]} != 4.05.0'
   - matrix:
       default: ['latest']
-    # default: ['4.07.1-flambda']
-      base: ['4.07.1-flambda']
+    # default: ['4.07.1']
+      base: ['4.07.1']
       coq: ['8.13-beta1']
     build:
       <<: *build_coq_813
@@ -205,7 +205,7 @@ images:
         # full tag
         - tag: '{matrix[coq]}-native-ocaml-{matrix[base]}'
         # abbreviated tag (*-ocaml-4.07-flambda)
-        - tag: '{matrix[coq][%-*]}-native-ocaml-{matrix[base][%.*-*]}-flambda'
+        - tag: '{matrix[coq][%-*]}-native-ocaml-{matrix[base][%.*]}'
           if: '{matrix[base]} != 4.05.0'
   # BEGIN TODO REMOVE
   - matrix:
