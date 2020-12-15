@@ -211,8 +211,8 @@ images:
   - matrix:
       default: ['latest']
       base: ['latest']
-      coq: ['8.12.1', '8.11.2']
-      coq_latest: ['8.12.1']
+      coq: ['8.12.2', '8.11.2']
+      coq_latest: ['8.12.2']
     build:
       context: './coq'
       dockerfile: './dual/stable/Dockerfile'
@@ -227,7 +227,7 @@ images:
           if:
             - '{matrix[coq]} == {matrix[coq_latest]}'
             - '{matrix[base]} == {matrix[default]}'
-        # default tag (8.12.1)
+        # default tag (8.12.2)
         - tag: '{matrix[coq]}'
           if: '{matrix[base]} == {matrix[default]}'
         # abbreviated tag (8.12)
@@ -238,8 +238,8 @@ images:
       default: ['latest']
     # default: ['4.07.1-flambda']
       base: ['4.05.0', '4.07.1-flambda', '4.10.1-flambda', '4.11.1-flambda']
-      coq: ['8.12.1', '8.11.2']
-      coq_latest: ['8.12.1']
+      coq: ['8.12.2', '8.11.2']
+      coq_latest: ['8.12.2']
     build:
       context: './coq'
       dockerfile: './stable/Dockerfile'
@@ -254,7 +254,7 @@ images:
           if:
             - '{matrix[coq]} == {matrix[coq_latest]}'
             - '{matrix[base]} == {matrix[default]}'
-        # default tag (8.12.1)
+        # default tag (8.12.2)
         - tag: '{matrix[coq]}'
           if: '{matrix[base]} == {matrix[default]}'
         # abbreviated tag (8.12)
