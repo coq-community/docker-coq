@@ -138,99 +138,26 @@ images:
   - matrix:
       default: ['latest']
       base: ['latest']
-      # TODO: Update when appropriate
-      coq: ['8.13-beta1']
+      coq: ['8.13.0']
     build:
       keywords:
         - '8.13'
-      context: './coq'
-      dockerfile: './dual/beta/Dockerfile'
-      args:
-        BASE_TAG: '{matrix[base]}'
-        COQ_VERSION: '{matrix[coq][//-/+]}'
-        VCS_REF: 'V{matrix[coq][//-/+]}'
-        COQ_EXTRA_OPAM: 'coq-bignums'
-      tags:
-        # default tag (8.13-beta1)
-        - tag: '{matrix[coq]}'
-          if: '{matrix[base]} == {matrix[default]}'
-        # abbreviated tag (8.13)
-        - tag: '{matrix[coq][%-*]}'
-          if: '{matrix[base]} == {matrix[default]}'
-  # END TODO REMOVE
-  - matrix:
-      default: ['latest']
-    # default: ['4.07.1-flambda']
-      base: ['4.05.0', '4.07.1-flambda', '4.10.1-flambda', '4.11.1-flambda']
-      # TODO: Update when appropriate
-      coq: ['8.13-beta1']
-    build: &build_coq_813
-      keywords:
-        - '8.13'
-      context: './coq'
-      dockerfile: './beta/Dockerfile'
-      args:
-        BASE_TAG: '{matrix[base]}'
-        COQ_VERSION: '{matrix[coq][//-/+]}'
-        VCS_REF: 'V{matrix[coq][//-/+]}'
-        COQ_EXTRA_OPAM: 'coq-bignums'
-      tags:
-        # default tag (8.13-beta1)
-        - tag: '{matrix[coq]}'
-          if: '{matrix[base]} == {matrix[default]}'
-        # abbreviated tag (8.13)
-        - tag: '{matrix[coq][%-*]}'
-          if: '{matrix[base]} == {matrix[default]}'
-        # full tag
-        - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
-        # abbreviated tag (*-ocaml-4.05)
-        - tag: '{matrix[coq][%-*]}-ocaml-{matrix[base][%.*]}'
-          if: '{matrix[base]} == 4.05.0'
-        # abbreviated tag (*-ocaml-4.07-flambda)
-        - tag: '{matrix[coq][%-*]}-ocaml-{matrix[base][%.*-*]}-flambda'
-          if: '{matrix[base]} != 4.05.0'
-  - matrix:
-      default: ['latest']
-    # default: ['4.07.1']
-      base: ['4.07.1']
-      coq: ['8.13-beta1']
-    build:
-      <<: *build_coq_813
-      args:
-        BASE_TAG: '{matrix[base]}'
-        COQ_VERSION: '{matrix[coq][//-/+]}'
-        VCS_REF: 'V{matrix[coq][//-/+]}'
-        COQ_EXTRA_OPAM: 'coq-native coq-bignums'
-      tags:
-        # full tag
-        - tag: '{matrix[coq]}-native-ocaml-{matrix[base]}'
-        # abbreviated tag (*-ocaml-4.07-flambda)
-        - tag: '{matrix[coq][%-*]}-native-ocaml-{matrix[base][%.*]}'
-          if: '{matrix[base]} != 4.05.0'
-  # BEGIN TODO REMOVE
-  - matrix:
-      default: ['latest']
-      base: ['latest']
-      coq: ['8.12.2', '8.11.2']
-      coq_latest: ['8.12.2']
-    build:
       context: './coq'
       dockerfile: './dual/stable/Dockerfile'
       args:
         BASE_TAG: '{matrix[base]}'
         COQ_VERSION: '{matrix[coq]}'
         VCS_REF: 'V{matrix[coq]}'
-        COQ_EXTRA_OPAM: 'coq-native coq-bignums'
+        COQ_EXTRA_OPAM: 'coq-bignums'
       tags:
+        # TODO: Update
         # latest tag
         - tag: 'latest'
-          if:
-            - '{matrix[coq]} == {matrix[coq_latest]}'
-            - '{matrix[base]} == {matrix[default]}'
-        # default tag (8.12.2)
+          if: '{matrix[base]} == {matrix[default]}'
+        # default tag (8.13.0)
         - tag: '{matrix[coq]}'
           if: '{matrix[base]} == {matrix[default]}'
-        # abbreviated tag (8.12)
+        # abbreviated tag (8.13)
         - tag: '{matrix[coq][%.*]}'
           if: '{matrix[base]} == {matrix[default]}'
   # END TODO REMOVE
@@ -238,26 +165,24 @@ images:
       default: ['latest']
     # default: ['4.07.1-flambda']
       base: ['4.05.0', '4.07.1-flambda', '4.10.1-flambda', '4.11.1-flambda']
-      coq: ['8.12.2', '8.11.2']
-      coq_latest: ['8.12.2']
-    build:
+      # TODO: Update when appropriate
+      coq: ['8.13.0']
+      coq_latest: ['8.13.0']
+    build: &build_coq_813
+      keywords:
+        - '8.13'
       context: './coq'
       dockerfile: './stable/Dockerfile'
       args:
         BASE_TAG: '{matrix[base]}'
         COQ_VERSION: '{matrix[coq]}'
         VCS_REF: 'V{matrix[coq]}'
-        COQ_EXTRA_OPAM: 'coq-native coq-bignums'
+        COQ_EXTRA_OPAM: 'coq-bignums'
       tags:
-        # latest tag
-        - tag: 'latest'
-          if:
-            - '{matrix[coq]} == {matrix[coq_latest]}'
-            - '{matrix[base]} == {matrix[default]}'
-        # default tag (8.12.2)
+        # default tag (8.13.0)
         - tag: '{matrix[coq]}'
           if: '{matrix[base]} == {matrix[default]}'
-        # abbreviated tag (8.12)
+        # abbreviated tag (8.13)
         - tag: '{matrix[coq][%.*]}'
           if: '{matrix[base]} == {matrix[default]}'
         # latest-abbreviated tag (*-ocaml-4.05)
@@ -270,6 +195,96 @@ images:
           if:
             - '{matrix[coq]} == {matrix[coq_latest]}'
             - '{matrix[base]} != 4.05.0'
+        # full tag
+        - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
+        # abbreviated tag (*-ocaml-4.05)
+        - tag: '{matrix[coq][%.*]}-ocaml-{matrix[base][%.*]}'
+          if: '{matrix[base]} == 4.05.0'
+        # abbreviated tag (*-ocaml-4.07-flambda)
+        - tag: '{matrix[coq][%.*]}-ocaml-{matrix[base][%.*-*]}-flambda'
+          if: '{matrix[base]} != 4.05.0'
+  - matrix:
+      default: ['latest']
+    # default: ['4.07.1']
+      base: ['4.07.1']
+      coq: ['8.13.0']
+    build:
+      <<: *build_coq_813
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq]}'
+        VCS_REF: 'V{matrix[coq]}'
+        COQ_EXTRA_OPAM: 'coq-native coq-bignums'
+      tags:
+        # full tag
+        - tag: '{matrix[coq]}-native-ocaml-{matrix[base]}'
+        # abbreviated tag (*-ocaml-4.07-flambda)
+        - tag: '{matrix[coq][%.*]}-native-ocaml-{matrix[base][%.*]}'
+          if: '{matrix[base]} != 4.05.0'
+        # TODO: latest-native-ocaml-4.07
+  # BEGIN TODO REMOVE
+  - matrix:
+      default: ['latest']
+      base: ['latest']
+      coq: ['8.12.2', '8.11.2']
+      coq_latest: ['8.13.0']
+    build:
+      context: './coq'
+      dockerfile: './dual/stable/Dockerfile'
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq]}'
+        VCS_REF: 'V{matrix[coq]}'
+        COQ_EXTRA_OPAM: 'coq-native coq-bignums'
+      tags:
+        # latest tag
+        # - tag: 'latest'
+        #   if:
+        #     - '{matrix[coq]} == {matrix[coq_latest]}'
+        #     - '{matrix[base]} == {matrix[default]}'
+        # default tag (8.12.2)
+        - tag: '{matrix[coq]}'
+          if: '{matrix[base]} == {matrix[default]}'
+        # abbreviated tag (8.12)
+        - tag: '{matrix[coq][%.*]}'
+          if: '{matrix[base]} == {matrix[default]}'
+  # END TODO REMOVE
+  - matrix:
+      default: ['latest']
+    # default: ['4.07.1-flambda']
+      base: ['4.05.0', '4.07.1-flambda', '4.10.1-flambda', '4.11.1-flambda']
+      coq: ['8.12.2', '8.11.2']
+      coq_latest: ['8.13.0']
+    build:
+      context: './coq'
+      dockerfile: './stable/Dockerfile'
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq]}'
+        VCS_REF: 'V{matrix[coq]}'
+        COQ_EXTRA_OPAM: 'coq-native coq-bignums'
+      tags:
+        # latest tag
+        # - tag: 'latest'
+        #   if:
+        #     - '{matrix[coq]} == {matrix[coq_latest]}'
+        #     - '{matrix[base]} == {matrix[default]}'
+        # default tag (8.12.2)
+        - tag: '{matrix[coq]}'
+          if: '{matrix[base]} == {matrix[default]}'
+        # abbreviated tag (8.12)
+        - tag: '{matrix[coq][%.*]}'
+          if: '{matrix[base]} == {matrix[default]}'
+        # latest-abbreviated tag (*-ocaml-4.05)
+        # - tag: 'latest-ocaml-{matrix[base][%.*]}'
+        #   if:
+        #     - '{matrix[coq]} == {matrix[coq_latest]}'
+        #     - '{matrix[base]} == 4.05.0'
+        # latest-abbreviated tag (*-ocaml-4.07-flambda)
+        # - tag: 'latest-ocaml-{matrix[base][%.*-*]}-flambda'
+        #   if:
+        #     - '{matrix[coq]} == {matrix[coq_latest]}'
+        #     - '{matrix[base]} != 4.05.0'
         # full tag
         - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
         # abbreviated tag (*-ocaml-4.05)
