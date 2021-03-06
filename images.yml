@@ -138,7 +138,7 @@ images:
   - matrix:
       default: ['latest']
       base: ['latest']
-      coq: ['8.13.0']
+      coq: ['8.13.1']
     build:
       keywords:
         - '8.13'
@@ -154,7 +154,7 @@ images:
         # latest tag
         - tag: 'latest'
           if: '{matrix[base]} == {matrix[default]}'
-        # default tag (8.13.0)
+        # default tag (8.13.1)
         - tag: '{matrix[coq]}'
           if: '{matrix[base]} == {matrix[default]}'
         # abbreviated tag (8.13)
@@ -166,8 +166,8 @@ images:
     # default: ['4.07.1-flambda']
       base: ['4.05.0', '4.07.1-flambda', '4.10.1-flambda', '4.11.1-flambda']
       # TODO: Update when appropriate
-      coq: ['8.13.0']
-      coq_latest: ['8.13.0']
+      coq: ['8.13.1']
+      coq_latest: ['8.13.1']
     build: &build_coq_813
       keywords:
         - '8.13'
@@ -179,7 +179,7 @@ images:
         VCS_REF: 'V{matrix[coq]}'
         COQ_EXTRA_OPAM: 'coq-bignums'
       tags:
-        # default tag (8.13.0)
+        # default tag (8.13.1)
         - tag: '{matrix[coq]}'
           if: '{matrix[base]} == {matrix[default]}'
         # abbreviated tag (8.13)
@@ -207,7 +207,7 @@ images:
       default: ['latest']
     # default: ['4.07.1']
       base: ['4.07.1']
-      coq: ['8.13.0']
+      coq: ['8.13.1']
     build:
       <<: *build_coq_813
       args:
@@ -227,7 +227,7 @@ images:
       default: ['latest']
       base: ['latest']
       coq: ['8.12.2', '8.11.2']
-      coq_latest: ['8.13.0']
+      coq_latest: ['8.13.1']
     build:
       context: './coq'
       dockerfile: './dual/stable/Dockerfile'
@@ -254,7 +254,7 @@ images:
     # default: ['4.07.1-flambda']
       base: ['4.05.0', '4.07.1-flambda', '4.10.1-flambda', '4.11.1-flambda']
       coq: ['8.12.2', '8.11.2']
-      coq_latest: ['8.13.0']
+      coq_latest: ['8.13.1']
     build:
       context: './coq'
       dockerfile: './stable/Dockerfile'
