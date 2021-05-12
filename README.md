@@ -10,10 +10,17 @@
 
 This repository provides [Docker](https://www.docker.com/) images of the [Coq](https://github.com/coq/coq) proof assistant.
 
-These images are based on [this parent image](https://hub.docker.com/r/coqorg/base/), itself based on [Debian 10 Slim](https://hub.docker.com/_/debian/) and relying on [opam 2.0](https://opam.ocaml.org/doc/Manual.html).
+These images are based on [this parent image](https://hub.docker.com/r/coqorg/base/), itself based on [Debian 10 Slim](https://hub.docker.com/_/debian/) and relying on [opam 2.0](https://opam.ocaml.org/doc/Manual.html):
+
+|   | GitHub repo                                                             | Type          | Docker Hub                                             |
+|---|-------------------------------------------------------------------------|---------------|--------------------------------------------------------|
+|   | [docker-coq-action](https://github.com/coq-community/docker-coq-action) | GitHub action | N/A                                                    |
+| x | [docker-coq](https://github.com/coq-community/docker-coq)               | Dockerfile    | [`coqorg/coq`](https://hub.docker.com/r/coqorg/coq/)   |
+| ↳ | [docker-base](https://github.com/coq-community/docker-base)             | Dockerfile    | [`coqorg/base`](https://hub.docker.com/r/coqorg/base/) |
+| ↳ | Debian                                                                  | Linux distro  | [`debian`](https://hub.docker.com/_/debian/)           |
 
 See also the [docker-coq wiki](https://github.com/coq-community/docker-coq/wiki) for details about how to use these images.
 
-This repository is [mirrored on Gitlab](https://gitlab.com/coq-community/docker-coq), but [issues](https://github.com/coq-community/docker-coq/issues) and [pull requests](https://github.com/coq-community/docker-coq/pulls) are tracked on GitHub.
+This Dockerfile repository is [mirrored on GitLab](https://gitlab.com/coq-community/docker-coq), but [issues](https://github.com/coq-community/docker-coq/issues) and [pull requests](https://github.com/coq-community/docker-coq/pulls) are tracked on GitHub.
 
 <!-- tags -->
