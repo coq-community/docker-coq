@@ -41,7 +41,7 @@ images:
   - matrix:
       default: ['latest']
     # default: ['4.07.1-flambda']
-      base: ['4.05.0', '4.07.1-flambda', '4.10.1-flambda', '4.11.1-flambda']
+      base: ['4.05.0', '4.07.1-flambda', '4.11.2-flambda', '4.12.0-flambda']
       coq: ['dev']
     build: &build_coq_dev
       keywords:
@@ -169,7 +169,7 @@ images:
   - matrix:
       default: ['latest']
     # default: ['4.07.1-flambda']
-      base: ['4.05.0', '4.07.1-flambda', '4.10.1-flambda', '4.11.1-flambda']
+      base: ['4.05.0', '4.07.1-flambda', '4.11.2-flambda', '4.12.0-flambda']
       # TODO: Update when appropriate
       coq: ['8.13.2']
       coq_latest: ['8.13.2']
@@ -260,7 +260,7 @@ images:
   - matrix:
       default: ['latest']
     # default: ['4.07.1-flambda']
-      base: ['4.05.0', '4.07.1-flambda', '4.10.1-flambda', '4.11.1-flambda']
+      base: ['4.05.0', '4.07.1-flambda', '4.10.2-flambda', '4.11.2-flambda']
       coq: ['8.12.2', '8.11.2']
       coq_latest: ['8.13.2']
     build:
