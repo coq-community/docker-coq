@@ -5,6 +5,7 @@ docker_repo: 'coqorg/coq'
 args:
   BUILD_DATE: '{defaults[build_date]}'
 images:
+  ## coqorg/coq:dev
   # BEGIN TODO REMOVE
   - matrix:
       default: ['latest']
@@ -36,6 +37,7 @@ images:
         - tag: '{matrix[coq]}'
           if: '{matrix[base]} == {matrix[default]}'
   # END TODO REMOVE
+  ## coqorg/coq:dev-ocaml-*
   - matrix:
       default: ['latest']
     # default: ['4.07.1-flambda']
@@ -74,6 +76,7 @@ images:
         # abbreviated tag (*-ocaml-4.07-flambda)
         - tag: '{matrix[coq]}-ocaml-{matrix[base][%.*-*]}-flambda'
           if: '{matrix[base]} != 4.05.0'
+  ## coqorg/coq:dev-native-ocaml-*
   - matrix:
       default: ['latest']
     # default: ['4.07.1']
@@ -135,6 +138,7 @@ images:
   #       - tag: '{matrix[coq]}-ocaml-{matrix[base][%.*-*]}-flambda'
   #         if: '{matrix[base]} != 4.05.0'
   # BEGIN TODO REMOVE
+  ## coqorg/coq:latest
   - matrix:
       default: ['latest']
       base: ['latest']
@@ -161,6 +165,7 @@ images:
         - tag: '{matrix[coq][%.*]}'
           if: '{matrix[base]} == {matrix[default]}'
   # END TODO REMOVE
+  ## coqorg/coq:latest-ocaml-*
   - matrix:
       default: ['latest']
     # default: ['4.07.1-flambda']
@@ -203,6 +208,7 @@ images:
         # abbreviated tag (*-ocaml-4.07-flambda)
         - tag: '{matrix[coq][%.*]}-ocaml-{matrix[base][%.*-*]}-flambda'
           if: '{matrix[base]} != 4.05.0'
+  ## coqorg/coq:8.13.2-native-ocaml-*
   - matrix:
       default: ['latest']
     # default: ['4.07.1']
@@ -222,6 +228,7 @@ images:
         - tag: '{matrix[coq][%.*]}-native-ocaml-{matrix[base][%.*]}'
           if: '{matrix[base]} != 4.05.0'
         # TODO: latest-native-ocaml-4.07
+  ## coqorg/coq:8.x.y
   # BEGIN TODO REMOVE
   - matrix:
       default: ['latest']
@@ -249,6 +256,7 @@ images:
         - tag: '{matrix[coq][%.*]}'
           if: '{matrix[base]} == {matrix[default]}'
   # END TODO REMOVE
+  ## coqorg/coq:8.x.y-ocaml-*
   - matrix:
       default: ['latest']
     # default: ['4.07.1-flambda']
@@ -293,6 +301,7 @@ images:
         # abbreviated tag (*-ocaml-4.07-flambda)
         - tag: '{matrix[coq][%.*]}-ocaml-{matrix[base][%.*-*]}-flambda'
           if: '{matrix[base]} != 4.05.0'
+  ## coqorg/coq:8.x.y (bis)
   # BEGIN TODO REMOVE
   - matrix:
       default: ['latest']
@@ -314,6 +323,7 @@ images:
         - tag: '{matrix[coq][%.*]}'
           if: '{matrix[base]} == {matrix[default]}'
   # END TODO REMOVE
+  ## coqorg/coq:8.x.y-ocaml-* (bis)
   - matrix:
       default: ['latest']
     # default: ['4.07.1-flambda']
@@ -342,6 +352,7 @@ images:
         # abbreviated tag (*-ocaml-4.07-flambda)
         - tag: '{matrix[coq][%.*]}-ocaml-{matrix[base][%.*-*]}-flambda'
           if: '{matrix[base]} != 4.05.0'
+  ## coqorg/coq:8.6.1-ocaml-4.02.3
   - matrix:
       base: ['4.02.3']
       coq: ['8.6.1']
@@ -358,6 +369,7 @@ images:
         - tag: '{matrix[coq][%.*]}'
         - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
         - tag: '{matrix[coq][%.*]}-ocaml-{matrix[base][%.*]}'
+  ## coqorg/coq:8.5.3-ocaml-4.02.3
   - matrix:
       base: ['4.02.3']
       coq: ['8.5pl3']
