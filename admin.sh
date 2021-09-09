@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Author: Erik Martin-Dorel, 2020
+# Author: Erik Martin-Dorel, 2020-2021
 # Summary: helper functions to compute compatible OCaml versions
 
 ocamls() { opam switch list-available ocaml-base-compiler | grep -v -e '#' | cut -d ' ' -f 2; }
@@ -26,7 +26,7 @@ list_ocaml_for_coqs() {
 	    default="4.02.3"
 	    several='false'
 	else
-	    versions=$(opam search ocaml-base-compiler --no-switch --columns=version -V --coinstallable-with="coq.$v" | grep -v -e '#')
+	    versions=$(opam search ocaml-base-compiler --no-switch --columns=version -V --coinstallable-with="coq.$v" | grep -v -e '#' -e 'alpha' -e 'beta' -e 'rc')
 	    if [[ "$versions" =~ "4.05.0" ]]; then
 		minimal="4.05.0"
 	    else
@@ -69,5 +69,5 @@ list_ocaml_for_coqs() {
     done
 }
 
-# pred_ocaml_for_coqs 8.4.6 8.5.3 8.6.1 8.7.2 8.8.2 8.9.1 8.10.2 8.11.2 8.12.1 # 8.13-alpha
-# list_ocaml_for_coqs 8.13.dev 8.12.1 8.11.2 8.10.2 8.9.1 8.8.2 8.7.2 8.6.1 8.5.3 8.4.6
+# pred_ocaml_for_coqs 8.4.6 8.5.3 8.6.1 8.7.2 8.8.2 8.9.1 8.10.2 8.11.2 8.12.2 8.13.2 8.14.dev # 8.14-alpha 
+# list_ocaml_for_coqs 8.14.dev 8.13.2 8.12.2 8.11.2 8.10.2 8.9.1 8.8.2 8.7.2 8.6.1 8.5.3 8.4.6
