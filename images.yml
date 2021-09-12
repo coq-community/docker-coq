@@ -32,6 +32,7 @@ images:
         COQ_COMMIT: '{defaults[commit]}'
         VCS_REF: '{defaults[commit][0:7]}'
         COQ_EXTRA_OPAM: 'coq-bignums'
+        # Note: coq-serapi is not kept compatible with coq.dev for now
       tags:
         # default tag (dev)
         - tag: '{matrix[coq]}'
@@ -64,6 +65,8 @@ images:
         COQ_COMMIT: '{defaults[commit]}'
         VCS_REF: '{defaults[commit][0:7]}'
         COQ_EXTRA_OPAM: 'coq-bignums'
+        COQ_INSTALL_SERAPI: ''
+        # as coq-serapi is not kept compatible with coq.dev for now
       tags:
         # default tag (dev)
         - tag: '{matrix[coq]}'
@@ -90,6 +93,8 @@ images:
         COQ_COMMIT: '{defaults[commit]}'
         VCS_REF: '{defaults[commit][0:7]}'
         COQ_EXTRA_OPAM: 'coq-native coq-bignums'
+        COQ_INSTALL_SERAPI: ''
+        # as coq-serapi is not kept compatible with coq.dev for now
       tags:
         # full tag
         - tag: '{matrix[coq]}-native-ocaml-{matrix[base]}'
@@ -97,6 +102,7 @@ images:
         - tag: '{matrix[coq]}-native-ocaml-{matrix[base][%.*]}'
           if: '{matrix[base]} != 4.05.0'
   # TODO: Uncomment when the v8.14 branch is created
+  ## coqorg/coq:8.14-alpha
   # - matrix:
   #     default: ['4.07.1-flambda']
   #     base: ['4.05.0', '4.07.1-flambda', '4.09.1-flambda']
@@ -125,6 +131,8 @@ images:
   #       VCS_REF: '{defaults[commit][0:7]}'
   #       # VCS_REF: 'V{matrix[coq][//-/+]}'
   #       COQ_EXTRA_OPAM: 'coq-native coq-bignums'
+  #       COQ_INSTALL_SERAPI: '{matrix[base][//4.05.0/]}'
+  #       # as coq-serapi does not support ocaml 4.05.0
   #     tags:
   #       # default tag (dev)
   #       - tag: '{matrix[coq]}'
@@ -153,6 +161,7 @@ images:
         COQ_VERSION: '{matrix[coq]}'
         VCS_REF: 'V{matrix[coq]}'
         COQ_EXTRA_OPAM: 'coq-bignums'
+        # with coq-serapi in switch ${COMPILER_EDGE}
       tags:
         # TODO: Update
         # latest tag
@@ -183,6 +192,8 @@ images:
         COQ_VERSION: '{matrix[coq]}'
         VCS_REF: 'V{matrix[coq]}'
         COQ_EXTRA_OPAM: 'coq-bignums'
+        COQ_INSTALL_SERAPI: '{matrix[base][//4.05.0/]}'
+        # as coq-serapi does not support ocaml 4.05.0
       tags:
         # default tag (8.13.2)
         - tag: '{matrix[coq]}'
@@ -221,6 +232,8 @@ images:
         COQ_VERSION: '{matrix[coq]}'
         VCS_REF: 'V{matrix[coq]}'
         COQ_EXTRA_OPAM: 'coq-native coq-bignums'
+        COQ_INSTALL_SERAPI: 'true'
+        # (or any nonempty string) as coq-serapi supports ocaml 4.07.1
       tags:
         # full tag
         - tag: '{matrix[coq]}-native-ocaml-{matrix[base]}'
@@ -243,6 +256,7 @@ images:
         COQ_VERSION: '{matrix[coq]}'
         VCS_REF: 'V{matrix[coq]}'
         COQ_EXTRA_OPAM: 'coq-native coq-bignums'
+        # with coq-serapi in switch ${COMPILER_EDGE}
       tags:
         # latest tag
         # - tag: 'latest'
@@ -271,6 +285,8 @@ images:
         COQ_VERSION: '{matrix[coq]}'
         VCS_REF: 'V{matrix[coq]}'
         COQ_EXTRA_OPAM: 'coq-native coq-bignums'
+        COQ_INSTALL_SERAPI: '{matrix[base][//4.05.0/]}'
+        # as coq-serapi does not support ocaml 4.05.0
       tags:
         # latest tag
         # - tag: 'latest'
@@ -301,7 +317,7 @@ images:
         # abbreviated tag (*-ocaml-4.07-flambda)
         - tag: '{matrix[coq][%.*]}-ocaml-{matrix[base][%.*-*]}-flambda'
           if: '{matrix[base]} != 4.05.0'
-  ## coqorg/coq:8.x.y-ocaml-* (bis)
+  ## coqorg/coq:8.x.y-ocaml-* (bis, other ocaml versions)
   - matrix:
       default: ['latest']
     # default: ['4.07.1-flambda']
@@ -315,6 +331,8 @@ images:
         COQ_VERSION: '{matrix[coq]}'
         VCS_REF: 'V{matrix[coq]}'
         COQ_EXTRA_OPAM: 'coq-native coq-bignums'
+        COQ_INSTALL_SERAPI: '{matrix[base][//4.05.0/]}'
+        # as coq-serapi does not support ocaml 4.05.0
       tags:
         # default tag (8.10.2)
         - tag: '{matrix[coq]}'

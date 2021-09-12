@@ -15,7 +15,8 @@ RUN set -x \
   && eval $(opam env "--switch=${COMPILER_EDGE}" --set-switch) \
   && opam update -y -u \
   && opam pin add -n -k version coq ${COQ_VERSION} \
-  && opam install -y -v -j "${NJOBS}" coq ${COQ_EXTRA_OPAM} \
+  && opam install -y -v -j "${NJOBS}" coq ${COQ_EXTRA_OPAM} coq-serapi \
+  # as coq-serapi supports ocaml 4.07.1
   && opam clean -a -c -s --logs \
   && opam config list && opam list
 
