@@ -4,6 +4,10 @@ FROM coqorg/base:${BASE_TAG}
 ARG COQ_EXTRA_OPAM="coq-bignums"
 ENV COQ_EXTRA_OPAM="${COQ_EXTRA_OPAM}"
 
+# The following variable should be empty for ocaml < 4.06 or coq < 8.7
+ARG COQ_INSTALL_SERAPI
+# TODO Use ${COQ_INSTALL_SERAPI:+coq-serapi} if coq-serapi is in extra-dev
+
 ARG COQ_VERSION="dev"
 ENV COQ_VERSION=${COQ_VERSION}
 

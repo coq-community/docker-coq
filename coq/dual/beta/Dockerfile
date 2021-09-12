@@ -4,6 +4,8 @@ FROM coqorg/base:${BASE_TAG}
 ARG COQ_EXTRA_OPAM="coq-bignums"
 ENV COQ_EXTRA_OPAM="${COQ_EXTRA_OPAM}"
 
+# TODO Install coq-serapi in ${COMPILER_EDGE} if coq-serapi is in extra-dev
+
 ARG COQ_VERSION="dev"
 ENV COQ_VERSION=${COQ_VERSION}
 
