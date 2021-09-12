@@ -4,6 +4,9 @@ FROM coqorg/base:${BASE_TAG}
 ARG COQ_EXTRA_OPAM="coq-bignums"
 ENV COQ_EXTRA_OPAM="${COQ_EXTRA_OPAM}"
 
+# The following variable should be empty for coq <= 8.7
+ARG COQ_INSTALL_SERAPI
+
 ARG COQ_VERSION="dev"
 ENV COQ_VERSION=${COQ_VERSION}
 
@@ -15,7 +18,7 @@ RUN set -x \
   && eval $(opam env "--switch=${COMPILER_EDGE}" --set-switch) \
   && opam update -y -u \
   && opam pin add -n -k version coq ${COQ_VERSION} \
-  && opam install -y -v -j "${NJOBS}" coq ${COQ_EXTRA_OPAM} coq-serapi \
+  && opam install -y -v -j "${NJOBS}" coq ${COQ_EXTRA_OPAM} ${COQ_INSTALL_SERAPI:+coq-serapi} \
   # as coq-serapi supports ocaml 4.07.1
   && opam clean -a -c -s --logs \
   && opam config list && opam list
