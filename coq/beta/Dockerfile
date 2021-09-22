@@ -6,7 +6,6 @@ ENV COQ_EXTRA_OPAM="${COQ_EXTRA_OPAM}"
 
 # The following variable should be empty for ocaml < 4.06 or coq <= 8.7
 ARG COQ_INSTALL_SERAPI
-# TODO Use ${COQ_INSTALL_SERAPI:+coq-serapi} if coq-serapi is in extra-dev
 
 ARG COQ_VERSION="dev"
 ENV COQ_VERSION=${COQ_VERSION}
@@ -21,7 +20,7 @@ RUN set -x \
   && opam repository add --all-switches --set-default coq-core-dev https://coq.inria.fr/opam/core-dev \
   && opam update -y -u \
   && opam pin add -n -k version coq ${COQ_VERSION} \
-  && opam install -y -v -j "${NJOBS}" coq ${COQ_EXTRA_OPAM} \
+  && opam install -y -v -j "${NJOBS}" coq ${COQ_EXTRA_OPAM} ${COQ_INSTALL_SERAPI:+coq-serapi} \
   && opam clean -a -c -s --logs \
   && opam config list && opam list
 
