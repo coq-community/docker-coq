@@ -99,6 +99,14 @@ def check_list(value, text=None):
               % text)
 
 
+def check_dict(value, text=None):
+    if not isinstance(value, dict):
+        if not text:
+            text = str(value)
+        error("Error: not (JSON) dict\nText: %s"
+              % text)
+
+
 def eval_bashlike(template, matrix, defaults=None):
     b = BashLike()
     return b.format(template, matrix=matrix, defaults=defaults)
@@ -285,10 +293,19 @@ def get_list_dict_dockerfile_matrix_tags_args(json):
             #   after_deploy:
             #     - run: 'code'
             #       if: '{matrix[base]} == 4.07.1-flambda'
+            # and regarding interpolation, we can add:
+            #   after_deploy_export:
+            #     variable_name: 'value-{matrix[coq]}'
+            # to prepend the after_deploy_script with export commands
             if isinstance(raw_after_deploy, str):
                 raw_after_deploy = [raw_after_deploy]
         else:
             raw_after_deploy = []
+        if 'after_deploy_export' in item['build']:
+            raw_after_deploy_export = item['build']['after_deploy_export']
+            check_dict(raw_after_deploy_export)
+        else:
+            raw_after_deploy_export = {}
         for matrix in list_matrix:
             tags = []
             for tag_item in raw_tags:
@@ -308,7 +325,21 @@ def get_list_dict_dockerfile_matrix_tags_args(json):
                 args[arg_key] = eval_bashlike(arg_template, matrix, defaults)
             keywords = list(map(lambda k: eval_bashlike(k, matrix, defaults),
                                 raw_keywords))
-            after_deploy_script = []
+
+            after_deploy_export = []
+            # Note: This could be a map:
+            for var in raw_after_deploy_export:
+                check_string(var)
+                var_template = raw_after_deploy_export[var]
+                var_value = eval_bashlike(var_template, matrix, defaults)
+                # TODO soon: think about quoting var_value
+                after_deploy_export.append("export %s='%s'" % (var, var_value))
+
+            if raw_after_deploy:
+                after_deploy_script = after_deploy_export
+            else:
+                after_deploy_script = []
+
             for ad_item in raw_after_deploy:
                 if isinstance(ad_item, str):
                     after_deploy_script.append(ad_item)  # no { } interpolation
