@@ -92,9 +92,11 @@ class BashLike(Formatter):
 
 class Dummy():
     _val = None
+    pub = None
 
-    def __init__(self, val):
+    def __init__(self, val, pub):
         self._val = val
+        self.pub = pub
 
 
 def test_reverse():
@@ -113,6 +115,7 @@ def test_BashLike():
     assert b.format('{s[%.*]}', s='8.10.0') == '8.10'
     assert b.format('{s[%%.*]}', s='8.10.0') == '8'
     assert b.format('{s[%???]}', s='3.14159') == '3.14'
-    assert b.format('{obj._val}', obj=Dummy(4)) == ''
+    assert b.format('{obj.pub}', obj=Dummy(4, 12)) == '12'
+    assert b.format('{obj._val}', obj=Dummy(4, 12)) == ''
     assert b.format('V{matrix[coq][//-/+]}', matrix={'coq': '8.12-alpha'}) == \
         'V8.12+alpha'
