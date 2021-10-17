@@ -145,128 +145,18 @@ images:
   #       # abbreviated tag (*-ocaml-4.07-flambda)
   #       - tag: '{matrix[coq]}-ocaml-{matrix[base][%.*-*]}-flambda'
   #         if: '{matrix[base]} != 4.05.0'
-  # BEGIN TODO REMOVE
-  ## coqorg/coq:8.14
-  - matrix:
-      default: ['latest']
-      base: ['latest']
-      coq: ['8.14-rc1']
-      # TODO: Update when 8.14.0 is released
-      coq_latest: ['8.13.2']
-    build:
-      keywords:
-        - '8.14'
-      context: './coq'
-      # TODO: Update when 8.14.0 is released
-      dockerfile: './dual/beta/Dockerfile'
-      args:
-        BASE_TAG: '{matrix[base]}'
-        # TODO: Update
-        COQ_VERSION: '{matrix[coq][//-/+]}'
-        # TODO: Update
-        VCS_REF: 'V{matrix[coq][//-/+]}'
-        COQ_EXTRA_OPAM: 'coq-bignums'
-        COQ_INSTALL_SERAPI: 'true'
-        # (or any nonempty string) (for switch ${COMPILER_EDGE})
-      tags:
-        # TODO: Uncomment
-        # latest tag
-        - tag: 'latest'
-          if:
-            - '{matrix[coq]} == {matrix[coq_latest]}'
-            - '{matrix[base]} == {matrix[default]}'
-        # default tag (8.14-rc1)
-        - tag: '{matrix[coq]}'
-          if: '{matrix[base]} == {matrix[default]}'
-        # abbreviated tag (8.14)
-          # TODO: Update when 8.14.0 is released (%-* -> %.*)
-        - tag: '{matrix[coq][%-*]}'
-          if: '{matrix[base]} == {matrix[default]}'
-  # END TODO REMOVE
-  ## coqorg/coq:8.14-ocaml-*
-  - matrix:
-      default: ['latest']
-    # default: ['4.07.1-flambda']
-      base: ['4.05.0', '4.07.1-flambda', '4.11.2-flambda', '4.12.0-flambda']
-      # TODO: Update when appropriate
-      coq: ['8.14-rc1']
-      # TODO: Update when 8.14.0 is released
-      coq_latest: ['8.13.2']
-    build: &build_coq_814
-      keywords:
-        - '8.14'
-      context: './coq'
-      dockerfile: './beta/Dockerfile'
-      args:
-        BASE_TAG: '{matrix[base]}'
-        # TODO: Update when 8.14.0 is released
-        COQ_VERSION: '{matrix[coq][//-/+]}'
-        # TODO: Update when 8.14.0 is released
-        VCS_REF: 'V{matrix[coq][//-/+]}'
-        COQ_EXTRA_OPAM: 'coq-bignums'
-        COQ_INSTALL_SERAPI: '{matrix[base][//4.05.0/]}'
-        # as coq-serapi does not support ocaml 4.05.0
-      tags:
-        # default tag (8.14-rc1)
-        - tag: '{matrix[coq]}'
-          if: '{matrix[base]} == {matrix[default]}'
-        # abbreviated tag (8.14)
-          # TODO: Update when 8.14.0 is released (%-* -> %.*)
-        - tag: '{matrix[coq][%-*]}'
-          if: '{matrix[base]} == {matrix[default]}'
-        # latest-abbreviated tag (*-ocaml-4.05)
-        - tag: 'latest-ocaml-{matrix[base][%.*]}'
-          if:
-            - '{matrix[coq]} == {matrix[coq_latest]}'
-            - '{matrix[base]} == 4.05.0'
-        # latest-abbreviated tag (*-ocaml-4.07-flambda)
-        - tag: 'latest-ocaml-{matrix[base][%.*-*]}-flambda'
-          if:
-            - '{matrix[coq]} == {matrix[coq_latest]}'
-            - '{matrix[base]} != 4.05.0'
-        # full tag
-        - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
-        # abbreviated tag (*-ocaml-4.05)
-          # TODO: Update when 8.14.0 is released (%-* -> %.*)
-        - tag: '{matrix[coq][%-*]}-ocaml-{matrix[base][%.*]}'
-          if: '{matrix[base]} == 4.05.0'
-        # abbreviated tag (*-ocaml-4.07-flambda)
-          # TODO: Update when 8.14.0 is released (%-* -> %.*)
-        - tag: '{matrix[coq][%-*]}-ocaml-{matrix[base][%.*-*]}-flambda'
-          if: '{matrix[base]} != 4.05.0'
-  ## coqorg/coq:8.14-native-ocaml-*
-  - matrix:
-      default: ['latest']
-    # default: ['4.07.1']
-      base: ['4.07.1']
-      coq: ['8.14-rc1']
-    build:
-      <<: *build_coq_814
-      args:
-        BASE_TAG: '{matrix[base]}'
-        # TODO: Update when 8.14.0 is released
-        COQ_VERSION: '{matrix[coq][//-/+]}'
-        # TODO: Update when 8.14.0 is released
-        VCS_REF: 'V{matrix[coq][//-/+]}'
-        COQ_EXTRA_OPAM: 'coq-native coq-bignums'
-        COQ_INSTALL_SERAPI: 'true'
-        # (or any nonempty string) as coq-serapi supports ocaml 4.07.1
-      tags:
-        # full tag
-        - tag: '{matrix[coq]}-native-ocaml-{matrix[base]}'
-        # abbreviated tag (*-ocaml-4.07-flambda)
-          # TODO: Update when 8.14.0 is released (%-* -> %.*)
-        - tag: '{matrix[coq][%-*]}-native-ocaml-{matrix[base][%.*]}'
-          if: '{matrix[base]} != 4.05.0'
-        # TODO: latest-native-ocaml-4.07
   ## coqorg/coq:latest
+  ## coqorg/coq:8.13.2 <= 8.x.y < 8.z+rc1
+  # BEGIN TODO REMOVE
   - matrix:
       default: ['latest']
       base: ['latest']
-      coq: ['8.13.2']
+      # TODO: Update when appropriate
+      coq: ['8.14.0', '8.13.2']
+      coq_latest: ['8.14.0']
     build:
       keywords:
-        - '8.13'
+        - '{matrix[coq]}'
       context: './coq'
       dockerfile: './dual/stable/Dockerfile'
       args:
@@ -277,29 +167,29 @@ images:
         COQ_INSTALL_SERAPI: 'true'
         # (or any nonempty string) (for switch ${COMPILER_EDGE})
       tags:
-        # TODO: Update
         # latest tag
         - tag: 'latest'
-          if: '{matrix[base]} == {matrix[default]}'
-        # default tag (8.13.2)
+          if:
+            - '{matrix[coq]} == {matrix[coq_latest]}'
+            - '{matrix[base]} == {matrix[default]}'
+        # default tag (8.14.0)
         - tag: '{matrix[coq]}'
           if: '{matrix[base]} == {matrix[default]}'
-        # abbreviated tag (8.13)
+        # abbreviated tag (8.14)
         - tag: '{matrix[coq][%.*]}'
           if: '{matrix[base]} == {matrix[default]}'
   # END TODO REMOVE
-  ## coqorg/coq:latest-ocaml-*
+  ## coqorg/coq:8.13-ocaml-*
   - matrix:
       default: ['latest']
     # default: ['4.07.1-flambda']
       base: ['4.05.0', '4.07.1-flambda', '4.11.2-flambda', '4.12.0-flambda']
       # TODO: Update when appropriate
-      coq: ['8.13.2']
-      # TODO: Update when 8.14.0 is released
-      coq_latest: ['8.13.2']
+      coq: ['8.14.0', '8.13.2']
+      coq_latest: ['8.14.0']
     build: &build_coq_813
       keywords:
-        - '8.13'
+        - '{matrix[coq]}'
       context: './coq'
       dockerfile: './stable/Dockerfile'
       args:
@@ -310,10 +200,10 @@ images:
         COQ_INSTALL_SERAPI: '{matrix[base][//4.05.0/]}'
         # as coq-serapi does not support ocaml 4.05.0
       tags:
-        # default tag (8.13.2)
+        # default tag (8.14.0)
         - tag: '{matrix[coq]}'
           if: '{matrix[base]} == {matrix[default]}'
-        # abbreviated tag (8.13)
+        # abbreviated tag (8.14)
         - tag: '{matrix[coq][%.*]}'
           if: '{matrix[base]} == {matrix[default]}'
         # latest-abbreviated tag (*-ocaml-4.05)
@@ -339,7 +229,9 @@ images:
       default: ['latest']
     # default: ['4.07.1']
       base: ['4.07.1']
-      coq: ['8.13.2']
+      # TODO: Update when appropriate
+      coq: ['8.14.0', '8.13.2']
+      coq_latest: ['8.14.0']
     build:
       <<: *build_coq_813
       args:
@@ -362,8 +254,7 @@ images:
       default: ['latest']
       base: ['latest']
       coq: ['8.12.2', '8.11.2', '8.10.2', '8.9.1', '8.8.2', '8.7.2']
-      # TODO: Update when 8.14.0 is released
-      coq_latest: ['8.13.2']
+      coq_latest: ['8.14.0']
     build:
       context: './coq'
       dockerfile: './dual/stable/Dockerfile'
@@ -393,8 +284,7 @@ images:
     # default: ['4.07.1-flambda']
       base: ['4.05.0', '4.07.1-flambda', '4.10.2-flambda', '4.11.2-flambda']
       coq: ['8.12.2', '8.11.2']
-      # TODO: Update when 8.14.0 is released
-      coq_latest: ['8.13.2']
+      coq_latest: ['8.14.0']
     build:
       context: './coq'
       dockerfile: './stable/Dockerfile'
