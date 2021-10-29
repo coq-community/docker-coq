@@ -156,7 +156,7 @@ images:
       coq_latest: ['8.14.0']
     build:
       keywords:
-        - '{matrix[coq]}'
+        - '{matrix[coq][%.*]}'
       context: './coq'
       dockerfile: './dual/stable/Dockerfile'
       args:
@@ -189,7 +189,7 @@ images:
       coq_latest: ['8.14.0']
     build: &build_coq_813
       keywords:
-        - '{matrix[coq]}'
+        - '{matrix[coq][%.*]}'
       context: './coq'
       dockerfile: './stable/Dockerfile'
       args:
@@ -256,6 +256,8 @@ images:
       coq: ['8.12.2', '8.11.2', '8.10.2', '8.9.1', '8.8.2', '8.7.2']
       coq_latest: ['8.14.0']
     build:
+      keywords:
+        - '{matrix[coq][%.*]}'
       context: './coq'
       dockerfile: './dual/stable/Dockerfile'
       args:
@@ -286,6 +288,8 @@ images:
       coq: ['8.12.2', '8.11.2']
       coq_latest: ['8.14.0']
     build:
+      keywords:
+        - '{matrix[coq][%.*]}'
       context: './coq'
       dockerfile: './stable/Dockerfile'
       args:
@@ -332,6 +336,8 @@ images:
       base: ['4.05.0', '4.07.1-flambda', '4.08.1-flambda', '4.09.1-flambda']
       coq: ['8.10.2', '8.9.1', '8.8.2']
     build: &build_coq_oldstable
+      keywords:
+        - '{matrix[coq][%.*]}'
       context: './coq'
       dockerfile: './stable/Dockerfile'
       args:
@@ -376,6 +382,8 @@ images:
       base: ['4.02.3']
       coq: ['8.6.1']
     build:
+      keywords:
+        - '{matrix[coq][%.*]}'
       context: './coq'
       dockerfile: './stable/Dockerfile'
       args:
@@ -393,6 +401,8 @@ images:
       base: ['4.02.3']
       coq: ['8.5pl3']
     build:
+      keywords:
+        - '{matrix[coq][%pl*]}'
       context: './coq'
       dockerfile: './stable/Dockerfile'
       args:
@@ -409,6 +419,8 @@ images:
       base: ['4.02.3']
       coq: ['8.4pl6']
     build:
+      keywords:
+        - '{matrix[coq][%pl*]}'
       context: './coq'
       dockerfile: './stable/Dockerfile'
       args:
