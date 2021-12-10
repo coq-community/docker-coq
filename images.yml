@@ -152,8 +152,8 @@ images:
       default: ['latest']
       base: ['latest']
       # TODO: Update when appropriate
-      coq: ['8.14.0', '8.13.2']
-      coq_latest: ['8.14.0']
+      coq: ['8.14.1', '8.13.2']
+      coq_latest: ['8.14.1']
     build:
       keywords:
         - '{matrix[coq][%.*]}'
@@ -172,7 +172,7 @@ images:
           if:
             - '{matrix[coq]} == {matrix[coq_latest]}'
             - '{matrix[base]} == {matrix[default]}'
-        # default tag (8.14.0)
+        # default tag (8.14.1)
         - tag: '{matrix[coq]}'
           if: '{matrix[base]} == {matrix[default]}'
         # abbreviated tag (8.14)
@@ -185,8 +185,8 @@ images:
     # default: ['4.07.1-flambda']
       base: ['4.05.0', '4.07.1-flambda', '4.11.2-flambda', '4.12.0-flambda']
       # TODO: Update when appropriate
-      coq: ['8.14.0', '8.13.2']
-      coq_latest: ['8.14.0']
+      coq: ['8.14.1', '8.13.2']
+      coq_latest: ['8.14.1']
     build: &build_coq_813
       keywords:
         - '{matrix[coq][%.*]}'
@@ -200,7 +200,7 @@ images:
         COQ_INSTALL_SERAPI: '{matrix[base][//4.05.0/]}'
         # as coq-serapi does not support ocaml 4.05.0
       tags:
-        # default tag (8.14.0)
+        # default tag (8.14.1)
         - tag: '{matrix[coq]}'
           if: '{matrix[base]} == {matrix[default]}'
         # abbreviated tag (8.14)
@@ -230,8 +230,8 @@ images:
     # default: ['4.07.1']
       base: ['4.07.1']
       # TODO: Update when appropriate
-      coq: ['8.14.0', '8.13.2']
-      coq_latest: ['8.14.0']
+      coq: ['8.14.1', '8.13.2']
+      coq_latest: ['8.14.1']
     build:
       <<: *build_coq_813
       args:
@@ -254,7 +254,7 @@ images:
       default: ['latest']
       base: ['latest']
       coq: ['8.12.2', '8.11.2', '8.10.2', '8.9.1', '8.8.2', '8.7.2']
-      coq_latest: ['8.14.0']
+      coq_latest: ['8.14.1']
     build:
       keywords:
         - '{matrix[coq][%.*]}'
@@ -286,7 +286,7 @@ images:
     # default: ['4.07.1-flambda']
       base: ['4.05.0', '4.07.1-flambda', '4.10.2-flambda', '4.11.2-flambda']
       coq: ['8.12.2', '8.11.2']
-      coq_latest: ['8.14.0']
+      coq_latest: ['8.14.1']
     build:
       keywords:
         - '{matrix[coq][%.*]}'
