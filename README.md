@@ -14,8 +14,8 @@ These images are based on [this parent image](https://hub.docker.com/r/coqorg/ba
 
 |   | GitHub repo                                                             | Type          | Docker Hub                                             |
 |---|-------------------------------------------------------------------------|---------------|--------------------------------------------------------|
-|   | [docker-coq-action](https://github.com/coq-community/docker-coq-action) | GitHub action | N/A                                                    |
-| x | [docker-coq](https://github.com/coq-community/docker-coq)               | Dockerfile    | [`coqorg/coq`](https://hub.docker.com/r/coqorg/coq/)   |
+|   | [docker-coq-action](https://github.com/coq-community/docker-coq-action) | GitHub Action | N/A                                                    |
+| ⊙ | [docker-coq](https://github.com/coq-community/docker-coq)               | Dockerfile    | [`coqorg/coq`](https://hub.docker.com/r/coqorg/coq/)   |
 | ↳ | [docker-base](https://github.com/coq-community/docker-base)             | Dockerfile    | [`coqorg/base`](https://hub.docker.com/r/coqorg/base/) |
 | ↳ | Debian                                                                  | Linux distro  | [`debian`](https://hub.docker.com/_/debian/)           |
 
