@@ -42,7 +42,7 @@ images:
   - matrix:
       default: ['latest']
     # default: ['4.07.1-flambda']
-      base: ['4.05.0', '4.07.1-flambda', '4.11.2-flambda', '4.12.0-flambda']
+      base: ['4.05.0', '4.07.1-flambda', '4.12.1-flambda', '4.13.1-flambda']
       coq: ['dev']
     build: &build_coq_dev
       keywords:
@@ -145,14 +145,14 @@ images:
   #       # abbreviated tag (*-ocaml-4.07-flambda)
   #       - tag: '{matrix[coq]}-ocaml-{matrix[base][%.*-*]}-flambda'
   #         if: '{matrix[base]} != 4.05.0'
-  # coqorg/coq:8.15.0
+  # coqorg/coq:8.15.1
   # BEGIN TODO REMOVE
   - matrix:
       default: ['latest']
       base: ['latest']
-      coq: ['8.15.0']
+      coq: ['8.15.1']
       # TODO: Update when appropriate
-      coq_latest: ['8.15.0']
+      coq_latest: ['8.15.1']
     build:
       keywords:
         - '{matrix[coq][%.*]}'
@@ -171,21 +171,21 @@ images:
           if:
             - '{matrix[coq]} == {matrix[coq_latest]}'
             - '{matrix[base]} == {matrix[default]}'
-        # default tag (8.15.0)
+        # default tag (8.15.1)
         - tag: '{matrix[coq]}'
           if: '{matrix[base]} == {matrix[default]}'
         # abbreviated tag (8.15)
         - tag: '{matrix[coq][%.*]}'
           if: '{matrix[base]} == {matrix[default]}'
   # END TODO REMOVE
-  # coqorg/coq:8.15.0-ocaml-*
+  # coqorg/coq:8.15.1-ocaml-*
   - matrix:
       default: ['latest']
       # default: ['4.07.1-flambda']
-      base: ['4.05.0', '4.07.1-flambda', '4.11.2-flambda', '4.12.0-flambda']
-      coq: ['8.15.0']
+      base: ['4.05.0', '4.07.1-flambda', '4.12.1-flambda', '4.13.1-flambda']
+      coq: ['8.15.1']
       # TODO: Update when appropriate
-      coq_latest: ['8.15.0']
+      coq_latest: ['8.15.1']
     build: &build_coq_815
       keywords:
         - '{matrix[coq][%.*]}'
@@ -199,7 +199,7 @@ images:
         COQ_INSTALL_SERAPI: '{matrix[base][//4.05.0/]}'
         # as coq-serapi does not support ocaml 4.05.0
       tags:
-        # default tag (8.15.0)
+        # default tag (8.15.1)
         - tag: '{matrix[coq]}'
           if: '{matrix[base]} == {matrix[default]}'
         # abbreviated tag (8.15)
@@ -227,9 +227,9 @@ images:
   - matrix:
       default: ['different']
       base: ['4.07.1']
-      coq: ['8.15.0']
+      coq: ['8.15.1']
       # TODO: Update when appropriate
-      coq_latest: ['8.15.0']
+      coq_latest: ['8.15.1']
     build:
       <<: *build_coq_815
       keywords:
@@ -256,7 +256,7 @@ images:
       base: ['latest']
       coq: ['8.14.1', '8.13.2']
       # TODO: Update when appropriate
-      coq_latest: ['8.15.0']
+      coq_latest: ['8.15.1']
     build:
       keywords:
         - '{matrix[coq][%.*]}'
@@ -286,10 +286,10 @@ images:
   - matrix:
       default: ['latest']
     # default: ['4.07.1-flambda']
-      base: ['4.05.0', '4.07.1-flambda', '4.11.2-flambda', '4.12.0-flambda']
+      base: ['4.05.0', '4.07.1-flambda', '4.12.1-flambda', '4.13.1-flambda']
       coq: ['8.14.1', '8.13.2']
       # TODO: Update when appropriate
-      coq_latest: ['8.15.0']
+      coq_latest: ['8.15.1']
     build: &build_coq_813
       keywords:
         - '{matrix[coq][%.*]}'
@@ -334,7 +334,7 @@ images:
       base: ['4.07.1']
       coq: ['8.14.1', '8.13.2']
       # TODO: Update when appropriate
-      coq_latest: ['8.15.0']
+      coq_latest: ['8.15.1']
     build:
       <<: *build_coq_813
       args:
@@ -358,7 +358,7 @@ images:
       base: ['latest']
       coq: ['8.12.2', '8.11.2', '8.10.2', '8.9.1', '8.8.2', '8.7.2']
       # TODO: Update when appropriate
-      coq_latest: ['8.15.0']
+      coq_latest: ['8.15.1']
     build:
       keywords:
         - '{matrix[coq][%.*]}'
@@ -391,7 +391,7 @@ images:
       base: ['4.05.0', '4.07.1-flambda', '4.10.2-flambda', '4.11.2-flambda']
       coq: ['8.12.2', '8.11.2']
       # TODO: Update when appropriate
-      coq_latest: ['8.15.0']
+      coq_latest: ['8.15.1']
     build:
       keywords:
         - '{matrix[coq][%.*]}'
