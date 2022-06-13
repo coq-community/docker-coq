@@ -58,6 +58,9 @@ images:
         COQ_INSTALL_SERAPI: ''
         # as coq-serapi is not kept compatible with coq.dev for now
       tags:
+        # default tag (dev-native)
+        - tag: '{matrix[coq]}-native'
+          if: '{matrix[base]} == {matrix[default]}'
         # full tag
         - tag: '{matrix[coq]}-native-ocaml-{matrix[base]}'
         # abbreviated tag (*-ocaml-4.13)
@@ -181,17 +184,23 @@ images:
           if:
             - '{matrix[coq]} == {matrix[coq_latest]}'
             - '{matrix[base]} == {matrix[default]}'
-        # latest, full tag
+        # latest-abbreviated tag (latest-native-ocaml-4.07.1)
         - tag: 'latest-native-ocaml-{matrix[base]}'
           if:
             - '{matrix[coq]} == {matrix[coq_latest]}'
-        # latest, abbreviated tag (*-ocaml-4.07)
+        # latest-abbreviated tag (latest-native-ocaml-4.07)
         - tag: 'latest-native-ocaml-{matrix[base][%.*]}'
           if:
             - '{matrix[coq]} == {matrix[coq_latest]}'
             - '{matrix[base]} != 4.05.0'
+        # default tag (8.13.2-native)
+        - tag: '{matrix[coq]}-native'
+          if: '{matrix[base]} == {matrix[default]}'
+        # abbreviated tag (8.13-native)
+        - tag: '{matrix[coq][%.*]}-native'
+          if: '{matrix[base]} == {matrix[default]}'
         # full tag
-        - tag: '{matrix[coq]}-native-ocaml-{matrix[base][%.*]}'
+        - tag: '{matrix[coq]}-native-ocaml-{matrix[base]}'
         # abbreviated tag (*-ocaml-4.07)
         - tag: '{matrix[coq][%.*]}-native-ocaml-{matrix[base][%.*]}'
           if: '{matrix[base]} != 4.05.0'
