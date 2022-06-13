@@ -6,7 +6,7 @@ ocamls() { opam switch list-available ocaml-base-compiler | grep -v -e '#' | cut
 
 pred_ocaml_for_coqs() {
     for v; do
-	printf "* Coq $v: "'`'
+	printf '%s' "* Coq $v: "'`'
 	printf '%s' "$(opam show "coq.$v" -f depends: | grep '"ocaml"')"
 	printf '`\n'
     done
@@ -20,41 +20,41 @@ list_ocaml_for_coqs() {
     # Note: we may post-process the output to merge "coq" items with same ocaml
     for v; do
 	local several='true'
-	printf "* Coq $v: "
+	printf '%s' "* Coq $v: "
 	if [ "$v" = "8.4.6" ] || [ "$v" = "8.5.3" ] || [ "$v" = "8.6.1" ]; then
 	    minimal="4.02.3"
 	    default="4.02.3"
 	    several='false'
 	else
 	    versions=$(opam search ocaml-base-compiler --no-switch --columns=version -V --coinstallable-with="coq.$v" | grep -v -e '#' -e 'alpha' -e 'beta' -e 'rc')
-	    if [[ "$versions" =~ "4.05.0" ]]; then
+	    if [[ "$versions" =~ 4\.05\.0 ]]; then
 		minimal="4.05.0"
 	    else
 		minimal="$(head -n 1 <<<"$versions")-flambda"
 	    fi
             # BEGIN SWAP THIS LATER ON IF NEED BE
-            if [[ "$versions" =~ "4.07.1" ]]; then
+            if [[ "$versions" =~ 4\.07\.1 ]]; then
 		default="4.07.1-flambda"
-	    elif [[ "$versions" =~ "4.13.1" ]]; then
+	    elif [[ "$versions" =~ 4\.13\.1 ]]; then
 		default="4.13.1-flambda"  # like Coq Platform
             # END SWAP THIS LATER ON IF NEED BE
 	    else
 		default="$minimal"
 	    fi
 	fi
-	[ "$render" = 'true' ] && printf "\n${indent}default: ['"
+	[ "$render" = 'true' ] && printf '\n%s' "${indent}default: ['"
 	if [ "$render" = 'true' ]; then
-	    printf "$default"
+	    printf '%s' "$default"
 	else
-	    printf "$minimal"
+	    printf '%s' "$minimal"
 	fi
 	[ "$render" = 'true' ] && printf "']\n"
-	[ "$render" = 'true' ] && printf "${indent}base: ['$minimal'"
+	[ "$render" = 'true' ] && printf '%s' "${indent}base: ['$minimal'"
 	if [ "$several" = 'true' ]; then
 	    minor2=$(cut -d '.' -f 1-2 <<<"$versions" | sort -u -V | tail -n 2)
 	    minor3=$(cut -d '.' -f 1-2 <<<"$versions" | sort -u -V | tail -n 3)
-	    last2=$(for v in $minor2; do grep -e "^${v//./\\.}.*\$" <<<"$versions" | tail -n 1; done)
-	    last3=$(for v in $minor3; do grep -e "^${v//./\\.}.*\$" <<<"$versions" | tail -n 1; done)
+	    last2=$(for vv in $minor2; do grep -e "^${vv//./\\.}.*\$" <<<"$versions" | tail -n 1; done)
+	    last3=$(for vv in $minor3; do grep -e "^${vv//./\\.}.*\$" <<<"$versions" | tail -n 1; done)
             dflt_regex="${default%-flambda}"
             dflt_regex="${dflt_regex//./\\.}"
             # Incomplete algorithm (to be refined):
@@ -85,7 +85,7 @@ list_ocaml_for_coqs() {
         fi
 	[ "$render" = 'true' ] && printf "]"
 	printf "\n"
-	[ "$render" = 'true' ] && printf "${indent}coq: ['${v}']\n"
+	[ "$render" = 'true' ] && printf '%s\n ' "${indent}coq: ['${v}']"
     done
 }
 
