@@ -69,5 +69,8 @@ list_ocaml_for_coqs() {
     done
 }
 
-# pred_ocaml_for_coqs 8.4.6 8.5.3 8.6.1 8.7.2 8.8.2 8.9.1 8.10.2 8.11.2 8.12.2 8.13.2 8.14.1 8.15.dev
-# list_ocaml_for_coqs 8.15.dev 8.14.1 8.13.2 8.12.2 8.11.2 8.10.2 8.9.1 8.8.2 8.7.2 8.6.1 8.5.3 8.4.6
+# opam repo add --all-switches --set-default coq-core-dev https://coq.inria.fr/opam/core-dev
+# opam update
+# opam show coq
+# pred_ocaml_for_coqs 8.4.6 8.5.3 8.6.1 8.7.2 8.8.2 8.9.1 8.10.2 8.11.2 8.12.2 8.13.2 8.14.1 8.15.2 dev
+# list_ocaml_for_coqs dev 8.15.2 8.14.1 8.13.2 8.12.2 8.11.2 8.10.2 8.9.1 8.8.2 8.7.2 8.6.1 8.5.3 8.4.6
