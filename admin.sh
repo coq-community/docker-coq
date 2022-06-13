@@ -49,10 +49,10 @@ list_ocaml_for_coqs() {
 	    printf '%s' "$minimal"
 	fi
 	[ "$render" = 'true' ] && printf "']\n"
-	[ "$render" = 'true' ] && printf '%s' "${indent}base: ['$minimal'"
+	[ "$render" = 'true' ] && printf '%s' "${indent}base: ["
 	if [ "$several" = 'true' ]; then
-	    minor2=$(cut -d '.' -f 1-2 <<<"$versions" | sort -u -V | tail -n 2)
-	    minor3=$(cut -d '.' -f 1-2 <<<"$versions" | sort -u -V | tail -n 3)
+	    minor2=$(cut -d '.' -f 1-2 <<<"$versions" | sort -u -V | tail -n 2 | tac)
+	    minor3=$(cut -d '.' -f 1-2 <<<"$versions" | sort -u -V | tail -n 3 | tac)
 	    last2=$(for vv in $minor2; do grep -e "^${vv//./\\.}.*\$" <<<"$versions" | tail -n 1; done)
 	    last3=$(for vv in $minor3; do grep -e "^${vv//./\\.}.*\$" <<<"$versions" | tail -n 1; done)
             dflt_regex="${default%-flambda}"
@@ -67,23 +67,23 @@ list_ocaml_for_coqs() {
                       fi)
             if [ "$render" = 'true' ]; then
                 if [ "$already" = 'true' ]; then
-                    printf '%s' "$last3" | xargs printf ", '%s-flambda'"
+                    printf '%s' "$last3" | xargs printf "'%s-flambda', "
                     # SHOULD check that default notin last3
                 else
-                    printf '%s' "$default" | xargs printf ", '%s'"
-                    printf '%s' "$last2" | xargs printf ", '%s-flambda'"
+                    printf '%s' "$last2" | xargs printf "'%s-flambda', "
+                    printf '%s' "$default" | xargs printf "'%s', "
                     # SHOULD check that default notin last2
                 fi
             else
                 if [ "$already" = 'true' ]; then
-                    printf '%s' "$last3" | xargs printf " %s-flambda"
+                    printf '%s' "$last3" | xargs printf "%s-flambda "
                 else
-                    printf '%s' "$default" | xargs printf " %s"
-                    printf '%s' "$last2" | xargs printf " %s-flambda"
+                    printf '%s' "$last2" | xargs printf "%s-flambda "
+                    printf '%s' "$default" | xargs printf "%s "
                 fi
 	    fi
         fi
-	[ "$render" = 'true' ] && printf "]"
+	[ "$render" = 'true' ] && printf '%s' "'$minimal']"
 	printf "\n"
 	[ "$render" = 'true' ] && printf '%s\n ' "${indent}coq: ['${v}']"
     done
