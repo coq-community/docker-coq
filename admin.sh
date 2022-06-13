@@ -30,10 +30,14 @@ list_ocaml_for_coqs() {
 	    if [[ "$versions" =~ "4.05.0" ]]; then
 		minimal="4.05.0"
 	    else
-		minimal=$(head -n 1 <<<"$versions")
+		minimal="$(head -n 1 <<<"$versions")-flambda"
 	    fi
-	    if [[ "$versions" =~ "4.07.1" ]]; then
+            # BEGIN SWAP THIS LATER ON IF NEED BE
+            if [[ "$versions" =~ "4.07.1" ]]; then
 		default="4.07.1-flambda"
+	    elif [[ "$versions" =~ "4.13.1" ]]; then
+		default="4.13.1-flambda"  # like Coq Platform
+            # END SWAP THIS LATER ON IF NEED BE
 	    else
 		default="$minimal"
 	    fi
@@ -47,22 +51,38 @@ list_ocaml_for_coqs() {
 	[ "$render" = 'true' ] && printf "']\n"
 	[ "$render" = 'true' ] && printf "${indent}base: ['$minimal'"
 	if [ "$several" = 'true' ]; then
-	    if [[ "$versions" =~ "4.07.1" ]]; then
-		if [ "$render" = 'true' ]; then
-		    printf ", '4.07.1-flambda'"
-		else
-		    printf " 4.07.1-flambda"
-		fi
+	    minor2=$(cut -d '.' -f 1-2 <<<"$versions" | sort -u -V | tail -n 2)
+	    minor3=$(cut -d '.' -f 1-2 <<<"$versions" | sort -u -V | tail -n 3)
+	    last2=$(for v in $minor2; do grep -e "^${v//./\\.}.*\$" <<<"$versions" | tail -n 1; done)
+	    last3=$(for v in $minor3; do grep -e "^${v//./\\.}.*\$" <<<"$versions" | tail -n 1; done)
+            dflt_regex="${default%-flambda}"
+            dflt_regex="${dflt_regex//./\\.}"
+            # Incomplete algorithm (to be refined):
+            # we check that default is not in {minimal} \/ last3
+            already=$(if grep -q -e "^${dflt_regex}$" <<< "$minimal" || \
+                          grep -q -e "^${dflt_regex}$" <<< "$last3"; then
+                          echo true
+                      else
+                          echo false
+                      fi)
+            if [ "$render" = 'true' ]; then
+                if [ "$already" = 'true' ]; then
+                    printf '%s' "$last3" | xargs printf ", '%s-flambda'"
+                    # SHOULD check that default notin last3
+                else
+                    printf '%s' "$default" | xargs printf ", '%s'"
+                    printf '%s' "$last2" | xargs printf ", '%s-flambda'"
+                    # SHOULD check that default notin last2
+                fi
+            else
+                if [ "$already" = 'true' ]; then
+                    printf '%s' "$last3" | xargs printf " %s-flambda"
+                else
+                    printf '%s' "$default" | xargs printf " %s"
+                    printf '%s' "$last2" | xargs printf " %s-flambda"
+                fi
 	    fi
-	    minor=$(cut -d '.' -f 1-2 <<<"$versions" | sort -u -V | tail -n 2)
-	    lasttwo=$(for v in $minor; do grep -e "^${v//./\\.}.*\$" <<<"$versions" | tail -n 1; done)
-	    maybelasttwo=$(grep -v -e "^${minimal//./\\.}\$" -e '^4\.07$' <<<"$lasttwo")
-	    if [ "$render" = 'true' ]; then
-		printf '%s' "$maybelasttwo" | xargs printf ", '%s-flambda'"
-	    else
-		printf '%s' "$maybelasttwo" | xargs printf " %s-flambda"
-	    fi
-	fi
+        fi
 	[ "$render" = 'true' ] && printf "]"
 	printf "\n"
 	[ "$render" = 'true' ] && printf "${indent}coq: ['${v}']\n"
