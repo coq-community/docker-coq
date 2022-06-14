@@ -25,7 +25,7 @@ RUN set -x \
 
 # hadolint ignore=SC2046
 RUN set -x \
-  && eval $(opam env "-switch=${COMPILER}"--set-switch) \
+  && eval $(opam env "--switch=${COMPILER}"--set-switch) \
   && opam update -y -u \
   && opam pin add -n -y --lock-suffix=docker --locked -k git coq.${COQ_VERSION} "git+https://github.com/coq/coq#${COQ_COMMIT}" \
   && opam install -y -v -j "${NJOBS}" coq ${COQ_EXTRA_OPAM} \
