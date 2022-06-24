@@ -5,6 +5,64 @@ docker_repo: 'coqorg/coq'
 args:
   BUILD_DATE: '{defaults[build_date]}'
 images:
+  ## BEGIN SUT, PR https://github.com/coq/coq/pull/15560
+  ## coqorg/coq:newdev
+  ## coqorg/coq:newdev-ocaml-*
+  - matrix:
+      default: ['4.13.1-flambda']
+      base: ['4.14.0-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.0-flambda']
+      coq: ['dev']
+    build: &build_coq_newdev
+      keywords:
+        - 'newdev'
+      context: './coq'
+      dockerfile: './newdev/Dockerfile'
+      commit_api:
+        fetcher: 'github'
+        repo: 'ejgallego/coq'
+        branch: 'build+coq_dune'
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq]}'
+        COQ_COMMIT: '{defaults[commit]}'
+        VCS_REF: '{defaults[commit][0:7]}'
+        COQ_EXTRA_OPAM: 'coq-bignums'
+        COQ_INSTALL_SERAPI: ''
+        # as coq-serapi is not kept compatible with coq.dev for now
+      tags:
+        # default tag (dev)
+        - tag: 'new{matrix[coq]}'
+          if: '{matrix[base]} == {matrix[default]}'
+        # full tag
+        - tag: 'new{matrix[coq]}-ocaml-{matrix[base]}'
+        # abbreviated tag (*-ocaml-4.13-flambda)
+        - tag: 'new{matrix[coq]}-ocaml-{matrix[base][%.*-*]}-flambda'
+          if: '{matrix[base]} != 4.05.0'
+  ## coqorg/coq:newdev-native-ocaml-*
+  - matrix:
+      default: ['4.13.1']
+      base: ['4.13.1']
+      coq: ['dev']
+    build:
+      <<: *build_coq_newdev
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq]}'
+        COQ_COMMIT: '{defaults[commit]}'
+        VCS_REF: '{defaults[commit][0:7]}'
+        COQ_EXTRA_OPAM: 'coq-native coq-bignums'
+        COQ_INSTALL_SERAPI: ''
+        # as coq-serapi is not kept compatible with coq.dev for now
+      tags:
+        # default tag (dev-native)
+        - tag: 'new{matrix[coq]}-native'
+          if: '{matrix[base]} == {matrix[default]}'
+        # full tag
+        - tag: 'new{matrix[coq]}-native-ocaml-{matrix[base]}'
+        # abbreviated tag (*-ocaml-4.13)
+        - tag: 'new{matrix[coq]}-native-ocaml-{matrix[base][%.*]}'
+          if: '{matrix[base]} != 4.05.0'
+  # END SUT
   ## coqorg/coq:dev
   ## coqorg/coq:dev-ocaml-*
   - matrix:
