@@ -10,7 +10,7 @@
 
 This repository provides [Docker](https://www.docker.com/) images of the [Coq](https://github.com/coq/coq) proof assistant.
 
-These images are based on [this parent image](https://hub.docker.com/r/coqorg/base/), itself based on [Debian 10 Slim](https://hub.docker.com/_/debian/) and relying on [opam 2.0](https://opam.ocaml.org/doc/Manual.html):
+These images are based on [this parent image](https://hub.docker.com/r/coqorg/base/), itself based on [Debian 11 Slim](https://hub.docker.com/_/debian/) and relying on [opam 2.0](https://opam.ocaml.org/doc/Manual.html):
 
 |   | GitHub repo                                                             | Type          | Docker Hub                                             |
 |---|-------------------------------------------------------------------------|---------------|--------------------------------------------------------|
