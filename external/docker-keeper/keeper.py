@@ -403,10 +403,13 @@ def get_list_paginated(url, headers, params, lambda_list, max_per_sec=5):
         print("GET %s\n  # page: %d"
               % (url, page), file=sys.stderr, flush=True)
         response = requests.get(url, headers=headers, params=all_params)
-        if not response:
+        if response.status_code == 404:
+            j = []
+        elif not response:
             error("Error!\nCode: %d\nText: %s"
                   % (response.status_code, response.text))
-        j = lambda_list(response.json())
+        else:
+            j = lambda_list(response.json())
         check_list(j, text=response.text)
         if j:
             allj += j
