@@ -26,7 +26,7 @@ list_ocaml_for_coqs() {
 	    default="4.02.3"
 	    several='false'
 	else
-	    versions=$(opam search ocaml-base-compiler --no-switch --columns=version -V --coinstallable-with="coq.$v" | grep -v -e '#' -e 'alpha' -e 'beta' -e 'rc')
+	    versions=$(opam search ocaml-base-compiler --no-switch --columns=version -V --coinstallable-with="coq.$v" | grep -v -e '#' -e 'alpha' -e 'beta' -e 'rc' -e '4\.09\.0')
 	    if [[ "$versions" =~ 4\.05\.0 ]]; then
 		minimal="4.05.0"
 	    else
