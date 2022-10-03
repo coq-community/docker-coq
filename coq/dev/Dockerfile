@@ -20,8 +20,9 @@ RUN set -x \
   && opam update -y -u \
   && opam pin add -n -y -k git coq-core.${COQ_VERSION} "git+https://github.com/coq/coq#${COQ_COMMIT}" \
   && opam pin add -n -y -k git coq-stdlib.${COQ_VERSION} "git+https://github.com/coq/coq#${COQ_COMMIT}" \
+  && opam pin add -n -y -k git coqide-server.${COQ_VERSION} "git+https://github.com/coq/coq#${COQ_COMMIT}" \
   && opam pin add -n -y -k git coq.${COQ_VERSION} "git+https://github.com/coq/coq#${COQ_COMMIT}" \
-  && opam install -y -v -j "${NJOBS}" coq-core coq-stdlib coq ${COQ_EXTRA_OPAM} \
+  && opam install -y -v -j "${NJOBS}" coq-core coq-stdlib coqide-server coq ${COQ_EXTRA_OPAM} \
   && opam clean -a -c -s --logs \
   && opam config list && opam list
 
