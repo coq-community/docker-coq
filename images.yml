@@ -244,7 +244,7 @@ images:
   ## coqorg/coq:8.13-native-ocaml-4.07
   - matrix:
       default: ['4.07.1']
-      base: ['4.07.1']
+      base: ['4.07.1', '4.07.1-flambda']
       coq: ['8.15.2', '8.14.1', '8.13.2']
       # TODO: Update when appropriate
       coq_latest: ['8.16.0']
@@ -267,22 +267,38 @@ images:
         - tag: 'latest-native-ocaml-{matrix[base]}'
           if:
             - '{matrix[coq]} == {matrix[coq_latest]}'
+            - '{matrix[base]} == {matrix[default]}'
         # latest-abbreviated tag (latest-native-ocaml-4.07)
         - tag: 'latest-native-ocaml-{matrix[base][%.*]}'
           if:
             - '{matrix[coq]} == {matrix[coq_latest]}'
-            - '{matrix[base]} != 4.05.0'
+            - '{matrix[base]} == 4.07.1'
+        # latest-abbreviated tag (*-ocaml-4.07-flambda)
+        - tag: 'latest-native-ocaml-{matrix[base][%.*-*]}-flambda'
+          if:
+            - '{matrix[coq]} == {matrix[coq_latest]}'
+            - '{matrix[base]} != 4.07.1'
         # default tag (8.13.2-native)
         - tag: '{matrix[coq]}-native'
           if: '{matrix[base]} == {matrix[default]}'
         # abbreviated tag (8.13-native)
         - tag: '{matrix[coq][%.*]}-native'
           if: '{matrix[base]} == {matrix[default]}'
+        # default tag (8.13.2-native-flambda)
+        - tag: '{matrix[coq]}-native-flambda'
+          if: '{matrix[base]} == 4.07.1-flambda'
+        # abbreviated tag (8.13-native-flambda)
+        - tag: '{matrix[coq][%.*]}-native-flambda'
+          if: '{matrix[base]} == 4.07.1-flambda'
         # full tag
         - tag: '{matrix[coq]}-native-ocaml-{matrix[base]}'
         # abbreviated tag (*-ocaml-4.07)
         - tag: '{matrix[coq][%.*]}-native-ocaml-{matrix[base][%.*]}'
-          if: '{matrix[base]} != 4.05.0'
+          if: '{matrix[base]} == 4.07.1'
+        # abbreviated tag (*-ocaml-4.07-flambda)
+        - tag: '{matrix[coq][%.*]}-native-ocaml-{matrix[base][%.*-*]}-flambda'
+          if: '{matrix[base]} != 4.07.1'
+
   ## coqorg/coq:8.x < 8.13
   ## coqorg/coq:8.x-ocaml-*
   - matrix:
