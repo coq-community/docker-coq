@@ -110,13 +110,13 @@ images:
   #       - tag: '{matrix[coq][%-*]}-ocaml-{matrix[base][%.*-*]}-flambda'
   ## TODO: coqorg/coq:8.17-alpha-native
   ## coqorg/coq:latest
-  ## coqorg/coq:8.16.0
+  ## coqorg/coq:8.16.1
   - matrix:
       default: ['4.13.1-flambda']
       base: ['4.14.0-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
-      coq: ['8.16.0']
+      coq: ['8.16.1']
       # TODO: Update when appropriate
-      coq_latest: ['8.16.0']
+      coq_latest: ['8.16.1']
     build: &build_coq_816
       context: './coq'
       dockerfile: './stable/Dockerfile'
@@ -136,7 +136,7 @@ images:
           if:
             - '{matrix[coq]} == {matrix[coq_latest]}'
             - '{matrix[base]} == {matrix[default]}'
-        # default tag (8.16.0)
+        # default tag (8.16.1)
         - tag: '{matrix[coq]}'
           if: '{matrix[base]} == {matrix[default]}'
         # abbreviated tag (8.16)
@@ -156,9 +156,9 @@ images:
   - matrix:
       default: ['4.13.1']
       base: ['4.13.1']
-      coq: ['8.16.0']
+      coq: ['8.16.1']
       # TODO: Update when appropriate
-      coq_latest: ['8.16.0']
+      coq_latest: ['8.16.1']
     build:
       <<: *build_coq_816
       args:
@@ -198,7 +198,7 @@ images:
       base: ['4.14.0-flambda', '4.13.1-flambda', '4.07.1-flambda', '4.05.0']
       coq: ['8.15.2', '8.14.1', '8.13.2']
       # TODO: Update when appropriate
-      coq_latest: ['8.16.0']
+      coq_latest: ['8.16.1']
     build: &build_coq_813
       keywords:
         - '{matrix[coq][%.*]}'
@@ -247,7 +247,7 @@ images:
       base: ['4.07.1', '4.07.1-flambda']
       coq: ['8.15.2', '8.14.1', '8.13.2']
       # TODO: Update when appropriate
-      coq_latest: ['8.16.0']
+      coq_latest: ['8.16.1']
     build:
       <<: *build_coq_813
       args:
@@ -306,7 +306,7 @@ images:
       base: ['4.11.2-flambda', '4.10.2-flambda', '4.07.1-flambda', '4.05.0']
       coq: ['8.12.2', '8.11.2']
       # TODO: Update when appropriate
-      coq_latest: ['8.16.0']
+      coq_latest: ['8.16.1']
     build: &build_coq_oldstable
       keywords:
         - '{matrix[coq][%.*]}'
