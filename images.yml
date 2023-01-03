@@ -158,8 +158,8 @@ images:
       <<: *build_coq_817
       args:
         BASE_TAG: '{matrix[base]}'
-        COQ_VERSION: '{matrix[coq]}'
-        VCS_REF: 'V{matrix[coq]}'
+        COQ_VERSION: '{matrix[coq][//-/+]}'
+        VCS_REF: 'V{matrix[coq][//-/+]}'
         COQ_EXTRA_OPAM: 'coq-native coq-bignums'
         COQ_INSTALL_SERAPI: 'true'
         # (or any nonempty string) as coq-serapi supports ocaml 4.07.1+
