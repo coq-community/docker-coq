@@ -119,7 +119,7 @@ images:
   ## coqorg/coq:8.17-rc1
   - matrix:
       default: ['4.13.1-flambda']
-      base: ['5.0.0-flambda', '4.14.1-flambda', '4.13.1-flambda', '4.09.1-flambda']
+      base: ['4.14.1-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
       coq: ['8.17-rc1']
       # TODO: Update when appropriate
       coq_latest: ['8.16.1']
