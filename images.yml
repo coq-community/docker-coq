@@ -9,7 +9,7 @@ images:
   ## coqorg/coq:dev-ocaml-*
   - matrix:
       default: ['4.13.1-flambda']
-      base: ['4.14.0-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
+      base: ['4.14.1-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
       coq: ['dev']
     build: &build_coq_dev
       keywords:
@@ -75,7 +75,7 @@ images:
   ## coqorg/coq:8.18-alpha
   # - matrix:
   #     default: ['4.13.1-flambda']
-  #     base: ['4.14.0-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
+  #     base: ['4.14.1-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
   #     # TODO: Update when appropriate
   #     coq: ['8.16-rc1']
   #   build: &build_coq_alpha
