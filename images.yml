@@ -186,8 +186,12 @@ images:
         - tag: 'latest-native-ocaml-{matrix[base]}'
           if:
             - '{matrix[coq]} == {matrix[coq_latest]}'
-            - '{matrix[base]} == {matrix[default]}'
         # latest-abbreviated tag (latest-native-ocaml-4.13)
+        - tag: 'latest-native-ocaml-{matrix[base][%.*]}'
+          if:
+            - '{matrix[coq]} == {matrix[coq_latest]}'
+            - '{matrix[base]} == {matrix[default]}'
+        # latest-abbreviated tag (latest-native-ocaml-4.13-flambda)
         - tag: 'latest-native-ocaml-{matrix[base][%.*]}-flambda'
           if:
             - '{matrix[coq]} == {matrix[coq_latest]}'
