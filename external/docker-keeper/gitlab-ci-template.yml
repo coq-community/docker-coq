@@ -146,6 +146,7 @@ prepare-artifacts:
       - generated/build_data_chosen.json
       - generated/remote_tags.txt
       - generated/remote_tags_to_rm.json
+      - generated/gitlab_ci_tags.txt
       - generated/Dockerfiles.txt
       - generated/README.md
       - generated/docker_repo.txt
