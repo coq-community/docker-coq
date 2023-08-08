@@ -127,7 +127,7 @@ images:
       context: './coq'
       dockerfile: './stable/Dockerfile'
       keywords:
-        - '{matrix[coq][%.*]}'
+        - '{matrix[coq][%-*]}'
       args:
         BASE_TAG: '{matrix[base]}'
         COQ_VERSION: '{matrix[coq][//-/+]}'
