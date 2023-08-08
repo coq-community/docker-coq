@@ -125,7 +125,7 @@ images:
       coq_latest: ['8.17.1']
     build: &build_coq_818
       context: './coq'
-      dockerfile: './stable/Dockerfile'
+      dockerfile: './beta/Dockerfile'
       keywords:
         - '{matrix[coq][%-*]}'
       args:
