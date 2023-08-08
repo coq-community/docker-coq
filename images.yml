@@ -116,7 +116,107 @@ images:
   #       # abbreviated tag (*-ocaml-4.09-flambda)
   #       - tag: '{matrix[coq][%-*]}-ocaml-{matrix[base][%.*-*]}-flambda'
   ## TODO: coqorg/coq:8.18-alpha-native
-  ## coqorg/coq:8.17.1
+  ## coqorg/coq:8.18
+  - matrix:
+      default: ['4.13.1-flambda']
+      base: ['4.14.1-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
+      coq: ['8.18-rc1']
+      # TODO: Update when appropriate
+      coq_latest: ['8.17.1']
+    build: &build_coq_818
+      context: './coq'
+      dockerfile: './stable/Dockerfile'
+      keywords:
+        - '{matrix[coq][%.*]}'
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq][//-/+]}'
+        VCS_REF: 'V{matrix[coq][//-/+]}'
+        COQ_EXTRA_OPAM: 'coq-bignums'
+        # +- coq-native
+        COQ_INSTALL_SERAPI: 'true'
+        # (or any nonempty string) as coq-serapi supports ocaml 4.07.1+
+      tags:
+        # latest tag
+        - tag: 'latest'
+          if:
+            - '{matrix[coq]} == {matrix[coq_latest]}'
+            - '{matrix[base]} == {matrix[default]}'
+        # latest-abbreviated tag (*-ocaml-4.13-flambda)
+        - tag: 'latest-ocaml-{matrix[base][%.*-*]}-flambda'
+          if:
+            - '{matrix[coq]} == {matrix[coq_latest]}'
+        # default tag (8.17.1)
+        - tag: '{matrix[coq]}'
+          if: '{matrix[base]} == {matrix[default]}'
+        # abbreviated tag (8.17)
+        - tag: '{matrix[coq][%-*]}'
+          if: '{matrix[base]} == {matrix[default]}'
+        # full tag
+        - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
+        # abbreviated tag (*-ocaml-4.09-flambda)
+        - tag: '{matrix[coq][%-*]}-ocaml-{matrix[base][%.*-*]}-flambda'
+  ## coqorg/coq:8.17-native-ocaml-*
+  - matrix:
+      default: ['4.13.1']
+      base: ['4.13.1', '4.13.1-flambda']
+      coq: ['8.18-rc1']
+      # TODO: Update when appropriate
+      coq_latest: ['8.17.1']
+    build:
+      <<: *build_coq_818
+      args:
+        BASE_TAG: '{matrix[base]}'
+        COQ_VERSION: '{matrix[coq][//-/+]}'
+        VCS_REF: 'V{matrix[coq][//-/+]}'
+        COQ_EXTRA_OPAM: 'coq-native coq-bignums'
+        COQ_INSTALL_SERAPI: 'true'
+        # (or any nonempty string) as coq-serapi supports ocaml 4.07.1+
+      tags:
+        # latest tag
+        - tag: 'latest-native'
+          if:
+            - '{matrix[coq]} == {matrix[coq_latest]}'
+            - '{matrix[base]} == {matrix[default]}'
+        - tag: 'latest-native-flambda'
+          if:
+            - '{matrix[coq]} == {matrix[coq_latest]}'
+            - '{matrix[base]} != {matrix[default]}' # -flambda
+        # latest-abbreviated tag (latest-native-ocaml-4.13.1)
+        - tag: 'latest-native-ocaml-{matrix[base]}'
+          if:
+            - '{matrix[coq]} == {matrix[coq_latest]}'
+        # latest-abbreviated tag (latest-native-ocaml-4.13)
+        - tag: 'latest-native-ocaml-{matrix[base][%.*]}'
+          if:
+            - '{matrix[coq]} == {matrix[coq_latest]}'
+            - '{matrix[base]} == {matrix[default]}'
+        # latest-abbreviated tag (latest-native-ocaml-4.13-flambda)
+        - tag: 'latest-native-ocaml-{matrix[base][%.*]}-flambda'
+          if:
+            - '{matrix[coq]} == {matrix[coq_latest]}'
+            - '{matrix[base]} != {matrix[default]}' # -flambda
+        # default tag (8.17.1-native)
+        - tag: '{matrix[coq]}-native'
+          if: '{matrix[base]} == {matrix[default]}'
+        # abbreviated tag (8.17-native)
+        - tag: '{matrix[coq][%-*]}-native'
+          if: '{matrix[base]} == {matrix[default]}'
+        # default tag (8.17.1-native-flambda)
+        - tag: '{matrix[coq]}-native-flambda'
+          if: '{matrix[base]} != {matrix[default]}' # -flambda
+        # abbreviated tag (8.17-native-flambda)
+        - tag: '{matrix[coq][%-*]}-native-flambda'
+          if: '{matrix[base]} != {matrix[default]}' # -flambda
+        # full tag
+        - tag: '{matrix[coq]}-native-ocaml-{matrix[base]}'
+        # abbreviated tag (*-ocaml-4.13)
+        - tag: '{matrix[coq][%-*]}-native-ocaml-{matrix[base][%.*]}'
+          if: '{matrix[base]} == {matrix[default]}'
+        # abbreviated tag (*-ocaml-4.07-flambda)
+        - tag: '{matrix[coq][%-*]}-native-ocaml-{matrix[base][%.*-*]}-flambda'
+          if: '{matrix[base]} != {matrix[default]}' # -flambda
+  ##END coqorg/coq:8.17.1
   - matrix:
       default: ['4.13.1-flambda']
       base: ['4.14.1-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
