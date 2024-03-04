@@ -180,8 +180,8 @@ images:
   - matrix:
       default: ['4.13.1-flambda']
       base: ['4.14.1-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
-      coq: ['8.19.0', '8.18.0', '8.17.1']
-      coq_latest: ['8.19.0']
+      coq: ['8.19.1', '8.18.0', '8.17.1']
+      coq_latest: ['8.19.1']
     build: &build_coq_817
       context: './coq'
       dockerfile: './stable/Dockerfile'
@@ -220,9 +220,9 @@ images:
   - matrix:
       default: ['4.13.1']
       base: ['4.13.1', '4.13.1-flambda']
-      coq: ['8.19.0', '8.18.0', '8.17.1']
+      coq: ['8.19.1', '8.18.0', '8.17.1']
       # TODO: Update when appropriate
-      coq_latest: ['8.19.0']
+      coq_latest: ['8.19.1']
     build:
       <<: *build_coq_817
       args:
@@ -282,7 +282,7 @@ images:
       base: ['4.14.1-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
       coq: ['8.16.1']
       # TODO: Update when appropriate
-      coq_latest: ['8.19.0']
+      coq_latest: ['8.19.1']
     build: &build_coq_816
       context: './coq'
       dockerfile: './stable/Dockerfile'
@@ -326,7 +326,7 @@ images:
       base: ['4.13.1', '4.13.1-flambda']
       coq: ['8.16.1']
       # TODO: Update when appropriate
-      coq_latest: ['8.19.0']
+      coq_latest: ['8.19.1']
     build:
       <<: *build_coq_816
       args:
@@ -383,7 +383,7 @@ images:
       base: ['4.14.1-flambda', '4.13.1-flambda', '4.07.1-flambda', '4.05.0']
       coq: ['8.15.2', '8.14.1', '8.13.2']
       # TODO: Update when appropriate
-      coq_latest: ['8.19.0']
+      coq_latest: ['8.19.1']
     build: &build_coq_813
       keywords:
         - '{matrix[coq][%.*]}'
@@ -433,7 +433,7 @@ images:
       base: ['4.07.1', '4.07.1-flambda']
       coq: ['8.15.2', '8.14.1', '8.13.2']
       # TODO: Update when appropriate
-      coq_latest: ['8.19.0']
+      coq_latest: ['8.19.1']
     build:
       <<: *build_coq_813
       args:
@@ -492,7 +492,7 @@ images:
       base: ['4.11.2-flambda', '4.10.2-flambda', '4.07.1-flambda', '4.05.0']
       coq: ['8.12.2', '8.11.2']
       # TODO: Update when appropriate
-      coq_latest: ['8.19.0']
+      coq_latest: ['8.19.1']
     build: &build_coq_oldstable
       keywords:
         - '{matrix[coq][%.*]}'
