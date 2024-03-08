@@ -24,6 +24,7 @@ RUN set -x \
   && opam pin add -n -y -k git coq.${COQ_VERSION} "git+https://github.com/coq/coq#${COQ_COMMIT}" \
   && opam install -y -v -j "${NJOBS}" coq-core coq-stdlib coqide-server coq ${COQ_EXTRA_OPAM} \
   && opam clean -a -c -s --logs \
+  && chmod -R g=u /home/coq/.opam \
   && opam config list && opam list
 
 ARG BUILD_DATE

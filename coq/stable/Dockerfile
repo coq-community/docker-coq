@@ -20,6 +20,7 @@ RUN set -x \
   && opam pin add -n -k version coq ${COQ_VERSION} \
   && opam install -y -v -j "${NJOBS}" coq ${COQ_EXTRA_OPAM} ${COQ_INSTALL_SERAPI:+coq-serapi} \
   && opam clean -a -c -s --logs \
+  && chmod -R g=u /home/coq/.opam \
   && opam config list && opam list
 
 ARG BUILD_DATE

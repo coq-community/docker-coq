@@ -21,6 +21,7 @@ RUN set -x \
   && opam pin add -n -y --lock-suffix=docker --locked -k git coq.${COQ_VERSION} "git+https://github.com/coq/coq#${COQ_COMMIT}" \
   && opam install -y -v -j "${NJOBS}" coq ${COQ_EXTRA_OPAM} \
   && opam clean -a -c -s --logs \
+  && chmod -R g=u /home/coq/.opam \
   && opam config list && opam list
 
 # hadolint ignore=SC2046
@@ -30,6 +31,7 @@ RUN set -x \
   && opam pin add -n -y --lock-suffix=docker --locked -k git coq.${COQ_VERSION} "git+https://github.com/coq/coq#${COQ_COMMIT}" \
   && opam install -y -v -j "${NJOBS}" coq ${COQ_EXTRA_OPAM} \
   && opam clean -a -c -s --logs \
+  && chmod -R g=u /home/coq/.opam \
   && opam config list && opam list
 
 # Remark: The bash scripts above guarantee both opam switches have the
