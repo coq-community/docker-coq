@@ -107,9 +107,9 @@ def check_dict(value, text=None):
               % text)
 
 
-def eval_bashlike(template, matrix, defaults=None):
+def eval_bashlike(template, matrix, gvars=None, defaults=None):
     b = BashLike()
-    return b.format(template, matrix=matrix, defaults=defaults)
+    return b.format(template, matrix=matrix, vars=gvars, defaults=defaults)
 
 
 def get_build_date():
@@ -214,7 +214,7 @@ def check_filename(filename):
         error("Error: expecting a filename, but was given '%s'." % filename)
 
 
-def eval_if(raw_condition, matrix):
+def eval_if(raw_condition, matrix, gvars):
     """Evaluate YAML condition.
 
     Supported forms:
@@ -226,7 +226,7 @@ def eval_if(raw_condition, matrix):
     # Conjunction
     if isinstance(raw_condition, list):
         for item_condition in raw_condition:
-            e = eval_if(item_condition, matrix)
+            e = eval_if(item_condition, matrix, gvars)
             if not e:
                 return False
         return True
@@ -244,8 +244,8 @@ def eval_if(raw_condition, matrix):
         error("Unsupported condition: '%s'." % raw_condition)
     if len(args) != 2:
         error("Wrong number of arguments: '%s'." % raw_condition)
-    a = eval_bashlike(args[0].strip().replace('"', ''), matrix)
-    b = eval_bashlike(args[1].strip().replace('"', ''), matrix)
+    a = eval_bashlike(args[0].strip().replace('"', ''), matrix, gvars)
+    b = eval_bashlike(args[1].strip().replace('"', ''), matrix, gvars)
     if equality:
         return a == b
     else:
@@ -253,7 +253,9 @@ def eval_if(raw_condition, matrix):
 
 
 def get_list_dict_dockerfile_matrix_tags_args(json):
-    """Get list of dicts containing the following keys:
+    """Directly called by main on the result of load_spec().
+
+       Get list of dicts containing the following keys:
        - "context": "…"
        - "dockerfile": "…/Dockerfile"
        - "path": "…/…/Dockerfile"
@@ -266,6 +268,13 @@ def get_list_dict_dockerfile_matrix_tags_args(json):
     # TODO later-on: fix (dockerfile / path) semantics
     res = []
     images = json['images']
+    args1 = json['args'] if 'args' in json else {}
+    gvars = json['vars'] if 'vars' in json else {}
+    # = global vars, interpolated in:
+    # - args
+    # - build.args
+    # - build.tags
+    # - build.after_deploy_export
     for item in images:
         list_matrix = product_build_matrix(item['matrix'])
         if 'dockerfile' in item['build']:
@@ -275,7 +284,6 @@ def get_list_dict_dockerfile_matrix_tags_args(json):
         context = check_trim_relative_path(item['build']['context'])
         path = '%s/%s' % (context, dfile)
         raw_tags = item['build']['tags']
-        args1 = json['args'] if 'args' in json else {}
         args2 = item['build']['args'] if 'args' in item['build'] else {}
         raw_args = merge_dict(args1, args2)
         if 'keywords' in item['build']:
@@ -311,9 +319,10 @@ def get_list_dict_dockerfile_matrix_tags_args(json):
             for tag_item in raw_tags:
                 tag_template = tag_item['tag']
                 tag_cond = tag_item['if'] if 'if' in tag_item else None
-                if eval_if(tag_cond, matrix):
+                if eval_if(tag_cond, matrix, gvars):
                     # otherwise skip the tag synonym
-                    tag = eval_bashlike(tag_template, matrix)  # & defaults ?
+                    tag = eval_bashlike(tag_template, matrix,
+                                        gvars)  # NOT defaults
                     tags.append(tag)
             defaults = {"build_date": get_build_date()}
             if 'commit_api' in item['build']:
@@ -322,8 +331,10 @@ def get_list_dict_dockerfile_matrix_tags_args(json):
             args = {}
             for arg_key in raw_args:
                 arg_template = raw_args[arg_key]
-                args[arg_key] = eval_bashlike(arg_template, matrix, defaults)
-            keywords = list(map(lambda k: eval_bashlike(k, matrix, defaults),
+                args[arg_key] = eval_bashlike(arg_template, matrix,
+                                              gvars, defaults)
+            keywords = list(map(lambda k: eval_bashlike(k, matrix,
+                                                        gvars, defaults),
                                 raw_keywords))
 
             after_deploy_export = []
@@ -331,7 +342,8 @@ def get_list_dict_dockerfile_matrix_tags_args(json):
             for var in raw_after_deploy_export:
                 check_string(var)
                 var_template = raw_after_deploy_export[var]
-                var_value = eval_bashlike(var_template, matrix, defaults)
+                var_value = eval_bashlike(var_template, matrix,
+                                          gvars, defaults)
                 # TODO soon: think about quoting var_value
                 after_deploy_export.append("export %s='%s'" % (var, var_value))
 
@@ -347,7 +359,7 @@ def get_list_dict_dockerfile_matrix_tags_args(json):
                 else:
                     script_item = ad_item['run']
                     script_cond = ad_item['if'] if 'if' in ad_item else None
-                    if eval_if(script_cond, matrix):
+                    if eval_if(script_cond, matrix, gvars):
                         # otherwise skip the script item
                         after_deploy_script.append(script_item)
             newitem = {"context": context, "dockerfile": dfile,
@@ -986,13 +998,33 @@ def test_get_script_rel2_directory():
 
 def test_eval_if():
     matrix1 = {"base": "latest", "coq": "dev"}
-    matrix2 = {"base": "4.09.0-flambda", "coq": "dev"}
-    assert eval_if('{matrix[base]}=="latest"', matrix1)
-    assert eval_if('{matrix[base]} == "latest"', matrix1)
-    assert eval_if(' "{matrix[base]}" == "latest"', matrix1)
-    assert eval_if('{matrix[base]}!="latest"', matrix2)
-    assert eval_if('{matrix[base]} != "latest"', matrix2)
-    assert eval_if(' "{matrix[base]}" != "latest"', matrix2)
+    matrix2 = {"base": "4.09.0-flambda", "coq": "8.7.2"}
+    gvars = {"coq_dev": "dev"}
+    assert eval_if('{matrix[base]}=="latest"', matrix1, gvars)
+    assert eval_if('{matrix[base]} == "latest"', matrix1, gvars)
+    assert eval_if(' "{matrix[base]}" == "latest"', matrix1, gvars)
+    assert eval_if('{matrix[base]}!="latest"', matrix2, gvars)
+    assert eval_if('{matrix[base]} != "latest"', matrix2, gvars)
+    assert eval_if(' "{matrix[base]}" != "latest"', matrix2, gvars)
+    assert eval_if('{matrix[coq]} == {vars[coq_dev]}', matrix1, gvars)
+    assert eval_if('{matrix[coq]} != {vars[coq_dev]}', matrix2, gvars)
+
+
+def test_eval_bashlike():
+    matrix = {"base": "4.09.0-flambda", "coq": "8.19.0"}
+    gvars = {"coq_latest": "8.19.1"}
+    template0 = '{matrix[coq]}-ocaml-{matrix[base]}'
+    template1 = '{vars[coq_latest]}-ocaml-{matrix[base]}'
+    template20 = '{matrix[coq][%.*]}-ocaml-{matrix[base][%.*-*]}-flambda'
+    template21 = '{vars[coq_latest][%.*]}-ocaml-{matrix[base][%.*-*]}-flambda'
+    assert eval_bashlike(template0, matrix,
+                         gvars, None) == '8.19.0-ocaml-4.09.0-flambda'
+    assert eval_bashlike(template1, matrix,
+                         gvars, None) == '8.19.1-ocaml-4.09.0-flambda'
+    assert eval_bashlike(template20, matrix,
+                         gvars, None) == '8.19-ocaml-4.09-flambda'
+    assert eval_bashlike(template21, matrix,
+                         gvars, None) == '8.19-ocaml-4.09-flambda'
 
 
 def test_is_unique():

@@ -7,6 +7,8 @@ following repo: <https://gitlab.com/erikmd/docker-keeper-template>.
 
 This script is meant to be run by GitLab CI.
 
+This repository is thus [hosted on GitLab](https://gitlab.com/erikmd/docker-keeper), and [mirrored on GitHub](https://github.com/erikmd/docker-keeper) for more visibility.
+
 ## Syntax
 
 ```
