@@ -4,7 +4,7 @@ active: true
 docker_repo: 'coqorg/coq'
 vars:
   # TODO: Update when appropriate
-  coq_latest: '8.19.1'
+  coq_latest: '8.19.2'
 args:
   BUILD_DATE: '{defaults[build_date]}'
 images:
@@ -285,7 +285,7 @@ images:
   - matrix:
       default: ['4.13.1-flambda']
       base: ['4.14.1-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
-      coq: ['8.19.1']
+      coq: ['8.19.2']
     build: &build_coq_stable
       context: './coq'
       dockerfile: './stable/Dockerfile'
@@ -304,7 +304,7 @@ images:
         - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
         # abbreviated tag (*-ocaml-4.13-flambda)
         - tag: '{matrix[coq][%.*]}-ocaml-{matrix[base][%.*-*]}-flambda'
-        # default tag (8.19.1)
+        # default tag (8.19.2)
         - tag: '{matrix[coq]}'
           if: '{matrix[base]} == {matrix[default]}'
         # abbreviated tag (8.19)
@@ -325,7 +325,7 @@ images:
   - matrix:
       default: ['4.13.1']
       base: ['4.13.1', '4.13.1-flambda']
-      coq: ['8.19.1']
+      coq: ['8.19.2']
     build: &build_coq_stable_native
       <<: *build_coq_stable
       args:
@@ -344,10 +344,10 @@ images:
         # abbreviated tag (*-ocaml-4.07-flambda)
         - tag: '{matrix[coq][%.*]}-native-ocaml-{matrix[base][%.*-*]}-flambda'
           if: '{matrix[base]} != {matrix[default]}' # -flambda
-        # default tag (8.19.1-native)
+        # default tag (8.19.2-native)
         - tag: '{matrix[coq]}-native'
           if: '{matrix[base]} == {matrix[default]}'
-        # default tag (8.19.1-native-flambda)
+        # default tag (8.19.2-native-flambda)
         - tag: '{matrix[coq]}-native-flambda'
           if: '{matrix[base]} != {matrix[default]}' # -flambda
         # abbreviated default tag (8.19-native)
