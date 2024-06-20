@@ -356,10 +356,6 @@ images:
         # abbreviated default tag (8.19-native-flambda)
         - tag: '{matrix[coq][%.*]}-native-flambda'
           if: '{matrix[base]} != {matrix[default]}' # -flambda
-        # latest-abbreviated tag (latest-native-ocaml-4.13.1*)
-        - tag: 'latest-native-ocaml-{matrix[base]}'
-          if:
-            - '{matrix[coq]} == {vars[coq_latest]}'
         # latest-abbreviated tag (latest-native-ocaml-4.13)
         - tag: 'latest-native-ocaml-{matrix[base][%.*]}'
           if:
