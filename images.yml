@@ -51,6 +51,8 @@ images:
       coq: ['dev']
     build:
       <<: *build_coq_dev
+      # no need for gitlab pipeline trigger after coqorg/coq:dev-native's build
+      after_deploy: []
       args:
         BASE_TAG: '{matrix[base]}'
         COQ_VERSION: '{matrix[coq]}'
