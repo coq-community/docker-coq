@@ -79,9 +79,12 @@ lint-images:
 prepare-artifacts:
   stage: compile
   extends: .python
-  image: python:3  # default shell: /bin/bash
+  image: python:3  # default shell: /bin/bash, OS: Debian
   script:
-    - apk add --no-cache git
+    - apt-get update -y -q
+    - DEBIAN_FRONTEND=noninteractive apt-get install -y -q git
+    - apt-get clean
+    - rm -rf /var/lib/apt/lists/*
     - git rev-parse --verify HEAD
     - git describe --all --long --abbrev=40 --always --dirty
     - mkdir -p generated
