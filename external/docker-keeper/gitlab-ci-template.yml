@@ -1,5 +1,5 @@
 ---
-# Author: Erik Martin-Dorel, 2020
+# Author: Erik Martin-Dorel, 2020-2024
 
 # Design:
 # - docker-keeper: Lint python scripts (Use flake8)
@@ -79,6 +79,7 @@ lint-images:
 prepare-artifacts:
   stage: compile
   extends: .python
+  image: python:3  # default shell: /bin/bash
   script:
     - apk add --no-cache git
     - git rev-parse --verify HEAD
@@ -93,12 +94,35 @@ prepare-artifacts:
         echo
         "$@"
       }
+      # Detect if it's the first pipeline run for the current commit
+      # See https://docs.gitlab.com/ee/ci/variables/predefined_variables.html#predefined-variables-reference
+      echo "SHELL=$SHELL"  # for debugging purpose
+      echo "CI_COMMIT_BEFORE_SHA=$CI_COMMIT_BEFORE_SHA"
+      echo "CI_COMMIT_SHA=$CI_COMMIT_SHA"
+      declare -a DOCKER_KEEPER_CMDS
+      if [ "$CI_COMMIT_BEFORE_SHA" = "$CI_COMMIT_SHA" ]; then
+        echo "Parsing commit message {|$CI_COMMIT_MESSAGE|}."
+        readarray -t lines < <(grep "\(^\|(\| \|;\)docker-keeper)\?:" <<< "$CI_COMMIT_MESSAGE")
+        for line in "${lines[@]}"; do
+          cmd=$(sed -e 's/^.*docker-keeper)\?: *//g' <<< "$line")
+          readarray -t cmds < <(sed -e 's/; */\n/g' <<< "$cmd")
+          for cmd in "${cmds[@]}"; do
+            # put the command in the end of the array
+            DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="$(sed -e 's/: */=/' <<< "$cmd")"
+          done
+        done
+      else
+        echo "Skipping commit message."
+      fi
       if [ -z "$CRON_MODE" ]; then
-        run "$KEEPER_SUBTREE/keeper.py" write-artifacts --minimal
+      # Keep this name by backward compatibility
+      # We could replace it with a MORE expressive SINGLE variable DOCKER_KEEPER
+        echo "Pipeline variable CRON_MODE was empty."
       elif [ "$CRON_MODE" = "nightly" ]; then
-        run "$KEEPER_SUBTREE/keeper.py" write-artifacts --nightly
+        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="nightly"
       elif [ "$CRON_MODE" = "rebuild-all" ]; then
-        run "$KEEPER_SUBTREE/keeper.py" write-artifacts --rebuild-all
+        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="rebuild-all"
+      # BEGIN Keep this by backward compatibility (we could remove it later on):
       elif [ "$CRON_MODE" = "rebuild-files" ]; then
         if [ -z "$ITEMS" ]; then
           echo "Error: file variable ITEMS is missing (CRON_MODE='$CRON_MODE')."
@@ -106,7 +130,9 @@ prepare-artifacts:
         else
           run cat "$ITEMS"
         fi
-        run "$KEEPER_SUBTREE/keeper.py" write-artifacts --rebuild-files "$ITEMS"
+        readarray -t ar_items < "$ITEMS"
+        items="${ar_items[@]/#/,}"
+        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="rebuild-file: ${items#,}"
       elif [ "$CRON_MODE" = "rebuild-tags" ]; then
         if [ -z "$ITEMS" ]; then
           echo "Error: file variable ITEMS is missing (CRON_MODE='$CRON_MODE')."
@@ -114,7 +140,9 @@ prepare-artifacts:
         else
           run cat "$ITEMS"
         fi
-        run "$KEEPER_SUBTREE/keeper.py" write-artifacts --rebuild-tags "$ITEMS"
+        readarray -t ar_items < "$ITEMS"
+        items="${ar_items[@]/#/,}"
+        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="rebuild-tag: ${items#,}"
       elif [ "$CRON_MODE" = "rebuild-keywords" ]; then
         if [ -z "$ITEMS" ]; then
           echo "Error: file variable ITEMS is missing (CRON_MODE='$CRON_MODE')."
@@ -122,21 +150,41 @@ prepare-artifacts:
         else
           run cat "$ITEMS"
         fi
-        run "$KEEPER_SUBTREE/keeper.py" \
-          write-artifacts --rebuild-keywords "$ITEMS"
+        readarray -t ar_items < "$ITEMS"
+        items="${ar_items[@]/#/,}"
+        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="rebuild-keyword: ${items#,}"
+      # END Keep this by backward compatibility (we could remove it later on).
+      elif [ "$CRON_MODE" = "rebuild-file" ]; then
+        if [ -z "$ITEM" ]; then
+          echo "Error: variable ITEM is missing (CRON_MODE='$CRON_MODE')."
+          false
+        else
+          echo "ITEM=$ITEM"
+        fi
+        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="rebuild-file: $ITEM"
+      elif [ "$CRON_MODE" = "rebuild-tag" ]; then
+        if [ -z "$ITEM" ]; then
+          echo "Error: variable ITEM is missing (CRON_MODE='$CRON_MODE')."
+          false
+        else
+          echo "ITEM=$ITEM"
+        fi
+        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="rebuild-tag: $ITEM"
       elif [ "$CRON_MODE" = "rebuild-keyword" ]; then
         if [ -z "$ITEM" ]; then
           echo "Error: variable ITEM is missing (CRON_MODE='$CRON_MODE')."
           false
         else
-          run echo "$ITEM"
+          echo "ITEM=$ITEM"
         fi
-        run "$KEEPER_SUBTREE/keeper.py" \
-          write-artifacts --rebuild-keyword "$ITEM"
+        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="rebuild-keyword: $ITEM"
       else
         echo "Error: unexpected value CRON_MODE='$CRON_MODE'."
         false
       fi
+      # BEGIN main command
+      run "$KEEPER_SUBTREE/keeper.py" write-artifacts "${DOCKER_KEEPER_CMDS[@]/#/--command=}"
+      # END main command
   artifacts:
     name: "docker-keeper_$CI_JOB_NAME"
     when: always
@@ -146,6 +194,7 @@ prepare-artifacts:
       - generated/build_data_chosen.json
       - generated/remote_tags.txt
       - generated/remote_tags_to_rm.json
+      - generated/propagate.json
       - generated/gitlab_ci_tags.txt
       - generated/Dockerfiles.txt
       - generated/README.md

@@ -12,32 +12,91 @@ This repository is thus [hosted on GitLab](https://gitlab.com/erikmd/docker-keep
 ## Syntax
 
 ```
-keeper.py write-artifacts [OPTION]
-    Generate artifacts in the 'generated' directory.
-    This requires having file 'images.yml' in the current working directory.
-    OPTION can be:
-        --minimal (default option, can be omitted)
-        --nightly (same as --minimal + nightly-build images)
-        --rebuild-all (rebuild all images)
-        --rebuild-files FILE (rebuild images with Dockerfile mentioned in FILE)
-        --rebuild-tags FILE (rebuild images with tag mentioned in FILE)
-        --rebuild-keywords FILE (rebuild images with keyword mentioned in FILE)
-        --rebuild-keyword KEYWORD (rebuild images with specified keyword)
+usage: keeper.py [-h] [--version] [--upstream-version]
+                 {generate-config,write-artifacts} ...
 
-keeper.py generate-config
-    Print a GitLab CI YAML config to standard output.
-    This requires files:
-      - generated/build_data_chosen.json
-      - generated/remote_tags_to_rm.json
+§ docker-keeper
 
-keeper.py --version
-    Print the script version.
+This python3 script is devised to help maintain Docker Hub repositories of
+stable and dev (from webhooks or for nightly builds) Docker images from a
+YAML-specified, single-branch Git repository - typically created as a fork of
+the following GitLab repo: <https://gitlab.com/erikmd/docker-keeper-template>.
+For more details, follow the instructions of the README.md in your own fork.
+Note: this script is meant to be run by GitLab CI.
 
-keeper.py --upstream-version
-    Print the upstream version from https://gitlab.com/erikmd/docker-keeper
+options:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+  --upstream-version    show program's upstream version from
+                        https://gitlab.com/erikmd/docker-keeper and exit
 
-keeper.py --help
-    Print this documentation.
+subcommands:
+  {generate-config,write-artifacts}
+    generate-config     Print a GitLab CI YAML config to standard output. This
+                        requires files: {generated/build_data_chosen.json,
+                        generated/remote_tags_to_rm.json}
+    write-artifacts     Generate artifacts in the 'generated' directory. This
+                        requires having file 'images.yml' in the current
+                        working directory.
+```
+&
+```
+usage: keeper.py write-artifacts [-h] [--debug] [--minimal] [--nightly]
+                                 [--rebuild-all] [--rebuild-files FILE]
+                                 [--rebuild-tags FILE]
+                                 [--rebuild-keywords FILE]
+                                 [--rebuild-file NAME1,NAME2]
+                                 [--rebuild-tag TAG1,TAG2]
+                                 [--rebuild-keyword KW1,KW2]
+                                 [--propagate 'CHILD-REPO: COMMAND']
+
+Generate artifacts in the 'generated' directory. This requires having file
+'images.yml' in the current working directory.
+
+options:
+  -h, --help            show this help message and exit
+  --debug               help debugging by printing more info (especially
+                        regarding argparse)
+  --minimal             default option, can be omitted, kept for backward
+                        compatibility
+  --nightly             trigger builds that have the 'nightly: true' flag
+  --rebuild-all         rebuild all images
+  --rebuild-files FILE  (deprecated) rebuild images with Dockerfile mentioned
+                        in FILE (can be supplied several times)
+  --rebuild-tags FILE   (deprecated) rebuild images with tag mentioned in FILE
+                        (can be supplied several times)
+  --rebuild-keywords FILE
+                        (deprecated) rebuild images with keyword mentioned in
+                        FILE (can be supplied several times)
+  --rebuild-file NAME1,NAME2
+                        rebuild images with Dockerfile mentioned in CLI comma-
+                        separated list (can be supplied several times)
+  --rebuild-tag TAG1,TAG2
+                        rebuild images with tag mentioned in CLI comma-
+                        separated list (can be supplied several times)
+  --rebuild-keyword KW1,KW2
+                        rebuild images with keyword mentioned in CLI comma-
+                        separated list (can be supplied several times)
+  --propagate 'CHILD-REPO: COMMAND'
+                        manually specify to propagate 'minimal', 'nightly',
+                        'rebuild-all', or 'rebuild-keyword: KW1,KW2' commands
+                        to children docker-keeper repositories; note that you
+                        can use '--propagate=()' to disable propagation fully,
+                        independently of the other occurrences of this option;
+                        if there is no occurrence of this option (in CLI nor
+                        in HEAD's commit message), docker-keeper will apply
+                        the propagate strategy defined in the images.yml file
+                        (can be supplied several times)
+```
+&
+```
+usage: keeper.py generate-config [-h]
+
+Print a GitLab CI YAML config to standard output. This requires files:
+{generated/build_data_chosen.json, generated/remote_tags_to_rm.json}
+
+options:
+  -h, --help  show this help message and exit
 ```
 
 ## Usage
