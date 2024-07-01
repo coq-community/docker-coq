@@ -103,7 +103,12 @@ prepare-artifacts:
       echo "CI_COMMIT_BEFORE_SHA=$CI_COMMIT_BEFORE_SHA"
       echo "CI_COMMIT_SHA=$CI_COMMIT_SHA"
       declare -a DOCKER_KEEPER_CMDS
-      if [ "$CI_COMMIT_BEFORE_SHA" != "$CI_COMMIT_SHA" ]; then
+      # The previous latest commit present on a branch or tag.
+      # Is always `0000000000000000000000000000000000000000` for
+      # merge request pipelines, the first commit in pipelines for branches or tags,
+      # *or when manually running a pipeline*.
+      # Remark for testing: coqbot+gitlab-ci may run 2 pipelines (branch/pull request)
+      if [ "$CI_COMMIT_BEFORE_SHA" != "0000000000000000000000000000000000000000" ]; then
         echo "Parsing commit message {|$CI_COMMIT_MESSAGE|}."
         readarray -t lines < <(grep "\(^\|(\| \|;\)docker-keeper)\?:" <<< "$CI_COMMIT_MESSAGE")
         for line in "${lines[@]}"; do
