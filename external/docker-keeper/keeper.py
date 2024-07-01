@@ -34,7 +34,21 @@ stable and dev (from webhooks or for nightly builds) Docker images from a
 YAML-specified, single-branch Git repository - typically created as a fork of
 the following GitLab repo: <https://gitlab.com/erikmd/docker-keeper-template>.
 For more details, follow the instructions of the README.md in your own fork.
-Note: this script is meant to be run by GitLab CI."""
+Note: this script is meant to be run by GitLab CI.
+
+docker-keeper offers customizable propagate strategies (declarative cURL calls)
+
+It supports both single modes given in variable CRON_MODE (and optionally ITEM)
+and multiple modes, from CLI as well as from HEAD's commit message, typically:
+$ git commit --allow-empty -m "…" -m "docker-keeper: rebuild-all"
+$ git commit -m "docker-keeper: propagate: I1: minimal; propagate: I2: nightly"
+$ git commit -m "docker-keeper: propagate: ID: rebuild-all"
+$ git commit -m "docker-keeper: propagate: ID: rebuild-keyword: KW1,KW2"
+$ git commit -m "docker-keeper: propagate: ()"
+If the commit message (or equivalently, the CLI) contains propagate…,
+then it overrides the automatic default propagation.
+If the commit is rebuilt with the same SHA1 in a given branch,
+then it switches to the default behavior (automatic propagate strategy)."""
 
 
 def print_stderr(message):
