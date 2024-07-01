@@ -39,3 +39,23 @@ dk_push() {
           docker push "$hub_repo:$tag" )
     done
 }
+
+dk_curl() {
+    local slug="$1"
+    local gitlab_token="$2"
+    local gitlab_domain="$3"
+    local gitlab_project="$4"
+    local cron_mode="$5"
+    local item="$6"
+    if [ -n "$gitlab_token" ]; then
+        echo >&2 "For child repo $slug:"
+        if [ -z "$item" ]; then
+            curl -X POST -F token="$gitlab_token" -F ref=master -F "variables[CRON_MODE]=$cron_mode" "https://$gitlab_domain/api/v4/projects/$gitlab_project/trigger/pipeline"
+        else
+            curl -X POST -F token="$gitlab_token" -F ref=master -F "variables[CRON_MODE]=$cron_mode"  -F "variables[ITEM]=$item" "https://$gitlab_domain/api/v4/projects/$gitlab_project/trigger/pipeline"
+        fi
+    else
+        echo >&2 "Error: cannot read api_token_env_var for '$slug'"
+        false
+    fi
+}
