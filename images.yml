@@ -7,6 +7,38 @@ vars:
   coq_latest: '8.19.2'
 args:
   BUILD_DATE: '{defaults[build_date]}'
+propagate:
+  mathcomp:
+    api_token_env_var: 'MC_TOKEN'
+    gitlab_domain: 'gitlab.inria.fr'
+    gitlab_project: '44938'
+    strategy:
+      - when: 'rebuild-all'
+        mode: 'rebuild-all'
+      - when: 'forall'
+        expr: '{matrix[coq][//pl/.][%.*]}'
+        subset: '8.4,8.5'
+        mode: 'nil'
+      - # when OPTIONAL for last rule
+        mode: 'rebuild-keyword'
+        item: '{keywords[/#/,][#,]}'
+  # mathcomp-dev:
+  #   api_token_env_var: 'DMC_TOKEN'
+  #   gitlab_domain: 'gitlab.inria.fr'
+  #   gitlab_project: '44939'
+  #   strategy:
+  #     - when: 'rebuild-all'
+  #       mode: 'minimal'
+  #     - when: 'forall'
+  #       expr: '{matrix[coq]}'
+  #       subset: 'dev'
+  #       mode: 'nightly'
+  #     - when: 'exists'
+  #       expr: '{matrix[coq][//pl/.][%.*]}'
+  #       subset: '8.19,8.20,dev'
+  #       mode: 'minimal'
+  #     - # when OPTIONAL for last rule
+  #       mode: 'nil'
 images:
   ## coqorg/coq:dev
   ## coqorg/coq:dev-ocaml-*
