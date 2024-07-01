@@ -1209,6 +1209,7 @@ deploy_{var_job_id}_{var_some_real_tag}:
         prop = propagate_data[slug]
         strat = prop['strategy']
         if 'item' in strat:
+            check_list(strat['item'])
             item = ','.join(strat['item'])
         else:
             item = ''
@@ -1332,8 +1333,8 @@ def main_write_artifacts(upstream_version, minimal,  # <- input ignored
                           + "unexpected item" % command)
             res_elt = {}
             res_elt['mode'] = command
-            if item:
-                res_elt['item'] = item
+            if item:  # here, a string or comma-separated list
+                res_elt['item'] = uniqify_tags(trim_comma_split(item))
             manual_propagate[slug] = res_elt
         # if debug:
         print_stderr('Specified manual_propagate:')
@@ -1658,6 +1659,8 @@ def test_trim_comma_split():
     assert sorted(flat_map_trim_comma_split(['dev', '8.19,8.20,',
                                              'dev,dev-native'])) == \
         sorted(['8.19', '8.20', 'dev', 'dev', 'dev-native'])
+    assert uniqify_tags(trim_comma_split('dev')) == ['dev']
+    assert uniqify_tags(trim_comma_split('dev,dev,')) == ['dev']
 
 
 if __name__ == "__main__":
