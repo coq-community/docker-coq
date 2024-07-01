@@ -1261,7 +1261,7 @@ def main_write_artifacts(upstream_version, minimal,  # <- input ignored
 
     res_nightly = []
     if nightly:
-        res_nightly = get_nightly_only(spec)
+        res_nightly = get_nightly_only(spec, debug)
         # reminder: merge_data(build_data_min, res_nightly), and likewise below
 
     # BEGIN deprecated
