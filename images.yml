@@ -9,7 +9,7 @@ args:
   BUILD_DATE: '{defaults[build_date]}'
 propagate:
   mathcomp:
-    api_token_env_var: 'MC_TOKEN'
+    api_token_env_var: 'DMC_TOKEN'
     gitlab_domain: 'gitlab.inria.fr'
     gitlab_project: '44938'
     strategy:
@@ -23,7 +23,7 @@ propagate:
         mode: 'rebuild-keyword'
         item: '{keywords[/#/,][#,]}'
   mathcomp-dev:
-    api_token_env_var: 'DMC_TOKEN'
+    api_token_env_var: 'MC_TOKEN'
     gitlab_domain: 'gitlab.inria.fr'
     gitlab_project: '44939'
     strategy:
