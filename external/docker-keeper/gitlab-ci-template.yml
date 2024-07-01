@@ -121,6 +121,8 @@ prepare-artifacts:
       # Keep this name by backward compatibility
       # We could replace it with a MORE expressive SINGLE variable DOCKER_KEEPER
         echo "Pipeline variable CRON_MODE was empty."
+      elif [ "$CRON_MODE" = "minimal" ]; then
+        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="minimal"
       elif [ "$CRON_MODE" = "nightly" ]; then
         DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="nightly"
       elif [ "$CRON_MODE" = "rebuild-all" ]; then
