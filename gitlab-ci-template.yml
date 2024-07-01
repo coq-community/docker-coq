@@ -135,7 +135,7 @@ prepare-artifacts:
         fi
         readarray -t ar_items < "$ITEMS"
         items="${ar_items[@]/#/,}"
-        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="rebuild-file: ${items#,}"
+        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="rebuild-file=${items#,}"
       elif [ "$CRON_MODE" = "rebuild-tags" ]; then
         if [ -z "$ITEMS" ]; then
           echo "Error: file variable ITEMS is missing (CRON_MODE='$CRON_MODE')."
@@ -145,7 +145,7 @@ prepare-artifacts:
         fi
         readarray -t ar_items < "$ITEMS"
         items="${ar_items[@]/#/,}"
-        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="rebuild-tag: ${items#,}"
+        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="rebuild-tag=${items#,}"
       elif [ "$CRON_MODE" = "rebuild-keywords" ]; then
         if [ -z "$ITEMS" ]; then
           echo "Error: file variable ITEMS is missing (CRON_MODE='$CRON_MODE')."
@@ -155,7 +155,7 @@ prepare-artifacts:
         fi
         readarray -t ar_items < "$ITEMS"
         items="${ar_items[@]/#/,}"
-        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="rebuild-keyword: ${items#,}"
+        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="rebuild-keyword=${items#,}"
       # END Keep this by backward compatibility (we could remove it later on).
       elif [ "$CRON_MODE" = "rebuild-file" ]; then
         if [ -z "$ITEM" ]; then
@@ -164,7 +164,7 @@ prepare-artifacts:
         else
           echo "ITEM=$ITEM"
         fi
-        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="rebuild-file: $ITEM"
+        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="rebuild-file=$ITEM"
       elif [ "$CRON_MODE" = "rebuild-tag" ]; then
         if [ -z "$ITEM" ]; then
           echo "Error: variable ITEM is missing (CRON_MODE='$CRON_MODE')."
@@ -172,7 +172,7 @@ prepare-artifacts:
         else
           echo "ITEM=$ITEM"
         fi
-        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="rebuild-tag: $ITEM"
+        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="rebuild-tag=$ITEM"
       elif [ "$CRON_MODE" = "rebuild-keyword" ]; then
         if [ -z "$ITEM" ]; then
           echo "Error: variable ITEM is missing (CRON_MODE='$CRON_MODE')."
@@ -180,7 +180,7 @@ prepare-artifacts:
         else
           echo "ITEM=$ITEM"
         fi
-        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="rebuild-keyword: $ITEM"
+        DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="rebuild-keyword=$ITEM"
       else
         echo "Error: unexpected value CRON_MODE='$CRON_MODE'."
         false
