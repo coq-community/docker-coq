@@ -103,14 +103,14 @@ prepare-artifacts:
       echo "CI_COMMIT_BEFORE_SHA=$CI_COMMIT_BEFORE_SHA"
       echo "CI_COMMIT_SHA=$CI_COMMIT_SHA"
       declare -a DOCKER_KEEPER_CMDS
-      if [ "$CI_COMMIT_BEFORE_SHA" = "$CI_COMMIT_SHA" ]; then
+      if [ "$CI_COMMIT_BEFORE_SHA" != "$CI_COMMIT_SHA" ]; then
         echo "Parsing commit message {|$CI_COMMIT_MESSAGE|}."
         readarray -t lines < <(grep "\(^\|(\| \|;\)docker-keeper)\?:" <<< "$CI_COMMIT_MESSAGE")
         for line in "${lines[@]}"; do
           cmd=$(sed -e 's/^.*docker-keeper)\?: *//g' <<< "$line")
           readarray -t cmds < <(sed -e 's/; */\n/g' <<< "$cmd")
           for cmd in "${cmds[@]}"; do
-            # put the command in the end of the array
+            # put the command in the end of the array (note: should NOT be greedy)
             DOCKER_KEEPER_CMDS[${#DOCKER_KEEPER_CMDS[@]}]="$(sed -e 's/: */=/' <<< "$cmd")"
           done
         done
@@ -186,7 +186,7 @@ prepare-artifacts:
         false
       fi
       # BEGIN main command
-      run "$KEEPER_SUBTREE/keeper.py" write-artifacts "${DOCKER_KEEPER_CMDS[@]/#/--command=}"
+      run "$KEEPER_SUBTREE/keeper.py" write-artifacts "${DOCKER_KEEPER_CMDS[@]/#/--}"
       # END main command
   artifacts:
     name: "docker-keeper_$CI_JOB_NAME"
