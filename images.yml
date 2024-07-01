@@ -22,23 +22,23 @@ propagate:
       - # when OPTIONAL for last rule
         mode: 'rebuild-keyword'
         item: '{keywords[/#/,][#,]}'
-  # mathcomp-dev:
-  #   api_token_env_var: 'DMC_TOKEN'
-  #   gitlab_domain: 'gitlab.inria.fr'
-  #   gitlab_project: '44939'
-  #   strategy:
-  #     - when: 'rebuild-all'
-  #       mode: 'minimal'
-  #     - when: 'forall'
-  #       expr: '{matrix[coq]}'
-  #       subset: 'dev'
-  #       mode: 'nightly'
-  #     - when: 'exists'
-  #       expr: '{matrix[coq][//pl/.][%.*]}'
-  #       subset: '8.19,8.20,dev'
-  #       mode: 'minimal'
-  #     - # when OPTIONAL for last rule
-  #       mode: 'nil'
+  mathcomp-dev:
+    api_token_env_var: 'DMC_TOKEN'
+    gitlab_domain: 'gitlab.inria.fr'
+    gitlab_project: '44939'
+    strategy:
+      - when: 'rebuild-all'
+        mode: 'minimal'
+      - when: 'forall'
+        expr: '{matrix[coq]}'
+        subset: 'dev'
+        mode: 'nightly'
+      - when: 'exists'
+        expr: '{matrix[coq][//pl/.][%.*]}'
+        subset: '8.19,8.20,dev'
+        mode: 'minimal'
+      - # when OPTIONAL for last rule
+        mode: 'nil'
 images:
   ## coqorg/coq:dev
   ## coqorg/coq:dev-ocaml-*
@@ -49,11 +49,6 @@ images:
     build: &build_coq_dev
       keywords:
         - 'dev'
-      after_deploy:
-        - run: 'test -n "$DMC_TOKEN" || { echo "Error: DMC_TOKEN is void."; false; } && curl -X POST -F token="$DMC_TOKEN" -F ref=master -F "variables[CRON_MODE]=rebuild-keyword" -F "variables[ITEM]=dev" https://gitlab.inria.fr/api/v4/projects/44938/trigger/pipeline'
-          if: '{matrix[base]} == {matrix[default]}'  # matrix[default] will be 4.13...
-        - run: 'test -n "$MC_TOKEN" || { echo "Error: MC_TOKEN is void."; false; } && curl -X POST -F token="$MC_TOKEN" -F ref=master -F "variables[CRON_MODE]=nightly" https://gitlab.inria.fr/api/v4/projects/44939/trigger/pipeline'
-          if: '{matrix[base]} == {matrix[default]}'  # matrix[default] will be 4.13...
       context: './coq'
       dockerfile: './dev/Dockerfile'
       commit_api:
@@ -84,7 +79,7 @@ images:
     build:
       <<: *build_coq_dev
       # no need for gitlab pipeline trigger after coqorg/coq:dev-native's build
-      after_deploy: []
+      # after_deploy: []
       args:
         BASE_TAG: '{matrix[base]}'
         COQ_VERSION: '{matrix[coq]}'
