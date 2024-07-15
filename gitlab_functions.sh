@@ -47,6 +47,7 @@ dk_curl() {
     local gitlab_project="$4"
     local cron_mode="$5"
     local item="$6"
+    date -u -R
     if [ -n "$gitlab_token" ]; then
         echo >&2 "For child repo $slug:"
         if [ -z "$item" ]; then

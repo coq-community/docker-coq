@@ -1407,13 +1407,17 @@ def main(argv):
     # generate-config
     help_generate_config = """
     Print a GitLab CI YAML config to standard output.
-    This requires files: {generated/build_data_chosen.json,
-    generated/remote_tags_to_rm.json}"""
+    This requires files:
+    - generated/build_data_chosen.json
+    - generated/remote_tags_to_rm.json
+    - generated/propagate.json"""
     parser_generate_config = \
-        subparsers.add_parser('generate-config',
-                              # no parents parser
-                              help=help_generate_config,
-                              description=help_generate_config)
+        subparsers.add_parser(
+            'generate-config',
+            # no parents parser
+            help=help_generate_config,
+            description=help_generate_config,
+            formatter_class=argparse.RawDescriptionHelpFormatter)
     parser_generate_config.set_defaults(func=main_generate_config)
 
     # write-artifacts
