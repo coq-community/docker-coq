@@ -44,7 +44,7 @@ images:
   ## coqorg/coq:dev-ocaml-*
   - matrix:
       default: ['4.13.1-flambda']
-      base: ['4.14.1-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
+      base: ['4.14.2-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
       coq: ['dev']
     build: &build_coq_dev
       keywords:
@@ -109,7 +109,7 @@ images:
   # - matrix:
   #     default: ['4.13.1-flambda']
   #     # only *-flambda switches
-  #     base: ['4.14.1-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
+  #     base: ['4.14.2-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
   #     # TODO: Bump to 8.21-rc1 when appropriate
   #     coq: ['8.21-alpha']
   #   build: &build_coq_alpha
@@ -211,7 +211,7 @@ images:
   - matrix:
       default: ['4.13.1-flambda']
       # only *-flambda switches
-      base: ['4.14.1-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
+      base: ['4.14.2-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
       # TODO: Bump to 8.20-rc1 when appropriate
       coq: ['8.20-alpha']
     build: &build_coq_alpha
@@ -313,7 +313,7 @@ images:
   ## coqorg/coq:8.19
   - matrix:
       default: ['4.13.1-flambda']
-      base: ['4.14.1-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
+      base: ['4.14.2-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
       coq: ['8.19.2']
     build: &build_coq_stable
       context: './coq'
@@ -407,7 +407,7 @@ images:
   ## coqorg/coq:8.18
   - matrix:
       default: ['4.13.1-flambda']
-      base: ['4.14.1-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
+      base: ['4.14.2-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
       coq: ['8.18.0']
     build:
       <<: *build_coq_stable
@@ -421,7 +421,7 @@ images:
   ## coqorg/coq:8.17
   - matrix:
       default: ['4.13.1-flambda']
-      base: ['4.14.1-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
+      base: ['4.14.2-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
       coq: ['8.17.1']
     build:
       <<: *build_coq_stable
@@ -435,7 +435,7 @@ images:
   ## coqorg/coq:8.16.1
   - matrix:
       default: ['4.13.1-flambda']
-      base: ['4.14.1-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
+      base: ['4.14.2-flambda', '4.13.1-flambda', '4.12.1-flambda', '4.09.1-flambda']
       coq: ['8.16.1']
     build:
       <<: *build_coq_stable
@@ -449,7 +449,7 @@ images:
   ## coqorg/coq:8.15
   - matrix:
       default: ['4.07.1-flambda']
-      base: ['4.14.1-flambda', '4.13.1-flambda', '4.07.1-flambda', '4.05.0']
+      base: ['4.14.2-flambda', '4.13.1-flambda', '4.07.1-flambda', '4.05.0']
       coq: ['8.15.2']
     build: &build_coq_oldstable
       keywords:
@@ -517,7 +517,7 @@ images:
   ## coqorg/coq:8.14
   - matrix:
       default: ['4.07.1-flambda']
-      base: ['4.14.1-flambda', '4.13.1-flambda', '4.07.1-flambda', '4.05.0']
+      base: ['4.14.2-flambda', '4.13.1-flambda', '4.07.1-flambda', '4.05.0']
       coq: ['8.14.1']
     build:
       <<: *build_coq_oldstable
@@ -531,7 +531,7 @@ images:
   ## coqorg/coq:8.13
   - matrix:
       default: ['4.07.1-flambda']
-      base: ['4.14.1-flambda', '4.13.1-flambda', '4.07.1-flambda', '4.05.0']
+      base: ['4.14.2-flambda', '4.13.1-flambda', '4.07.1-flambda', '4.05.0']
       coq: ['8.13.2']
     build:
       <<: *build_coq_oldstable
