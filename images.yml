@@ -224,8 +224,8 @@ images:
         VCS_REF: 'V{matrix[coq][//-/+]}'
         COQ_EXTRA_OPAM: 'coq-bignums'
         # +- coq-native
-        COQ_INSTALL_SERAPI: 'true'
-        # (or any nonempty string) as coq-serapi supports ocaml 4.07.1+
+        COQ_INSTALL_SERAPI: '{matrix[base][//4.09.1-flambda/]}'
+        # true = any nonempty string (as coq-serapi 0.20.0 supports ocaml 4.12.0+)
       tags:
         # full tag
         - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
@@ -292,7 +292,7 @@ images:
         COQ_EXTRA_OPAM: 'coq-bignums'
         # +- coq-native
         COQ_INSTALL_SERAPI: 'true'
-        # (or any nonempty string) as coq-serapi supports ocaml 4.07.1+
+        # (or any nonempty string) as coq-serapi supports ocaml 4.09.0+
       tags:
         # full tag
         - tag: '{matrix[coq]}-ocaml-{matrix[base]}'
