@@ -35,7 +35,7 @@ propagate:
         mode: 'nightly'
       - when: 'exists'
         expr: '{matrix[coq][//pl/.][%.*]}'
-        subset: '8.18,8.19,8.20,dev'
+        subset: '8.19,8.20,dev'
         mode: 'minimal'
       - # when OPTIONAL for last rule
         mode: 'nil'
