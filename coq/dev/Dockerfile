@@ -20,11 +20,11 @@ RUN set -x \
   && opam update -y -u \
   && opam pin add -n -y -k git rocq-runtime.${COQ_VERSION} "git+https://github.com/coq/coq#${COQ_COMMIT}" \
   && opam pin add -n -y -k git rocq-core.${COQ_VERSION} "git+https://github.com/coq/coq#${COQ_COMMIT}" \
-  && opam pin add -n -y -k git rocq.${COQ_VERSION} "git+https://github.com/coq/coq#${COQ_COMMIT}" \
+  && opam pin add -n -y -k git rocq-prover.${COQ_VERSION} "git+https://github.com/coq/coq#${COQ_COMMIT}" \
   && opam pin add -n -y -k git coqide-server.${COQ_VERSION} "git+https://github.com/coq/coq#${COQ_COMMIT}" \
   && opam pin add -n -y -k git coq-core.${COQ_VERSION} "git+https://github.com/coq/coq#${COQ_COMMIT}" \
   && opam pin add -n -y -k git coq.${COQ_VERSION} "git+https://github.com/coq/coq#${COQ_COMMIT}" \
-  && opam install -y -v -j "${NJOBS}" rocq-runtime rocq-core rocq coqide-server coq-core coq ${COQ_EXTRA_OPAM} \
+  && opam install -y -v -j "${NJOBS}" rocq-runtime rocq-core rocq-prover coqide-server coq-core coq ${COQ_EXTRA_OPAM} \
   && opam clean -a -c -s --logs \
   && chmod -R g=u /home/coq/.opam \
   && opam config list && opam list
