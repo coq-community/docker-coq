@@ -1,5 +1,5 @@
 ARG BASE_TAG="latest"
-FROM coqorg/base:${BASE_TAG}
+FROM rocq/base:${BASE_TAG}
 
 ARG COQ_EXTRA_OPAM="coq-bignums"
 ENV COQ_EXTRA_OPAM="${COQ_EXTRA_OPAM}"
@@ -10,7 +10,7 @@ ARG COQ_INSTALL_SERAPI
 ARG COQ_VERSION="dev"
 ENV COQ_VERSION=${COQ_VERSION}
 
-# This line is actually unneeded (was already enabled in coqorg/base)
+# This line is actually unneeded (was already enabled in rocq/base)
 SHELL ["/bin/bash", "--login", "-o", "pipefail", "-c"]
 
 # hadolint ignore=SC2046
