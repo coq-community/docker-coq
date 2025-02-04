@@ -1,5 +1,5 @@
 ARG BASE_TAG="latest"
-FROM coqorg/base:${BASE_TAG}
+FROM rocq/base:${BASE_TAG}
 
 ARG COQ_EXTRA_OPAM="coq-bignums"
 ENV COQ_EXTRA_OPAM="${COQ_EXTRA_OPAM}"
@@ -9,7 +9,7 @@ ENV COQ_VERSION=${COQ_VERSION}
 
 ARG COQ_COMMIT
 
-# This line is actually unneeded (was already enabled in coqorg/base)
+# This line is actually unneeded (was already enabled in rocq/base)
 SHELL ["/bin/bash", "--login", "-o", "pipefail", "-c"]
 
 # hadolint ignore=SC2046
