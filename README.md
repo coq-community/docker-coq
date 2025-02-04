@@ -24,6 +24,6 @@ See also the [docker-coq wiki](https://github.com/coq-community/docker-coq/wiki)
 This Dockerfile repository is [mirrored on GitLab](https://gitlab.com/coq-community/docker-coq), but [issues](https://github.com/coq-community/docker-coq/issues) and [pull requests](https://github.com/coq-community/docker-coq/pulls) are tracked on GitHub.
 
 Note that this repository only contain Docker images for the Coq Proof Assistant ≤ 8.20.1.
-For newest images of the Rocq Prover ≥ 9.0, use [rocq/rocq-prover](https://hub.docker.com/r/rocq/rocq-prover) images instead.
+For newest versions of the Rocq Prover ≥ 9.0, use [rocq/rocq-prover](https://hub.docker.com/r/rocq/rocq-prover) images instead.
 
 <!-- tags -->
